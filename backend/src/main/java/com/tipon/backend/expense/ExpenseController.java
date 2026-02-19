@@ -1,7 +1,7 @@
-package com.tipon.backend.controller;
+package com.tipon.backend.expense;
 
-import com.tipon.backend.model.Expense;
-import com.tipon.backend.service.ExpenseService;
+import com.tipon.backend.expense.Expense;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

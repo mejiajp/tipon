@@ -1,4 +1,4 @@
-package com.tipon.backend.model;
+package com.tipon.backend.expense;
 
 import jakarta.persistence.*;
 import lombok.Getter;

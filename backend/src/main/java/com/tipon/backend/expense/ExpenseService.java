@@ -1,6 +1,6 @@
-package com.tipon.backend.repository;
+package com.tipon.backend.expense;
 
-import com.tipon.backend.model.Expense;
+import com.tipon.backend.expense.Expense;
 import com.tipon.backend.expense.ExpenseRepository;
 import org.springframework.stereotype.Service;
 

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-// Token + User info
+// Token + User info later
 @Setter
 @Getter
 public class UserResponse {

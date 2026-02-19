@@ -1,4 +1,4 @@
-package com.tipon.backend.auth;
+package com.tipon.backend.user;
 
 public enum AuthProvider {
     GUEST,
