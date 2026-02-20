@@ -1,4 +1,8 @@
 package com.tipon.backend.auth;
 
-public class CurrentUserService {
+
+import com.tipon.backend.user.User;
+
+public interface CurrentUserService {
+    User getCurrentUser();
 }
