@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_URL + "/expenses";
+const API_URL = process.env.NEXT_PUBLIC_API_URL + "/expenses";
 
 export async function getExpenses() {
   try {
@@ -23,7 +23,6 @@ export async function createExpense() {
       amount: 123.45,
       category: "Food",
       description: "Test Lunch",
-      expenseDate: "2026-02-13",
     }),
   });
 
