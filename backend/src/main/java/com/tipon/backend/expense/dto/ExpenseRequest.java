@@ -1,4 +1,9 @@
 package com.tipon.backend.expense.dto;
 
-public class ExpenseRequest {
-}
+import java.math.BigDecimal;
+
+public record ExpenseRequest (
+        BigDecimal amount,
+        String category,
+        String description
+){}

@@ -1,7 +1,9 @@
 package com.tipon.backend.expense;
 
-import com.tipon.backend.expense.Expense;
 
+
+import com.tipon.backend.expense.dto.ExpenseRequest;
+import com.tipon.backend.expense.dto.ExpenseResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +19,12 @@ public class ExpenseController {
     }
 
     @GetMapping
-    public List<Expense> getExpenses(){
+    public List<ExpenseResponse> getExpenses(){
         return service.getAllExpenses();
     }
 
     @PostMapping
-    public Expense createExpense(@RequestBody Expense expense){
+    public ExpenseResponse createExpense(@RequestBody ExpenseRequest expense){
         return service.addExpense(expense);
     }
 }

@@ -19,6 +19,7 @@ public class AuthController {
     @GetMapping("/current")
     public UserResponse getCurrentUser() {
         var user = currentUserService.getCurrentUser();
-        return new UserResponse(user.getId(), user.getEmail(), user.getProvider(), user.getCreatedAt(), user.getExpenses());
+        return new UserResponse(user.getId(), user.getEmail(), user.getProvider(),
+                user.getCreatedAt());
     }
 }
