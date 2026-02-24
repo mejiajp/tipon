@@ -3,6 +3,7 @@ package com.tipon.backend.expense.dto;
 import com.tipon.backend.user.User;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,6 +14,6 @@ public record ExpenseResponse (
     BigDecimal amount,
     String category,
     String description,
-    LocalDateTime createdAt
-
+    LocalDateTime createdAt,
+    LocalDate date
 ){}

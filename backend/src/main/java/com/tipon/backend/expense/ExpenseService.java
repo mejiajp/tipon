@@ -58,7 +58,8 @@ public class ExpenseService {
                 expense.getAmount(),
                 expense.getCategory(),
                 expense.getDescription(),
-                expense.getCreatedAt()
+                expense.getCreatedAt(),
+                expense.getDate()
         );
     }
 }

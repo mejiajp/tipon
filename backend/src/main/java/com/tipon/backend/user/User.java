@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +26,9 @@ public class User {
     @Column(nullable = false)
     private AuthProvider provider;
 
-    private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private LocalDate createdAt;
+
 
     @OneToMany(
             mappedBy = "user",
