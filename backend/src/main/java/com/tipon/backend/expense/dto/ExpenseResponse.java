@@ -1,6 +1,5 @@
 package com.tipon.backend.expense.dto;
 
-import com.tipon.backend.user.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

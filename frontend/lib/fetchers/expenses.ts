@@ -29,6 +29,5 @@ export async function createExpense() {
   if (!res.ok) {
     throw new Error("Failed to add expense");
   }
-
   return res.json();
 }
