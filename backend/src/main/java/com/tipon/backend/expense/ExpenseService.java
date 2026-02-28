@@ -68,7 +68,7 @@ public class ExpenseService {
         User currentUser = currentUserService.getCurrentUser();
 
         List<Expense> expenses =
-                expenseRepository.findByUserandCreatedAtBetween(
+                expenseRepository.findByUserAndCreatedAtBetween(
                         currentUser,
                         start.atStartOfDay(),
                         end.atTime(LocalTime.MAX));
@@ -93,7 +93,7 @@ public class ExpenseService {
 
         // Fetch Expenses for the Month
         List<Expense> expenses =
-                expenseRepository.findByUserandCreatedAtBetween(
+                expenseRepository.findByUserAndCreatedAtBetween(
                         currentUser,
                         startDate.atStartOfDay(),
                         endDate.atTime(LocalTime.MAX)

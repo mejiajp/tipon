@@ -34,7 +34,7 @@ public class ExpenseController {
     }
 
     //Date Range
-    @GetMapping
+    @GetMapping("/range")
     public List<ExpenseResponse> getByRange(
             @RequestParam String start,
             @RequestParam String end
