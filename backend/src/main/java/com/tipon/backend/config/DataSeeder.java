@@ -2,6 +2,7 @@ package com.tipon.backend.config;
 
 import com.tipon.backend.expense.Expense;
 import com.tipon.backend.expense.ExpenseRepository;
+import com.tipon.backend.user.AuthProvider;
 import com.tipon.backend.user.User;
 import com.tipon.backend.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
@@ -34,8 +36,14 @@ public class DataSeeder implements CommandLineRunner {
         }
 
         // 👇 Replace with your mock user's email
-        User mockUser = userRepository.findByEmail("mockuser@test.com")
-                .orElseThrow(() -> new RuntimeException("Mock user not found"));
+        User mockUser = userRepository.findByEmail("test@tipon.local")
+                .orElseGet(() -> {
+                    User user = new User();
+                    user.setEmail("test@tipon.local");
+                    user.setProvider(AuthProvider.GUEST);
+                    user.setCreatedAt(LocalDate.now());
+                    return userRepository.save(user);
+                });
 
         Random random = new Random();
 
@@ -61,6 +69,7 @@ public class DataSeeder implements CommandLineRunner {
                                 .withHour(random.nextInt(23))
                                 .withMinute(random.nextInt(59))
                 );
+                expense.setDate(LocalDate.now().minusDays(day));
 
                 expenseRepository.save(expense);
             }
