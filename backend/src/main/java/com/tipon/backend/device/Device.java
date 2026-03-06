@@ -1,5 +1,6 @@
-package com.tipon.backend.user;
+package com.tipon.backend.device;
 
+import com.tipon.backend.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

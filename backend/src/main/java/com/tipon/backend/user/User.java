@@ -1,5 +1,6 @@
 package com.tipon.backend.user;
 
+import com.tipon.backend.device.Device;
 import com.tipon.backend.expense.Expense;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -34,7 +35,7 @@ public class User {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Device> device;
+    private List<Device> devices;
 
     @OneToMany(
             mappedBy = "user",
@@ -42,6 +43,6 @@ public class User {
             orphanRemoval = true
     )
     private List<Expense> expenses;
-    
+
 
 }
