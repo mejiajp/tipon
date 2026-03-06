@@ -1,4 +1,7 @@
 package com.tipon.backend.auth.dto;
 
-public class GuestLoginResponse {
-}
+import java.util.UUID;
+
+public record GuestLoginRequest (
+    UUID deviceId
+){}

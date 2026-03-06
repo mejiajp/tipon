@@ -1,4 +1,5 @@
 package com.tipon.backend.auth.dto;
 
-public class GoogleLoginRequest {
-}
+public record GoogleLoginRequest (
+        String googleToken
+){}

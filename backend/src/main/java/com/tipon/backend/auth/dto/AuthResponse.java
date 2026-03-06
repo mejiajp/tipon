@@ -4,12 +4,11 @@ import com.tipon.backend.user.AuthProvider;
 
 import java.time.LocalDate;
 
-import java.util.UUID;
 
-
-public record UserResponse (
+public record AuthResponse(
     Long id,
-    String email,
     AuthProvider provider,
+    String email,
+    String token,
     LocalDate createdAt
 ){}
