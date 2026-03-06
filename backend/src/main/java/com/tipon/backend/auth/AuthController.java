@@ -1,9 +1,10 @@
 package com.tipon.backend.auth;
 
-import com.tipon.backend.auth.dto.UserResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.tipon.backend.auth.dto.AuthResponse;
+import com.tipon.backend.auth.dto.GuestLoginRequest;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -16,10 +17,24 @@ public class AuthController {
 
     }
 
-    @GetMapping("/current")
-    public UserResponse getCurrentUser() {
-        var user = currentUserService.getCurrentUser();
-        return new UserResponse(user.getId(), user.getEmail(), user.getProvider(),
-                user.getCreatedAt());
+//    @GetMapping("/current")
+//    public AuthResponse getCurrentUser() {
+//        var user = currentUserService.getCurrentUser();
+//        return new AuthResponse(user.getId(), user.getEmail(), user.getProvider(),
+//                user.getCreatedAt());
+//    }
+
+    @PostMapping("/guest")
+    public AuthResponse guestLogin(@RequestBody GuestLoginRequest request){
+        var user = currentUserService.getOrCreateGuest(request.deviceId());
+        String token = currentUserService.generateToken(user);
+
+        return new AuthResponse(
+                user.getId(),
+                user.getProvider(),
+                user.getEmail(),
+                token,
+                user.getCreatedAt()
+        );
     }
 }
