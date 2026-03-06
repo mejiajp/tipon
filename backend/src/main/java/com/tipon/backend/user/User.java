@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -17,7 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private Long id;
 
     @Column(unique = true)
     private String email; // null if GUEST
@@ -29,6 +29,12 @@ public class User {
     @Column(nullable = false)
     private LocalDate createdAt;
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Device> device;
 
     @OneToMany(
             mappedBy = "user",
@@ -36,7 +42,6 @@ public class User {
             orphanRemoval = true
     )
     private List<Expense> expenses;
-
-
+    
 
 }

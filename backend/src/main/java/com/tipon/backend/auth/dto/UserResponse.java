@@ -8,7 +8,7 @@ import java.util.UUID;
 
 
 public record UserResponse (
-    UUID id,
+    Long id,
     String email,
     AuthProvider provider,
     LocalDate createdAt
