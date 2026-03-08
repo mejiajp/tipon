@@ -6,6 +6,8 @@ import com.tipon.backend.device.DeviceRepository;
 import com.tipon.backend.user.AuthProvider;
 import com.tipon.backend.user.User;
 import com.tipon.backend.user.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,13 +19,13 @@ public class CurrentUserService {
 
     private final UserRepository userRepository;
 
-    private final TokenService tokenService;
+    private final JwtService jwtService;
 
     private final DeviceRepository deviceRepository;
 
-    public CurrentUserService(UserRepository userRepository, TokenService tokenService, DeviceRepository deviceRepository) {
+    public CurrentUserService(UserRepository userRepository, JwtService tokenService, DeviceRepository deviceRepository) {
         this.userRepository = userRepository;
-        this.tokenService = tokenService;
+        this.jwtService = tokenService;
         this.deviceRepository = deviceRepository;
     }
 
@@ -56,6 +58,17 @@ public class CurrentUserService {
     }
 
     public String generateToken(User user) {
-        return tokenService.generateToken(user);
+        return jwtService.generateToken(user);
+    }
+
+
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !(auth.getPrincipal() instanceof User)) {
+            throw new RuntimeException("No authenticated user found");
+        }
+
+        return (User) auth.getPrincipal();
     }
 }

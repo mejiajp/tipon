@@ -17,12 +17,12 @@ public class AuthController {
 
     }
 
-//    @GetMapping("/current")
-//    public AuthResponse getCurrentUser() {
-//        var user = currentUserService.getCurrentUser();
-//        return new AuthResponse(user.getId(), user.getEmail(), user.getProvider(),
-//                user.getCreatedAt());
-//    }
+    @GetMapping("/current")
+    public AuthResponse getCurrentUser() {
+        var user = currentUserService.getCurrentUser();
+        return new AuthResponse(user.getId(), user.getProvider(),
+                user.getEmail(), null, user.getCreatedAt());
+    }
 
     @PostMapping("/guest")
     public AuthResponse guestLogin(@RequestBody GuestLoginRequest request){
