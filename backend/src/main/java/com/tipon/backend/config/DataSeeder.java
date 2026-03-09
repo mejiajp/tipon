@@ -36,15 +36,15 @@ public class DataSeeder implements CommandLineRunner {
         }
 
         // 👇 Replace with your mock user's email
-        User mockUser = userRepository.findByEmail("test@tipon.local")
+        // Find an existing guest user or create one
+        User guestUser = userRepository.findFirstByProvider(AuthProvider.GUEST)
                 .orElseGet(() -> {
                     User user = new User();
-                    user.setEmail("test@tipon.local");
+                    user.setEmail("guest_seed@tipon.local");
                     user.setProvider(AuthProvider.GUEST);
                     user.setCreatedAt(LocalDate.now());
                     return userRepository.save(user);
                 });
-
         Random random = new Random();
 
         // Generate expenses for last 90 days
@@ -56,7 +56,7 @@ public class DataSeeder implements CommandLineRunner {
             for (int i = 0; i < expensesForDay; i++) {
 
                 Expense expense = new Expense();
-                expense.setUser(mockUser);
+                expense.setUser(guestUser);
                 expense.setCategory(getRandomCategory(random));
                 expense.setDescription("Seed expense");
                 expense.setAmount(

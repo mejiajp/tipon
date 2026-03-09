@@ -1,6 +1,7 @@
 package com.tipon.backend.expense;
 
 import com.tipon.backend.expense.Expense;
+import com.tipon.backend.user.AuthProvider;
 import com.tipon.backend.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,6 +11,8 @@ import java.util.UUID;
 
 public interface ExpenseRepository extends JpaRepository<Expense, UUID>{
     List<Expense> findByUser(User user);
+
+    List<Expense> findFirstByProvider(AuthProvider provider);
 
     List<Expense> findByUserAndCreatedAtBetween(User currentUser,
                                                 LocalDateTime localDateTime,
