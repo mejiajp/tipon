@@ -1,4 +1,4 @@
-import { getExpenseRange} from "@/lib/fetchers/expenses";
+import { getExpenseRange } from "@/lib/api/expenses";
 import React from "react";
 
 export default async function page() {

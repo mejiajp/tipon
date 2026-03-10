@@ -1,4 +1,4 @@
-import { getExpenseCalendar } from "@/lib/fetchers/expenses";
+import { getExpenseCalendar } from "@/lib/api/expenses";
 import React from "react";
 
 export default async function page() {

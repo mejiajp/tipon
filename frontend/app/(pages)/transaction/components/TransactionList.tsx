@@ -1,4 +1,4 @@
-import { getAllExpenses } from "@/lib/fetchers/expenses";
+import { getAllExpenses } from "@/lib/api/expenses";
 
 export default async function TransactionList() {
   const transactionList = await getAllExpenses();

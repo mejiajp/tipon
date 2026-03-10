@@ -1,5 +1,5 @@
 import React from "react";
-import { getCurrentUser } from "@/lib/fetchers/users";
+import { getCurrentUser } from "@/lib/api/users";
 
 export default async function page() {
   const user = await getCurrentUser();
