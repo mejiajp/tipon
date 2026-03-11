@@ -12,8 +12,6 @@ import java.util.UUID;
 public interface ExpenseRepository extends JpaRepository<Expense, UUID>{
     List<Expense> findByUser(User user);
 
-    List<Expense> findFirstByProvider(AuthProvider provider);
-
     List<Expense> findByUserAndCreatedAtBetween(User currentUser,
                                                 LocalDateTime localDateTime,
                                                 LocalDateTime localDateTime1);
