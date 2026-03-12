@@ -1,3 +1,5 @@
+"use client";
+
 import { guestLogin } from "@/lib/api/users";
 import { clearAuth, getDeviceId, getToken, setToken } from "@/lib/auth/key";
 import {
