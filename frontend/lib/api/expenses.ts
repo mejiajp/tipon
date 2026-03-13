@@ -1,18 +1,56 @@
-import { fetchAPI } from "@/lib/api/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL + "/expenses";
 
-export const getAllExpenses = () => fetchAPI("/expenses");
+export async function getAllExpenses() {
+  const res = await fetch(`${API_URL}`);
+  const data = await res.json();
 
-export const getExpenseRange = (start: string, end: string) =>
-  fetchAPI(`/expenses/range?start=${start}&end=${end}`);
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to fetch all expenses");
+  }
 
-export const getExpenseCalendar = (year: string, month: string) =>
-  fetchAPI(`/expenses/calendar?year=${year}&month=${month}`);
-export const createExpense = (expense: {
+  return data;
+}
+
+export async function createExpense(expense: {
   amount: number;
   category: string;
   description: string;
-}) =>
-  fetchAPI("/expenses", {
+}) {
+  const res = await fetch(`${API_URL}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(expense),
   });
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to create expense");
+  }
+
+  return data;
+}
+
+export async function getExpenseRange(start: string, end: string) {
+  const res = await fetch(`${API_URL}?start=${start}&end=${end}`);
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      data.message || "Failed to fetch expenses for the specified range"
+    );
+  }
+
+  return data;
+}
+
+export async function getExpenseCalendar(year: string, month: string) {
+  const res = await fetch(`${API_URL}/calendar?year=${year}&month=${month}`);
+  const data = await res.json();
+
+  if (!res.ok)
+    throw new Error(data.message || "Failed to fetch expense calendar");
+
+  return data;
+}
