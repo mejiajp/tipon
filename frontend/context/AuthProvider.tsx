@@ -29,9 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!existingToken) {
           const deviceId = getDeviceId();
 
-          const res = await guestLogin(deviceId);
-
-          const data = await res.json();
+          const data = await guestLogin(deviceId);
 
           existingToken = data.token;
 
