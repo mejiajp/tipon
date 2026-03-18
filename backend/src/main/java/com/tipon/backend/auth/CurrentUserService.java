@@ -30,7 +30,7 @@ public class CurrentUserService {
     }
 
     // Get existing guest or create a new one using deviceId
-    public User getOrCreateGuest(UUID deviceId) {
+    public User getOrCreateGuest(String deviceId) {
         Optional<Device> existingDevice = deviceRepository.findByDeviceId(deviceId);
 
         if (existingDevice.isPresent()) {

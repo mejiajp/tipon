@@ -65,7 +65,7 @@ public class AuthCookieService {
     }
 
     public void clearTokenCookie(HttpServletResponse response) {
-        
+
         Cookie cookie = new Cookie(TOKEN_COOKIE, null);
         cookie.setPath("/");
         cookie.setMaxAge(0);

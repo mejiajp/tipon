@@ -18,7 +18,7 @@ public class Device {
     private Long id;
 
     @Column(unique = true)
-    private UUID deviceId;
+    private String deviceId;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

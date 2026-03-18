@@ -9,6 +9,5 @@ public record AuthResponse(
     Long id,
     AuthProvider provider,
     String email,
-    String token,
     LocalDate createdAt
 ){}
