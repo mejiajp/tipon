@@ -1,7 +1,6 @@
 "use client";
 
-import { guestLogin } from "@/lib/api/users";
-import { clearAuth, getDeviceId, getToken, setToken } from "@/lib/auth/key";
+import { guestLogin, logoutUser } from "@/lib/api/users";
 import {
   createContext,
   ReactNode,
@@ -11,36 +10,24 @@ import {
 } from "react";
 
 type AuthContextType = {
-  token: string | null;
+  authenticated: boolean;
   loading: boolean;
   logout: () => void;
 };
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setTokenState] = useState<string | null>(null);
+  const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function initAuth() {
       try {
-        let existingToken = getToken();
-
-        if (!existingToken) {
-          const deviceId = getDeviceId();
-
-          const data = await guestLogin(deviceId);
-
-          existingToken = data.token;
-
-          if (existingToken) {
-            setToken(existingToken);
-          }
-        }
-
-        setTokenState(existingToken);
+        await guestLogin();
+        setAuthenticated(true);
       } catch (error) {
         console.error("Failed to initialize auth:", error);
+        setAuthenticated(false);
       } finally {
         setLoading(false);
       }
@@ -48,12 +35,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     initAuth();
   }, []);
 
-  function logout() {
-    clearAuth();
-    setTokenState(null);
+  async function logout() {
+    try {
+      await logoutUser();
+      setAuthenticated(false);
+    } catch (error) {
+      console.error("Failed to logout:", error);
+    }
   }
+
   return (
-    <AuthContext.Provider value={{ token, loading, logout }}>
+    <AuthContext.Provider value={{ authenticated, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );

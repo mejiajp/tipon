@@ -1,30 +1,16 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL + "/auth";
+import { fetchAPI } from "./api";
 
 export async function getCurrentUser() {
-  const response = await fetch(`${API_URL}/current`, {});
-  const user = await response.json();
-  console.log("Current user:", user);
-
-  if (!response.ok) {
-    throw new Error(user.message || "Failed to fetch current user");
-  }
-
-  return user;
+  fetchAPI("/auth/current");
 }
 
-export async function guestLogin(deviceId: string) {
-  const response = await fetch(`${API_URL}/guest`, {
+export const guestLogin = () =>
+  fetchAPI("/auth/guest", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ deviceId }),
+    credentials: "include",
   });
-  const user = await response.json();
 
-  if (!response.ok) {
-    throw new Error(user.message || "Failed to login as guest");
-  }
-
-  return user;
-}
+export const logoutUser = () =>
+  fetchAPI("/auth/logout", {
+    method: "POST",
+  });

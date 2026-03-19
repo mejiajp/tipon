@@ -39,6 +39,7 @@ public class AuthController {
         String token = currentUserService.generateToken(user);
 
         authCookieService.setTokenCookie(response, token);
+
         return new AuthResponse(
                 user.getId(),
                 user.getProvider(),
@@ -46,5 +47,9 @@ public class AuthController {
                 user.getCreatedAt()
         );
     }
-    
+
+    @PostMapping("/logout")
+    public void logout(HttpServletResponse response) {
+        authCookieService.clearTokenCookie(response);
+    }
 }

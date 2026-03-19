@@ -3,16 +3,17 @@
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthProvider";
 import { useEffect } from "react";
+import { guestLogin } from "@/lib/api/users";
 
 export default function LoginPage() {
-  const { token, loading } = useAuth();
+  const { authenticated, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && token) {
+    if (!loading && authenticated) {
       router.push("/dashboard");
     }
-  }, [token, loading, router]);
+  }, [authenticated, loading, router]);
 
   if (loading) {
     return (
@@ -35,7 +36,10 @@ export default function LoginPage() {
 
         <button
           className="w-full bg-black text-white py-2 rounded hover:opacity-80 transition"
-          onClick={() => window.location.reload()}
+          onClick={async () => {
+            await guestLogin();
+            window.location.reload();
+          }}
         >
           Continue as Guest
         </button>
