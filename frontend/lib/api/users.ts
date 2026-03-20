@@ -1,16 +1,16 @@
-import { fetchAPI } from "./api";
+import { clientFetch, serverFetch } from "./api";
 
 export async function getCurrentUser() {
-  fetchAPI("/auth/current");
+  serverFetch("/auth/current");
 }
 
 export const guestLogin = () =>
-  fetchAPI("/auth/guest", {
+  clientFetch("/auth/guest", {
     method: "POST",
     credentials: "include",
   });
 
 export const logoutUser = () =>
-  fetchAPI("/auth/logout", {
+  clientFetch("/auth/logout", {
     method: "POST",
   });

@@ -1,8 +1,19 @@
+"use client";
+
 import { getAllExpenses } from "@/lib/api/expenses";
+import { useEffect, useState } from "react";
 
-export default async function TransactionList() {
-  const transactionList = await getAllExpenses();
+export default function TransactionList() {
+  const [expenses, setExpenses] = useState([]);
 
-  console.log(transactionList);
-  return <div>{JSON.stringify(transactionList)}</div>;
+  useEffect(() => {
+    async function load() {
+      const data = await getAllExpenses();
+      setExpenses(data);
+    }
+
+    load();
+  }, []);
+
+  return <div>{JSON.stringify(expenses)}</div>;
 }

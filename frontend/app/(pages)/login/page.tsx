@@ -38,7 +38,7 @@ export default function LoginPage() {
           className="w-full bg-black text-white py-2 rounded hover:opacity-80 transition"
           onClick={async () => {
             await guestLogin();
-            window.location.reload();
+            router.push("/dashboard");
           }}
         >
           Continue as Guest
