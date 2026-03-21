@@ -19,11 +19,8 @@ export async function serverFetch(path: string, options: RequestInit = {}) {
     },
   });
 
-  let data = null;
-
-  try {
-    data = await res.json();
-  } catch {}
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : null;
 
   if (!res.ok) {
     throw new Error(data?.message || `HTTP ${res.status}`);

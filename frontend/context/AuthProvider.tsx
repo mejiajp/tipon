@@ -47,15 +47,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // logout clears both backend and frontend state
   const logout = async () => {
-    setLoading(true); // optional: show spinner while logging out
-    try {
-      await logoutUser();
-      setUser(null);
-    } catch (error) {
-      console.error("Failed to logout:", error);
-    } finally {
-      setLoading(false);
-    }
+    await logoutUser();
+    setUser(null);
   };
 
   const refreshAuth = async () => {
@@ -64,6 +57,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // block rendering until loading finishes
   if (loading) return null;
+
+  console.log(user);
 
   return (
     <AuthContext.Provider value={{ user, loading, logout, refreshAuth }}>

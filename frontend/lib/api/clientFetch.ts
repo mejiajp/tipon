@@ -10,7 +10,8 @@ export async function clientFetch(path: string, options: RequestInit = {}) {
     },
   });
 
-  const data = await res.json();
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : null;
 
   if (!res.ok) {
     throw new Error(data?.message || `HTTP ${res.status}`);
