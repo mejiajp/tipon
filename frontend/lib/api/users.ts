@@ -1,8 +1,6 @@
-import { clientFetch, serverFetch } from "./api";
+import { clientFetch } from "@/lib/api/clientFetch";
 
-export async function getCurrentUser() {
-  serverFetch("/auth/current");
-}
+export const getCurrentUser = () => clientFetch("/auth/current");
 
 export const guestLogin = () =>
   clientFetch("/auth/guest", {

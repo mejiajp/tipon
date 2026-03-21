@@ -1,4 +1,5 @@
-import { serverFetch, clientFetch } from "@/lib/api/api";
+import { serverFetch } from "@/lib/api/serverFetch";
+import { clientFetch } from "@/lib/api/clientFetch";
 
 // GET ALL
 export const getAllExpenses = () => serverFetch("/expenses");

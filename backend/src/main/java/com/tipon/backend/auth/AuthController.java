@@ -2,8 +2,10 @@ package com.tipon.backend.auth;
 
 import com.tipon.backend.auth.dto.AuthResponse;
 import com.tipon.backend.auth.dto.GuestLoginRequest;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -49,7 +51,20 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public void logout(HttpServletResponse response) {
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        // invalidate server session
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        // clear your custom token cookie
         authCookieService.clearTokenCookie(response);
+
+        // delete JSESSIONID cookie
+        Cookie jsessionCookie = new Cookie("JSESSIONID", null);
+        jsessionCookie.setPath("/");
+        jsessionCookie.setMaxAge(0);
+        response.addCookie(jsessionCookie);
     }
 }

@@ -43,7 +43,7 @@ public class AuthCookieService {
         Cookie tokenCookie = new Cookie(TOKEN_COOKIE, token);
         tokenCookie.setHttpOnly(true);
         tokenCookie.setPath("/");
-        tokenCookie.setMaxAge(60 * 60 * 24);
+        tokenCookie.setMaxAge(60 * 60 * 24); // 1 day
 
         //tokenCookie.setSecure(true); // https for production
 

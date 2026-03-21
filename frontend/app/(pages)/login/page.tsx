@@ -6,21 +6,27 @@ import { useEffect } from "react";
 import { guestLogin } from "@/lib/api/users";
 
 export default function LoginPage() {
-  const { authenticated, loading } = useAuth();
+  const { user, loading, refreshAuth } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && authenticated) {
-      router.push("/dashboard");
+    if (!loading && user) {
+      router.replace("/dashboard");
     }
-  }, [authenticated, loading, router]);
+  }, [user, loading, router]);
 
-  if (loading) {
+  if (loading || user) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p>Loading...</p>
       </div>
     );
+  }
+
+  async function handleGuestLogin() {
+    await guestLogin();
+    await refreshAuth();
+    router.replace("/dashboard");
   }
 
   return (
@@ -36,10 +42,7 @@ export default function LoginPage() {
 
         <button
           className="w-full bg-black text-white py-2 rounded hover:opacity-80 transition"
-          onClick={async () => {
-            await guestLogin();
-            router.push("/dashboard");
-          }}
+          onClick={handleGuestLogin}
         >
           Continue as Guest
         </button>
