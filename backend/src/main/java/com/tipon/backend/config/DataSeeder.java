@@ -36,15 +36,12 @@ public class DataSeeder implements CommandLineRunner {
         }
 
 
-        // Find an existing guest user or create one
+        // Find an existing guest user
         User guestUser = userRepository
                 .findFirstByProvider(AuthProvider.GUEST)
                 .orElse(null);
 
-        if (guestUser == null) {
-            System.out.println("⚠️ No guest user found. Seed skipped.");
-            return;
-        }
+
         Random random = new Random();
 
         // Generate expenses for last 90 days

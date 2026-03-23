@@ -39,6 +39,7 @@ public class ExpenseController {
             @RequestParam String start,
             @RequestParam String end
     ) {
+
         return expenseService.getExpensesByRange(
                 LocalDate.parse(start),
                 LocalDate.parse(end)
