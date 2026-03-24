@@ -1,5 +1,6 @@
 package com.tipon.backend.expense;
 
+import com.tipon.backend.category.Category;
 import com.tipon.backend.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,8 +28,9 @@ public class Expense {
     @Column(nullable = false)
     private BigDecimal amount;
 
-    @Column(nullable = false)
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     private String description;
 
