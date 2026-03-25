@@ -1,15 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-dark: oklch(0, 0%, 0%); /* hsl(0 0% 0%); */
+  --bg: oklch(15.91% 0 0); /* hsl(0 0% 5%); */
+  --bg-light: oklch(21.78% 0 0); /* hsl(0 0% 10%); */
+  --text: oklch(96.12% 0 0); /* hsl(0 0% 95%); */
+  --text-muted: oklch(76.68% 0 0); /* hsl(0 0% 70%); */
+  --primary: oklch(24.93% 0.0301 139.05); /* hsl(107.1, 23.3%, 11.8%) */
+  --secondary: oklch(80.17% 0.0605 137.49); /* hsl(104.2, 25.7%, 71%); */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-bg-dark: var(--bg-dark);
+  --color-bg: var(--bg);
+  --color-bg-light: var(--bg-light);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+
+  --font-title: "TitleFont", sans-serif;
+  --font-base: "Manrope", sans-serif;
+
+  --text-base: 1rem;
+  --text-title: calc(1rem * 5);
+  --text-huge: calc(1rem * 1.5);
+  --text-larger: calc(1rem * 1.25);
+  --text-large: calc(1rem * 1.125);
+  --text-small: calc(1rem * 0.875);
+  --text-smaller: calc(1rem * 0.75);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +39,15 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+}
+
+@font-face {
+  font-family: "TitleFont";
+  src: url("/fonts/Ferron-Regular.woff2") format("woff2"),
+    url("/fonts/Ferron-Regular.woff") format("woff"); /* fallback */
+  font-weight: 400;
+  font-style: normal;
 }
