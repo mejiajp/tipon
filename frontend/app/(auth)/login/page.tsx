@@ -30,8 +30,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+    <div className="flex items-center justify-center min-h-screen bg-bg-dark">
+      <div className="bg-bg  rounded-lg p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">
           Welcome to Tipon
         </h1>
@@ -41,7 +41,7 @@ export default function LoginPage() {
         </p>
 
         <button
-          className="w-full bg-black text-white py-2 rounded hover:opacity-80 transition"
+          className="w-full bg-primary text-white py-2 rounded hover:opacity-80 transition"
           onClick={handleGuestLogin}
         >
           Continue as Guest

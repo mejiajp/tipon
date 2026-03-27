@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { AuthProvider } from "@/context/AuthProvider";
+import Navigation from "@/components/Navigation";
 
 export const metadata: Metadata = {
   title: "Tipon",
@@ -13,10 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`antialiased`}>
-        <AuthProvider> {children}</AuthProvider>
-      </body>
-    </html>
+    <div>
+      {children}
+      <Navigation />
+    </div>
   );
 }

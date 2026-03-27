@@ -46,6 +46,12 @@ body {
 h1 {
 }
 
+@layer components {
+  .nav-icon-container {
+    @apply w-15 aspect-square bg-bg-dark flex justify-center items-center rounded-[10px];
+  }
+}
+
 @font-face {
   font-family: "TitleFont";
   src: url("/fonts/Ferron-Regular.woff2") format("woff2"),
