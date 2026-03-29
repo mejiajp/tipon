@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthProvider";
 import { useEffect } from "react";
 import { guestLogin } from "@/lib/api/users";
+import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   const { user, loading, refreshAuth } = useAuth();
@@ -40,12 +41,13 @@ export default function LoginPage() {
           Track your expenses instantly.
         </p>
 
-        <button
+        {/* <button
           className="w-full bg-primary text-white py-2 rounded hover:opacity-80 transition"
           onClick={handleGuestLogin}
         >
           Continue as Guest
-        </button>
+        </button> */}
+        <Button onClick={handleGuestLogin}>Continue as Guest </Button>
 
         <div className="my-6 text-center text-gray-400 text-sm">or</div>
 
