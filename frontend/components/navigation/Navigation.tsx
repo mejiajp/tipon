@@ -1,4 +1,5 @@
 "use client";
+
 import NavItem from "./NavItem";
 import { usePathname } from "next/navigation";
 
@@ -8,38 +9,36 @@ import ProfileIcon from "@/components/icons/navigation/Profile";
 import NewIcon from "@/components/icons/navigation/New";
 
 export default function Navigation() {
-  const pathname = usePathname(); // e.g., "/home"
+  const pathname = usePathname();
   return (
-    <nav className="flex justify-between">
-      <div className="flex gap-10 bg-bg py-3.5 px-9 rounded-full">
+    <nav className="flex justify-between h-[75px]">
+      {/* Nav Pill */}
+      <div className="flex gap-10 bg-bg  px-9 rounded-full">
         <NavItem
           href="/home"
           label="Home"
           Icon={DashboardIcon}
-          className=""
           isActive={pathname === "/home"}
         />
         <NavItem
           href="/calendar"
           label="Calendar"
           Icon={CalendarIcon}
-          className=""
           isActive={pathname === "/calendar"}
         />
         <NavItem
           href="/profile"
           label="Profile"
           Icon={ProfileIcon}
-          className=""
           isActive={pathname === "/profile"}
         />
       </div>
 
-      {/* New Expense */}
+      {/* New Button */}
       <NavItem
         href="/new"
         Icon={NewIcon}
-        className="h-full aspect-square  flex items-center justify-center rounded-full bg-primary"
+        className="bg-primary h-full aspect-square rounded-full "
         iconClassName="text-bg-light"
       />
     </nav>

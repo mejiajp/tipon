@@ -31,7 +31,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-bg-dark">
+    <div className="flex items-center justify-center bg-bg-dark min-h-screen">
       <div className="bg-bg  rounded-lg p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">
           Welcome to Tipon

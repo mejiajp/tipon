@@ -1,5 +1,5 @@
 import Link from "next/link";
-import DashboardIcon from "./icons/navigation/home";
+import DashboardIcon from "./icons/navigation/Home";
 import CalendarIcon from "./icons/navigation/Calendar";
 import NewIcon from "./icons/navigation/New";
 import ProfileIcon from "./icons/navigation/Profile";
