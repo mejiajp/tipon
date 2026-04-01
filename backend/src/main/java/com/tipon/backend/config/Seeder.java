@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Component
@@ -51,21 +52,37 @@ public class Seeder implements CommandLineRunner {
             return;
         }
 
+
+
         // Seed categories if they don't exist
-        List<String> categoryNames = List.of(
-                "Housing", "Utilities", "Food & Dining", "Transportation",
-                "Healthcare", "Insurance", "Shopping", "Entertainment",
-                "Education", "Travel", "Financial", "Family",
-                "Gifts & Donations", "Subscriptions", "Personal Care",
-                "Pets", "Savings & Investments", "Miscellaneous"
+        Map<String, String> categoriesMap = Map.ofEntries(
+                Map.entry("Housing", "housing"),
+                Map.entry("Utilities", "utilities"),
+                Map.entry("Food & Dining", "food"),
+                Map.entry("Transportation", "transportation"),
+                Map.entry("Healthcare", "healthcare"),
+                Map.entry("Shopping", "shopping"),
+                Map.entry("Entertainment", "entertainment"),
+                Map.entry("Education", "education"),
+                Map.entry("Travel", "travel"),
+                Map.entry("Financial", "financial"),
+                Map.entry("Family", "family"),
+                Map.entry("Gifts & Donations", "gifts"),
+                Map.entry("Subscriptions", "subscriptions"),
+                Map.entry("Personal Care", "personal"),
+                Map.entry("Pets", "pets"),
+                Map.entry("Savings & Investments", "savings"),
+                Map.entry("Miscellaneous", "miscellaneous")
         );
 
-        for (String name : categoryNames) {
-            if (!categoryRepository.existsByName(name)) {
-                categoryRepository.save(new Category(name));
+        for (var entry : categoriesMap.entrySet()) {
+            if (!categoryRepository.existsByName(entry.getKey())) {
+                Category category = new Category();
+                category.setName(entry.getKey());
+                category.setSlug(entry.getValue());
+                categoryRepository.save(category);
             }
         }
-
         // Load all categories once
         List<Category> categories = categoryRepository.findAll();
 
@@ -90,7 +107,7 @@ public class Seeder implements CommandLineRunner {
                 Expense expense = new Expense();
                 expense.setUser(guestUser);
                 expense.setCategory(categories.get(random.nextInt(categories.size())));
-                expense.setDescription(sampleDescriptions[random.nextInt(sampleDescriptions.length)]);
+                expense.setTitle(sampleDescriptions[random.nextInt(sampleDescriptions.length)]);
                 expense.setAmount(BigDecimal.valueOf(random.nextInt(5000) + 100));
 
                 LocalDateTime createdAt = LocalDateTime.now()

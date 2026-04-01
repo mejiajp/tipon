@@ -7,5 +7,5 @@ import java.math.BigDecimal;
 public record ExpenseRequest (
         BigDecimal amount,
         Category category,
-        String description
+        String title
 ){}

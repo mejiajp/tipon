@@ -32,7 +32,8 @@ public class Expense {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private String description;
+    @Column(nullable = false)
+    private String title;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

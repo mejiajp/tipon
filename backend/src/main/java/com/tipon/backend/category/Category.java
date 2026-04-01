@@ -18,5 +18,8 @@ public class Category {
     @NonNull
     @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(unique = true)
+    private String slug;
 }
 

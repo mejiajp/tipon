@@ -14,7 +14,7 @@ public record ExpenseResponse (
     UUID id,
     BigDecimal amount,
     Category category,
-    String description,
+    String title,
     LocalDateTime createdAt,
     LocalDate date
 ){}

@@ -51,7 +51,7 @@ public class ExpenseService {
 
         expense.setAmount(request.amount());
         expense.setCategory(request.category());
-        expense.setDescription(request.description());
+        expense.setTitle(request.title());
         expense.setCreatedAt(LocalDateTime.now());
         expense.setUser(currentUser); // MOCK USER
 
@@ -132,7 +132,7 @@ public class ExpenseService {
                 expense.getId(),
                 expense.getAmount(),
                 expense.getCategory(),
-                expense.getDescription(),
+                expense.getTitle(),
                 expense.getCreatedAt(),
                 expense.getDate()
         );
