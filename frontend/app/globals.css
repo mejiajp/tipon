@@ -128,7 +128,7 @@
   --color-text-muted: var(--text-muted);
 
   --font-title: "TitleFont", sans-serif;
-  --font-base: "Manrope", sans-serif;
+  --font-base: "BaseFont", sans-serif;
 
   --text-base: 1rem;
   --text-title: calc(1rem * 5);
@@ -261,20 +261,38 @@ body {
   margin: 0;
 }
 
-h1 {
-}
-
 @layer components {
   .nav-icon-container {
     @apply w-15 aspect-square bg-bg-dark flex justify-center items-center rounded-[10px];
+  }
+
+  .page-title {
+    @apply text-huge -tracking-wide font-bold mb-5;
+  }
+  .section-title {
+    @apply text-base text-text;
   }
 }
 
 @font-face {
   font-family: "TitleFont";
   src: url("/fonts/Ferron-Regular.woff2") format("woff2"),
-    url("/fonts/Ferron-Regular.woff") format("woff"); /* fallback */
+    url("/fonts/Ferron-Regular.woff") format("woff");
   font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaseFont";
+  src: url("/fonts/Manrope-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BaseFont";
+  src: url("/fonts/Manrope-Bold.ttf") format("truetype");
+  font-weight: 700;
   font-style: normal;
 }
 
