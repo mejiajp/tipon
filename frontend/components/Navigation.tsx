@@ -1,27 +1,40 @@
 import Link from "next/link";
-import DashboardIcon from "./icons/navigation/Dashboard";
+import DashboardIcon from "./icons/navigation/home";
 import CalendarIcon from "./icons/navigation/Calendar";
 import NewIcon from "./icons/navigation/New";
-import TransactionIcon from "./icons/navigation/Transaction";
 import ProfileIcon from "./icons/navigation/Profile";
 
 export default function Navigation() {
   return (
-    <nav className=" h-[65px] bg-bg absolute bottom-5 left-1/2 -translate-x-1/2 flex rounded-[10px] p-[2px] gap-[2px]">
-      <Link href="/dashboard" className="nav-icon-container">
-        <DashboardIcon className="w-6.5 h-6.5 text-text-muted" />
-      </Link>
-      <Link href="/calendar" className="nav-icon-container">
-        <CalendarIcon className="w-6.5 h-6.5 text-text-muted" />
-      </Link>
-      <Link href="/new" className="nav-icon-container bg-primary text-bg-light">
+    <nav className=" flex justify-between w-full">
+      <div className="flex justify-center items-center py-[14px] px-[28px] gap-[40px] rounded-full bg-bg text-text-muted font-bold">
+        <Link
+          href="/home"
+          className=" flex flex-col justify-center items-center"
+        >
+          <DashboardIcon className="w-6.5 6.5 " />
+          <p className="text-smaller">Home</p>
+        </Link>
+        <Link
+          href="/calendar"
+          className="flex flex-col justify-center items-center"
+        >
+          <CalendarIcon className="w-6.5 h-6.5 " />
+          <p className="text-smaller">Calendar</p>
+        </Link>
+        <Link
+          href="/profile"
+          className="flex flex-col justify-center items-center"
+        >
+          <ProfileIcon className="w-6.5  " />
+          <p className="text-smaller">Profile</p>
+        </Link>
+      </div>
+      <Link
+        href="/new"
+        className="h-full aspect-square  flex items-center justify-center rounded-full bg-primary text-bg-light"
+      >
         <NewIcon className="w-6.5 h-6.5 text-bg-dark" />
-      </Link>
-      <Link href="/transaction" className="nav-icon-container">
-        <TransactionIcon className="w-6.5 h-6.5 text-text-muted" />
-      </Link>
-      <Link href="/profile" className="nav-icon-container">
-        <ProfileIcon className="w-6.5 h-6.5 text-text-muted" />
       </Link>
     </nav>
   );

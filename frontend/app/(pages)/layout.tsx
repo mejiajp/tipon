@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/navigation/Navigation";
 
 export const metadata: Metadata = {
   title: "Tipon",
@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="flex flex-col justify-between h-full">
       {children}
       <Navigation />
     </div>

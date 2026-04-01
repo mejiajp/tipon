@@ -5,12 +5,12 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --primary: oklch(0.205 0 0); /* hsl(107.1, 23.3%, 11.8%) #1A2517*/
+  --primary: oklch(70.07% 0.2001 145); /* hsl(107.1, 23.3%, 11.8%) #30bd44*/
   --secondary: oklch(0.97 0 0); /* hsl(104.2, 25.7%, 71%); #7BA05B*/
   --accent: oklch(0.97 0 0); /* hsl(4.9, 64.7%, 33.3%) #8C271E*/
 
-  --bg-dark: oklch(92.49% 0 0) /* hsl(0 0% 90%); #e5e5e5 */;
-  --bg: oklch(96.12% 0 0) /* hsl(0 0% 95%); #f2f2f2 */;
+  --bg-dark: oklch(92.27% 0.0059 239.82) /* hsl(210 15% 90%); #e2e6e9 */;
+  --bg: oklch(96.02% 0.0034 247.86) /* hsl(210 15% 95%); #f0f2f4 */;
   --bg-light: oklch(100% 0 0) /* hsl(0 0% 100%); #ffffff */;
 
   --text: oklch(15.91% 0 0) /* hsl(0 0% 5%); #0D0D0D*/;
@@ -137,6 +137,8 @@
   --text-large: calc(1rem * 1.125);
   --text-small: calc(1rem * 0.875);
   --text-smaller: calc(1rem * 0.75);
+  --text-smallest: calc(1rem * 0.625);
+  --text-tiny: calc(1rem * 0.5);
 
   /* Category Colors */
   --color-housing: var(--housing);
@@ -255,6 +257,8 @@ body {
   background-color: var(--color-bg-dark);
   color: var(--color-text);
   font-family: var(--font-base);
+  padding: 16px;
+  min-height: 100vh;
 }
 
 h1 {

@@ -12,7 +12,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      router.replace("/dashboard");
+      router.replace("/home");
     }
   }, [user, loading, router]);
 
@@ -27,7 +27,7 @@ export default function LoginPage() {
   async function handleGuestLogin() {
     await guestLogin();
     await refreshAuth();
-    router.replace("/dashboard");
+    router.replace("/home");
   }
 
   return (
