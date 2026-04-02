@@ -1,6 +1,6 @@
 "use client";
 
-import { getCurrentUser, logoutUser } from "@/lib/api/users";
+import { getCurrentUser, logoutUser } from "@/lib/api/users.client";
 import {
   createContext,
   ReactNode,

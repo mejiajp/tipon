@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthProvider";
 import { useEffect } from "react";
-import { guestLogin } from "@/lib/api/users";
+import { guestLogin } from "@/lib/api/users.client";
 import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {

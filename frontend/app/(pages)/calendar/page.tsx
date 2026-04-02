@@ -1,4 +1,4 @@
-import { getExpenseCalendar } from "@/lib/api/expenses";
+import { getExpenseCalendar } from "@/lib/api/expenses.server";
 import React from "react";
 
 export default async function page() {

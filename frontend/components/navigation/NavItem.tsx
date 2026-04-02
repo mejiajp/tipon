@@ -29,7 +29,7 @@ export default function NavItem({
           isActive ? "text-primary" : iconClassName || "text-text-muted"
         }`}
       />
-      {label && <span className="text-xs">{label}</span>}
+      {label && <span className="text-xs font-bold">{label}</span>}
     </Link>
   );
 }
