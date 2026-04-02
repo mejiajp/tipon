@@ -3,22 +3,24 @@
 import { categoryIcons } from "@/lib/categoryIconsMap";
 import DefaultIcon from "@/components/icons/Ellipsis";
 import { useState } from "react";
-
-interface Category {
-  id: number;
-  name: string;
-  slug: string;
-}
+import { createExpense } from "@/lib/api/expenses.client";
+import { Category } from "@/types/category";
 
 interface NewExpenseFormProps {
   categories: Category[];
 }
 
+interface FormData {
+  amount: string;
+  title: string;
+  category: Category | null;
+}
+
 export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
-  const [formData, setFormData] = useState({
-    title: "",
+  const [formData, setFormData] = useState<FormData>({
     amount: "",
-    category: "",
+    title: "",
+    category: null,
   });
 
   const [showAllCategories, setShowAllCategories] = useState(false);
@@ -26,11 +28,32 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
     ? categories
     : categories.slice(0, 8);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-  };
 
-  console.log(formData);
+    if (!formData.category) {
+      console.error("Category is not selected");
+      return;
+    }
+
+    const toBeSubmitted = {
+      title: formData.title,
+      category: formData.category,
+      amount: parseFloat(formData.amount),
+    };
+
+    console.log("Submitting form with data:", toBeSubmitted);
+
+    const createdData = await createExpense(toBeSubmitted);
+
+    console.log("Created expense:", createdData);
+
+    setFormData({
+      title: "",
+      amount: "",
+      category: null,
+    });
+  };
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -41,7 +64,7 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
           value={formData.amount}
           onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
           placeholder="PHP 0.00"
-          className="bg-bg-light p-4 rounded-[16px]"
+          className="bg-bg-light p-4 rounded-[16px] outline-none focus:ring-2 focus:ring-gray-300"
         />
       </div>
       <div className="flex flex-col gap-2.5">
@@ -51,7 +74,7 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           placeholder="What is the expense?"
-          className="bg-bg-light p-4 rounded-[16px] "
+          className="bg-bg-light p-4 rounded-[16px] outline-none focus:ring-2 focus:ring-gray-300"
         />
       </div>
       <div className="flex flex-col gap-2.5">
@@ -65,11 +88,9 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
             return (
               <li
                 key={category.id}
-                onClick={() =>
-                  setFormData({ ...formData, category: category.name })
-                }
+                onClick={() => setFormData({ ...formData, category: category })}
                 className={` flex flex-col justify-center gap-1 rounded-[16px] items-center cursor-pointer aspect-square  ${
-                  formData.category === category.name
+                  formData.category === category
                     ? "bg-primary text-bg-light"
                     : "bg-bg-light text-text-muted"
                 }`}
@@ -77,7 +98,7 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
                 <Icon className="w-6.5 h-6.5" />
                 <p
                   className={`text-tiny font-bold text-center tracking-wide ${
-                    formData.category === category.name
+                    formData.category === category
                       ? "text-bg-light "
                       : "text-text-muted "
                   }`}

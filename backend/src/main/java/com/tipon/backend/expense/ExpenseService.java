@@ -53,7 +53,8 @@ public class ExpenseService {
         expense.setCategory(request.category());
         expense.setTitle(request.title());
         expense.setCreatedAt(LocalDateTime.now());
-        expense.setUser(currentUser); // MOCK USER
+        expense.setDate(LocalDate.now());
+        expense.setUser(currentUser);
 
         Expense saved = expenseRepository.save(expense);
 
