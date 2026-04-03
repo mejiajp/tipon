@@ -57,27 +57,27 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-small p-base rounded-base bg-bg">
         <h3 className="section-title">Amount</h3>
         <input
           type="number"
           value={formData.amount}
           onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
           placeholder="PHP 0.00"
-          className="bg-bg-light p-4 rounded-[16px] outline-none focus:ring-2 focus:ring-gray-300"
+          className="bg-bg-light p-4 rounded-base outline-none focus:ring-2 focus:ring-gray-300"
         />
       </div>
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-small p-base rounded-base bg-bg">
         <h3 className="section-title">Title</h3>
         <input
           type="text"
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           placeholder="What is the expense?"
-          className="bg-bg-light p-4 rounded-[16px] outline-none focus:ring-2 focus:ring-gray-300"
+          className="bg-bg-light p-4 rounded-base outline-none focus:ring-2 focus:ring-gray-300"
         />
       </div>
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-small p-base rounded-base bg-bg">
         <h3 className="section-title">Category</h3>
 
         <ul className="grid grid-cols-4 grid-row-2 gap-4">
