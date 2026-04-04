@@ -271,7 +271,7 @@ body {
   }
 
   .page-title {
-    @apply text-huge -tracking-wide font-bold mb-5;
+    @apply text-huge -tracking-wide font-bold;
   }
   .section-title {
     @apply text-base text-text;
