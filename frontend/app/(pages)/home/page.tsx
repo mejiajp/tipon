@@ -1,26 +1,52 @@
 import { getExpenseRange } from "@/lib/api/expenses.server";
+import { getDateRanges } from "@/lib/getDateRanges";
 import TotalSpent from "./components/TotalSpent";
 import SpendingSplit from "./components/SpendingSplit";
 import RecentTransactions from "./components/RecentTransactions";
-import Down from "@/components/icons/Down";
+import RangeFilter from "./components/RangeFilter";
+import { searchRegistries } from "shadcn/registry";
 
-export default async function page() {
-  const expense = await getExpenseRange("2026-03-02", "2026-03-07");
-  console.log(expense);
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ range?: string }>;
+}) {
+  const params = await searchParams;
+  const range = params.range ?? "weekly";
+  const ranges = getDateRanges(new Date());
+
+  const selected =
+    range === "daily"
+      ? ranges.day
+      : range === "weekly"
+      ? ranges.week
+      : ranges.month;
+
+  // Fetch expenses for selected range
+  const expenses = await getExpenseRange(
+    selected.start.toISOString().split("T")[0],
+    selected.end.toISOString().split("T")[0]
+  );
+
+  console.log(selected);
+
+  console.log(expenses);
+
   return (
-    <>
-      <div className="flex justify-between  mb-5">
-        <h1 className="page-title">Expenses</h1>
-        <div className="flex items-center bg-primary gap-small rounded-full px-base py-[8px] text-smaller text-white">
-          <p>March 2026</p>
-          <Down className="w-4 h-4  ml-1" />
-        </div>
+    <div className="">
+      <div className="flex justify-between items-center mb-5">
+        <h1 className="text-2xl font-bold">Expenses</h1>
+        <RangeFilter>
+          <p>{selected.label}</p>
+          <div></div>
+        </RangeFilter>
       </div>
-      <div className="flex flex-col gap-base">
-        <TotalSpent />
+
+      <div className="flex flex-col gap-6">
+        <TotalSpent expenses={expenses} />
         <SpendingSplit />
         <RecentTransactions />
       </div>
-    </>
+    </div>
   );
 }

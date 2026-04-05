@@ -5,5 +5,5 @@ export default function HomeLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <main className="flex flex-col gap-small">{children}</main>;
+  return <main className="">{children}</main>;
 }

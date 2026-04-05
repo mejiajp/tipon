@@ -1,6 +1,7 @@
 import Ellipsis from "@/components/icons/Ellipsis";
 import { categoryIcons } from "@/lib/categoryIconsMap";
 import DefaultIcon from "@/components/icons/Ellipsis";
+import { Expense } from "@/types/expenses";
 
 export default function SpendingSplit() {
   const categories = [
