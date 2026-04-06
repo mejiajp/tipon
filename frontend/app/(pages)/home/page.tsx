@@ -1,10 +1,9 @@
 import { getExpenseRange } from "@/lib/api/expenses.server";
 import { getDateRanges } from "@/lib/getDateRanges";
-import TotalSpent from "./components/TotalSpent";
-import SpendingSplit from "./components/SpendingSplit";
-import RecentTransactions from "./components/RecentTransactions";
 import RangeFilter from "./components/RangeFilter";
-import { searchRegistries } from "shadcn/registry";
+import RecentTransactions from "./components/RecentTransactions";
+import SpendingSplit from "./components/SpendingSplit";
+import TotalSpent from "./components/TotalSpent";
 
 export default async function Page({
   searchParams,
@@ -28,10 +27,6 @@ export default async function Page({
     selected.end.toISOString().split("T")[0]
   );
 
-  console.log(selected);
-
-  console.log(expenses);
-
   return (
     <div className="">
       <div className="flex justify-between items-center mb-5">
@@ -44,7 +39,7 @@ export default async function Page({
 
       <div className="flex flex-col gap-6">
         <TotalSpent expenses={expenses} />
-        <SpendingSplit />
+        <SpendingSplit expenses={expenses} range={range} />
         <RecentTransactions />
       </div>
     </div>

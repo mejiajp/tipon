@@ -1,46 +1,34 @@
 import { categoryIcons } from "@/lib/categoryIconsMap";
 import DefaultIcon from "@/components/icons/Ellipsis";
 import { formatTransactionTime } from "@/lib/formatTransactionTime";
+import { getRecentExpenses } from "@/lib/api/expenses.server";
+import { Expense } from "@/types/expenses";
+import Link from "next/link";
 
-export default function RecentTransactions() {
-  const expenses = [
-    {
-      title: "Mcdo Delivery",
-      name: "Food and Dining",
-      icon: "food",
-      dateTime: "2026-03-05T14:30:00Z",
-      amount: 50,
-    },
-    {
-      title: "Grab Car",
-      name: "Transportation",
-      icon: "transportation",
-      dateTime: "2026-03-05T15:30:00Z",
-      amount: 30,
-    },
-    {
-      title: "Donation to Charity",
-      name: "Gifts and Donations",
-      icon: "gifts",
-      dateTime: "2026-03-05T16:30:00Z",
-      amount: 20,
-    },
-  ];
+export default async function RecentTransactions() {
+  const expenses: Expense[] = await getRecentExpenses();
+
+  console.log(expenses);
   return (
-    <section className="flex flex-col p-base rounded-base gap-base bg-bg-light">
+    <section className="flex flex-col p-base rounded-base gap-base bg-bg">
       <div className="flex justify-between">
         <h2>Recent Transactions</h2>
-        <p className="text-text-muted">See All</p>
+        {/* add current date in this calendar as params later  */}
+        <Link href="/calendar" className="text-text-muted">
+          See All
+        </Link>
       </div>
       <ul>
         {expenses.map((expense) => {
           const Icon =
             categoryIcons[
-              (expense.icon as keyof typeof categoryIcons) || DefaultIcon
+              (expense.category.slug as keyof typeof categoryIcons) ||
+                DefaultIcon
             ];
+
           return (
             <li
-              key={expense.name}
+              key={expense.id}
               className="flex justify-between items-center h-[60px]"
             >
               <div className="flex items-center">
@@ -50,11 +38,12 @@ export default function RecentTransactions() {
                 <div>
                   <p>{expense.title}</p>
                   <p className="text-text-muted">
-                    {formatTransactionTime(expense.dateTime)}, {expense.name}
+                    {formatTransactionTime(expense.createdAt)},{" "}
+                    {expense.category.name}
                   </p>
                 </div>
               </div>
-              <p className="font-bold">{expense.amount}%</p>
+              <p className="font-bold">{expense.amount.toFixed(2)}</p>
             </li>
           );
         })}

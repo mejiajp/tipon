@@ -36,7 +36,7 @@ export default function RangeFilter({
     <div className="relative inline-block" ref={dropdownRef}>
       {/* The pill / button */}
       <div
-        className="w-[150px] bg-primary text-white py-2 px-4 rounded-full flex items-center justify-between cursor-pointer select-none"
+        className="w-[140px] bg-primary text-white py-2 px-4 rounded-full flex items-center justify-between cursor-pointer select-none"
         onClick={() => setOpen(!open)}
       >
         {/* Centered label text */}
