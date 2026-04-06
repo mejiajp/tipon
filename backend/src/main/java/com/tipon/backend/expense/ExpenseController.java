@@ -54,4 +54,10 @@ public class ExpenseController {
     ) {
         return expenseService.getMonthlyCalendar(year, month);
     }
+
+    @GetMapping("/recent")
+    public List<ExpenseResponse> getRecent() {
+        return expenseService.getRecentTransactions();
+    }
+
 }

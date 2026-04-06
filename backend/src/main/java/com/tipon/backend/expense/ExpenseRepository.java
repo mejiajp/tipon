@@ -15,4 +15,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, UUID>{
     List<Expense> findByUserAndCreatedAtBetween(User currentUser,
                                                 LocalDateTime localDateTime,
                                                 LocalDateTime localDateTime1);
+
+    List<Expense> findTop3ByUserOrderByCreatedAtDesc(User user);
 }

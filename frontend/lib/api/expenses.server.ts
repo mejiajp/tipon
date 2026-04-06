@@ -10,3 +10,6 @@ export const getExpenseRange = (start: string, end: string) =>
 // GET MONTHLY CALENDAR
 export const getExpenseCalendar = (year: string, month: string) =>
   serverFetch(`/expenses/calendar?year=${year}&month=${month}`);
+
+// GET RECENT
+export const getRecentExpenses = () => serverFetch("/expenses/recent");

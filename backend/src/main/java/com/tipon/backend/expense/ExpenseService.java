@@ -128,6 +128,16 @@ public class ExpenseService {
             return result;
     }
 
+    public List<ExpenseResponse> getRecentTransactions() {
+        User currentUser = currentUserService.getCurrentUser();
+
+        return expenseRepository.findTop3ByUserOrderByCreatedAtDesc(currentUser)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+
+    }
+
     private ExpenseResponse mapToResponse(Expense expense){
         return new ExpenseResponse(
                 expense.getId(),
