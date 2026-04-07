@@ -63,7 +63,7 @@ export default function SpendingSplit({
           return (
             <li
               key={category.name}
-              className="flex justify-between items-center h-[60px]"
+              className="flex justify-between items-center h-15"
             >
               <div className="flex items-center">
                 <div className="p-base">
@@ -76,7 +76,7 @@ export default function SpendingSplit({
           );
         })}
         {othersAmount > 0 && !showAll && (
-          <li className="flex justify-between items-center h-[60px]">
+          <li className="flex justify-between items-center h-15">
             <div className="flex items-center">
               <div className="p-base">
                 <DefaultIcon className="w-8 h-8 text-text-muted" />
@@ -90,7 +90,7 @@ export default function SpendingSplit({
         )}
 
         {sortedCategories.length === 0 && (
-          <div className="h-[150px] flex justify-center items-center">
+          <div className="h-37.5 flex justify-center items-center">
             <h3>
               No record of expense this{" "}
               {range === "daily"

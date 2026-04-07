@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <div className="flex flex-col justify-between min-h-screen relative">
-      <div className="p-4 mb-[calc(75px+16px)]">{children}</div>
+      <div className="p-4 mb-[calc(18.75+4)]">{children}</div>
       <Navigation />
     </div>
   );

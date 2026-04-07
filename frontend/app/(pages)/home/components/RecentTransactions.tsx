@@ -29,7 +29,7 @@ export default async function RecentTransactions() {
           return (
             <li
               key={expense.id}
-              className="flex justify-between items-center h-[60px]"
+              className="flex justify-between items-center h-15"
             >
               <div className="flex items-center">
                 <div className="p-base">
