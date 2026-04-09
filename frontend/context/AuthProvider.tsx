@@ -1,6 +1,7 @@
 "use client";
 
 import { getCurrentUser, logoutUser } from "@/lib/api/users.client";
+import { User } from "@/types/user";
 import {
   createContext,
   ReactNode,
@@ -8,11 +9,6 @@ import {
   useEffect,
   useState,
 } from "react";
-
-export type User = {
-  id: number;
-  email?: string;
-};
 
 type AuthContextType = {
   user: User | null;
@@ -32,7 +28,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true); // make sure loading is true while fetching
     try {
       const currentUser = await getCurrentUser();
-      console.log("checked");
       setUser(currentUser ?? null);
     } catch {
       setUser(null);
@@ -57,8 +52,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // block rendering until loading finishes
   if (loading) return null;
-
-  console.log(user);
 
   return (
     <AuthContext.Provider value={{ user, loading, logout, refreshAuth }}>
