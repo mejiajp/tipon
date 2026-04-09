@@ -1,17 +1,19 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthProvider";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { guestLogin } from "@/lib/api/users.client";
-// import { Button } from "@/components/ui/button";
+import { useToastStore } from "@/lib/store/ToastStore";
+import { useAuthStore } from "@/lib/store/AuthStore";
 
 export default function LoginPage() {
-  const { user, loading, refreshAuth } = useAuth();
   const router = useRouter();
+  const addToast = useToastStore((state) => state.addToast);
 
+  const { user, loading, refreshAuth } = useAuthStore();
   const [name, setName] = useState("");
 
+  // Redirect if already logged in
   useEffect(() => {
     if (!loading && user) {
       router.replace("/home");
@@ -26,10 +28,22 @@ export default function LoginPage() {
     );
   }
 
-  async function handleGuestLogin() {
-    await guestLogin(name);
-    await refreshAuth();
-    router.replace("/home");
+  async function handleGuestLogin(e: React.SubmitEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    try {
+      await guestLogin(name); // backend call
+      console.log(user);
+      await refreshAuth(); // update Zustand store
+      router.replace("/home"); // navigate
+      addToast(
+        `Logged in as Guest, welcome ${useAuthStore.getState().user?.name}!`,
+        "guest"
+      );
+    } catch (err) {
+      addToast("Guest login failed", "error");
+      console.error(err);
+    }
   }
 
   return (

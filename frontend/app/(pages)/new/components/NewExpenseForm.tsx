@@ -5,7 +5,7 @@ import DefaultIcon from "@/components/icons/Ellipsis";
 import { useState } from "react";
 import { createExpense } from "@/lib/api/expenses.client";
 import { Category } from "@/types/category";
-import { useToastStore } from "@/lib/toast/ToastStore";
+import { useToastStore } from "@/lib/store/ToastStore";
 
 interface NewExpenseFormProps {
   categories: Category[];
@@ -55,7 +55,7 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
       category: null,
     });
 
-    addToast("Expense added successfully!");
+    addToast("Expense added successfully!", "success");
   };
 
   const addToast = useToastStore((state) => state.addToast);

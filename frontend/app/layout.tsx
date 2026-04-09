@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`antialiased`}>
-        <AuthProvider>{children}</AuthProvider>
+        {children}
         <ToastContainer />
       </body>
     </html>
