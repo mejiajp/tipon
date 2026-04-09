@@ -43,16 +43,12 @@ public class Seeder implements CommandLineRunner {
             return;
         }
 
-        // Find an existing guest user
-        User guestUser = userRepository
-                .findFirstByProvider(AuthProvider.GUEST)
-                .orElse(null);
+        // Load all users
+        List<User> allUsers = userRepository.findAll();
 
-        if (guestUser == null) {
+        if (allUsers.isEmpty()) {
             return;
         }
-
-
 
         // Seed categories if they don't exist
         Map<String, String> categoriesMap = Map.ofEntries(
@@ -83,12 +79,10 @@ public class Seeder implements CommandLineRunner {
                 categoryRepository.save(category);
             }
         }
+
         // Load all categories once
         List<Category> categories = categoryRepository.findAll();
-
         Random random = new Random();
-
-        // Sample descriptions for more realistic seed data
         String[] sampleDescriptions = {
                 "Coffee", "Groceries", "Movie ticket", "Bus fare",
                 "Electricity bill", "Lunch", "Book purchase", "Gym membership",
@@ -97,34 +91,33 @@ public class Seeder implements CommandLineRunner {
 
         List<Expense> allExpenses = new ArrayList<>();
 
-        // Generate expenses for the last 90 days
-        for (int day = 0; day < 90; day++) {
+        // Generate expenses for each user
+        for (User user : allUsers) {
+            for (int day = 0; day < 90; day++) {
+                int expensesForDay = random.nextInt(4); // 0–3 expenses per day
+                for (int i = 0; i < expensesForDay; i++) {
+                    Expense expense = new Expense();
+                    expense.setUser(user);
+                    expense.setCategory(categories.get(random.nextInt(categories.size())));
+                    expense.setTitle(sampleDescriptions[random.nextInt(sampleDescriptions.length)]);
+                    expense.setAmount(BigDecimal.valueOf(random.nextInt(5000) + 100));
 
-            int expensesForDay = random.nextInt(4); // 0–3 expenses per day
+                    LocalDateTime createdAt = LocalDateTime.now()
+                            .minusDays(day)
+                            .withHour(random.nextInt(24))
+                            .withMinute(random.nextInt(60));
+                    expense.setCreatedAt(createdAt);
 
-            for (int i = 0; i < expensesForDay; i++) {
+                    expense.setDate(LocalDate.now().minusDays(day));
 
-                Expense expense = new Expense();
-                expense.setUser(guestUser);
-                expense.setCategory(categories.get(random.nextInt(categories.size())));
-                expense.setTitle(sampleDescriptions[random.nextInt(sampleDescriptions.length)]);
-                expense.setAmount(BigDecimal.valueOf(random.nextInt(5000) + 100));
-
-                LocalDateTime createdAt = LocalDateTime.now()
-                        .minusDays(day)
-                        .withHour(random.nextInt(24))
-                        .withMinute(random.nextInt(60));
-                expense.setCreatedAt(createdAt);
-
-                expense.setDate(LocalDate.now().minusDays(day));
-
-                allExpenses.add(expense);
+                    allExpenses.add(expense);
+                }
             }
         }
 
         // Batch save all expenses at once
         expenseRepository.saveAll(allExpenses);
 
-        System.out.println("✅ Dev seed data inserted successfully.");
+        System.out.println("✅ Dev seed data inserted successfully for all users.");
     }
 }
