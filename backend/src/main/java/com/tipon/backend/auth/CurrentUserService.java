@@ -30,23 +30,24 @@ public class CurrentUserService {
     }
 
     // Get existing guest or create a new one using deviceId
-    public User getOrCreateGuest(String deviceId) {
+    public User getOrCreateGuest(String deviceId, String name) {
+        // Get User
         Optional<Device> existingDevice = deviceRepository.findByDeviceId(deviceId);
 
         if (existingDevice.isPresent()) {
             return existingDevice.get().getUser();
         }
 
-        // else Create new guest user
+        // else Create User
         User guest = new User();
+        guest.setName(name);
         guest.setEmail(null);
         guest.setProvider(AuthProvider.GUEST);
         guest.setCreatedAt(LocalDate.now());
 
-        // Save user first
+        // Save user first to attach device
         User savedUser = userRepository.save(guest);
 
-        // Attach the device
         Device device = new Device();
         device.setDeviceId(deviceId);
         device.setUser(savedUser);
@@ -54,7 +55,7 @@ public class CurrentUserService {
         // Save device
         deviceRepository.save(device);
 
-        return savedUser; // Can be a dto later
+        return savedUser;
     }
 
     public String generateToken(User user) {

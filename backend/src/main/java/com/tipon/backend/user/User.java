@@ -20,6 +20,8 @@ public class User {
     @GeneratedValue
     private Long id;
 
+    private String name;
+    
     @Column(unique = true)
     private String email; // null if GUEST
 

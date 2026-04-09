@@ -28,16 +28,20 @@ public class AuthController {
     @GetMapping("/current")
     public AuthResponse getCurrentUser() {
         var user = currentUserService.getCurrentUser();
-        return new AuthResponse(user.getId(), user.getProvider(),
-                user.getEmail(),  user.getCreatedAt());
+        return new AuthResponse(
+                user.getId(),
+                user.getName(),
+                user.getProvider(),
+                user.getEmail(),
+                user.getCreatedAt());
     }
 
     @PostMapping("/guest")
-    public AuthResponse guestLogin(HttpServletRequest request, HttpServletResponse response){
+    public AuthResponse guestLogin(@RequestBody GuestLoginRequest body, HttpServletRequest request, HttpServletResponse response){
 
         String deviceId =  authCookieService.getOrCreateDeviceId(request, response);
 
-        var user = currentUserService.getOrCreateGuest(deviceId);
+        var user = currentUserService.getOrCreateGuest(deviceId, body.name());
 
         String token = currentUserService.generateToken(user);
 
@@ -45,6 +49,7 @@ public class AuthController {
 
         return new AuthResponse(
                 user.getId(),
+                user.getName(),
                 user.getProvider(),
                 user.getEmail(),
                 user.getCreatedAt()

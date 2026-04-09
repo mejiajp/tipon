@@ -2,13 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthProvider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { guestLogin } from "@/lib/api/users.client";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   const { user, loading, refreshAuth } = useAuth();
   const router = useRouter();
+
+  const [name, setName] = useState("");
 
   useEffect(() => {
     if (!loading && user) {
@@ -25,39 +27,42 @@ export default function LoginPage() {
   }
 
   async function handleGuestLogin() {
-    await guestLogin();
+    await guestLogin(name);
     await refreshAuth();
     router.replace("/home");
   }
 
   return (
-    <div className="flex items-center justify-center bg-bg-dark min-h-screen">
-      <div className="bg-bg  rounded-lg p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          Welcome to Tipon
-        </h1>
+    <>
+      <div className="flex-1"></div>
+      <div className="bg-bg p-base">
+        <h3 className="text-text text-center text-huge font-bold my-5">
+          Track your expenses!
+        </h3>
 
-        <p className="text-sm text-gray-500 text-center mb-6">
-          Track your expenses instantly.
-        </p>
+        <form onSubmit={handleGuestLogin} className="flex flex-col gap-4 ">
+          <input
+            type="text"
+            placeholder="Enter name as guest"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="outline rounded-base p-base"
+          />
+          <button
+            type="submit"
+            className="bg-primary p-base rounded-base text-white"
+          >
+            Continue as Guest
+          </button>
+        </form>
 
-        {/* <button
-          className="w-full bg-primary text-white py-2 rounded hover:opacity-80 transition"
-          onClick={handleGuestLogin}
-        >
-          Continue as Guest
-        </button> */}
-        <Button onClick={handleGuestLogin}>Continue as Guest </Button>
+        <div className="my-6 text-center text-text-muted text-sm">or</div>
 
-        <div className="my-6 text-center text-gray-400 text-sm">or</div>
-
-        <button
-          className="w-full border py-2 rounded hover:bg-gray-50 transition"
-          disabled
-        >
+        <button className="w-full outline rounded-base p-base" disabled>
           Login with Email (coming soon)
         </button>
       </div>
-    </div>
+    </>
   );
 }

@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public record AuthResponse(
     Long id,
+    String name,
     AuthProvider provider,
     String email,
     LocalDate createdAt
