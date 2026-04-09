@@ -1,4 +1,5 @@
 import TrendUp from "@/components/icons/TrendUp";
+import { formatAmount } from "@/lib/formatAmount";
 import { Expense } from "@/types/expenses";
 import React from "react";
 
@@ -8,7 +9,7 @@ export default function TotalSpent({ expenses }: { expenses: Expense[] }) {
     <section className="px-base py-12 flex flex-col items-center">
       <h2 className="font-bold -tracking-wider">TOTAL SPENT</h2>
       <p className="font-bold text-[48px] -tracking-wider">
-        PHP {total.toFixed(2)}
+        PHP {formatAmount(total)}
       </p>
       <div className="flex items-center">
         <TrendUp className="w-4 h-4" />

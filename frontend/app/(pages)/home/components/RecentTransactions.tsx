@@ -4,6 +4,7 @@ import { formatTransactionTime } from "@/lib/formatTransactionTime";
 import { getRecentExpenses } from "@/lib/api/expenses.server";
 import { Expense } from "@/types/expenses";
 import Link from "next/link";
+import { formatAmount } from "@/lib/formatAmount";
 
 export default async function RecentTransactions() {
   const expenses: Expense[] = await getRecentExpenses();
@@ -43,7 +44,7 @@ export default async function RecentTransactions() {
                   </p>
                 </div>
               </div>
-              <p className="font-bold">{expense.amount.toFixed(2)}</p>
+              <p className="font-bold">{formatAmount(expense.amount)}</p>
             </li>
           );
         })}
