@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+
 /* ---break---*/
-@custom-variant dark (&:is(.dark *));
 
 :root {
   --primary: oklch(70.07% 0.2001 145); /* hsl(107.1, 23.3%, 11.8%) #30bd44*/
@@ -13,6 +13,7 @@
   --bg: oklch(96.12% 0 0) /* hsl(0 0% 95%); #f2f2f2 */;
   --bg-light: oklch(100% 0 0) /* hsl(0 0% 100%); #ffffff */;
 
+  --white: oklch(100% 0 0) /* hsl(0 0% 100%); #ffffff */;
   --text: oklch(15.91% 0 0) /* hsl(0 0% 5%); #0D0D0D*/;
   --text-muted: oklch(42.02% 0 0) /*  hsl(0 0% 30%); #4D4D4D*/;
 
@@ -117,6 +118,15 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+.dark {
+  --bg-dark: oklch(13.44% 0 0) /* hsl(0 0% 3%); #080808 */;
+  --bg: oklch(15.91% 0 0) /* hsl(0 0% 5%); #0D0D0D */;
+  --bg-light: oklch(21.78% 0 0) /* hsl(0 0% 10%); #1A1A1A */;
+
+  --text: oklch(96.12% 0 0) /* hsl(0 0% 95%); #F2F2F2*/;
+  --text-muted: oklch(76.68% 0 0) /*  hsl(0 0% 70%); #B3B3B3*/;
+}
+
 @theme inline {
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
@@ -124,6 +134,8 @@
   --color-bg-dark: var(--bg-dark);
   --color-bg: var(--bg);
   --color-bg-light: var(--bg-light);
+
+  --color-white: var(--white);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
 
@@ -302,7 +314,7 @@ body {
 
 /* ---break---*/
 
-.dark {
+/* .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -334,7 +346,7 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-}
+} */
 
 /* ---break---*/
 

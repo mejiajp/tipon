@@ -5,7 +5,7 @@ import DefaultIcon from "@/components/icons/Ellipsis";
 import { useState } from "react";
 import { createExpense } from "@/lib/api/expenses.client";
 import { Category } from "@/types/category";
-import { useToastStore } from "@/lib/store/ToastStore";
+import { useToastStore } from "@/stores/useToastStore";
 
 interface NewExpenseFormProps {
   categories: Category[];
@@ -96,20 +96,22 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
                 onClick={() => setFormData({ ...formData, category: category })}
                 className={` flex flex-col justify-center gap-1 rounded-[16px] items-center cursor-pointer aspect-square  ${
                   formData.category === category
-                    ? "bg-primary text-bg-light"
+                    ? "bg-primary text-white"
                     : "bg-bg-light text-text-muted"
                 }`}
               >
-                <Icon className="w-6.5 h-6.5" />
-                <p
-                  className={`text-tiny font-bold text-center tracking-wide ${
-                    formData.category === category
-                      ? "text-bg-light "
-                      : "text-text-muted "
-                  }`}
-                >
-                  {category.name}
-                </p>
+                <Icon className="w-6.5 h-6.5 shrink-0" />
+                <div className="h-4 flex items-center justify-center w-[80%]">
+                  <p
+                    className={`text-tiny font-bold text-center  tracking-wide ${
+                      formData.category === category
+                        ? "text-white "
+                        : "text-text-muted "
+                    }`}
+                  >
+                    {category.name}
+                  </p>
+                </div>
               </li>
             );
           })}
@@ -123,7 +125,7 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
       </div>
       <button
         type="submit"
-        className="bg-primary w-full text-bg-light text-center py-5 rounded-[16px] font-bold tracking-wide"
+        className="bg-primary w-full text-white text-center py-5 rounded-[16px] font-bold tracking-wide"
       >
         Add Expense
       </button>

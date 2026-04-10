@@ -39,7 +39,7 @@ export default function Navigation() {
         href="/new"
         Icon={NewIcon}
         className="bg-primary h-full aspect-square rounded-full "
-        iconClassName="text-bg-light"
+        iconClassName="text-white"
       />
     </nav>
   );

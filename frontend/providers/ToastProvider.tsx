@@ -1,6 +1,6 @@
 "use client";
 
-import { useToastStore } from "@/lib/store/ToastStore";
+import { useToastStore } from "@/stores/useToastStore";
 import Exit from "@/components/icons/toast/Exit";
 import Check from "@/components/icons/toast/Check";
 import Default from "@/components/icons/Ellipsis";

@@ -31,6 +31,3 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ user: null });
   },
 }));
-
-// Optionally, immediately load the current user when the store is used
-useAuthStore.getState().refreshAuth();

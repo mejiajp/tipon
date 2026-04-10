@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { guestLogin } from "@/lib/api/users.client";
-import { useToastStore } from "@/lib/store/ToastStore";
-import { useAuthStore } from "@/lib/store/AuthStore";
+import { useToastStore } from "@/stores/useToastStore";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export default function LoginPage() {
   const router = useRouter();

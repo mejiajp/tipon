@@ -15,7 +15,7 @@ export default async function RecentTransactions() {
       <div className="flex justify-between">
         <h2>Recent Transactions</h2>
         {/* add current date in this calendar as params later  */}
-        <Link href="/calendar" className="text-text-muted">
+        <Link href="/calendar" className="text-text-muted text-small">
           See All
         </Link>
       </div>
