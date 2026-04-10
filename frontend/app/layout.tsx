@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+
 import Providers from "@/providers/Providers";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
@@ -17,23 +18,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cn("font-sans", geist.variable)} dark`}>
+    <html
+      lang="en"
+      className={`${cn("font-sans", geist.variable)} dark`}
+      suppressHydrationWarning
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
-      (function () {
-        const theme = localStorage.getItem('theme') || 'system';
-
-        const systemDark =
-          window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        const resolved =
-          theme === 'dark' || (theme === 'system' && systemDark);
-
-        document.documentElement.classList.toggle('dark', resolved);
-      })();
-    `,
+            (function () {
+              const stored = localStorage.getItem('theme-store');
+              const parsed = stored ? JSON.parse(stored) : null;
+              const mode = parsed?.state?.mode;
+              const theme = parsed?.state?.theme;
+          
+              const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          
+              const resolved =
+                !mode || mode === 'system'
+                  ? systemDark
+                  : theme === 'dark';
+          
+              document.documentElement.classList.toggle('dark', resolved);
+            })();
+          `,
           }}
         />
       </head>

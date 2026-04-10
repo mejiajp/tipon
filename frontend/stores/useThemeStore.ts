@@ -1,5 +1,17 @@
-import { Theme } from "@/types/theme";
+import { Theme, ThemeMode } from "@/types/theme";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+type ThemeStore = {
+  mode: ThemeMode;
+  theme: Theme | null;
+
+  setMode: (mode: ThemeMode) => void;
+  setTheme: (theme: Theme) => void;
+
+  applyTheme: () => void;
+  initTheme: () => void;
+};
 
 function getSystemTheme(): "light" | "dark" {
   return window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -7,42 +19,60 @@ function getSystemTheme(): "light" | "dark" {
     : "light";
 }
 
-function applyTheme(theme: Theme) {
-  const root = document.documentElement;
-
-  const resolved = theme === "system" ? getSystemTheme() : theme;
-
-  root.classList.toggle("dark", resolved === "dark");
+function applyToDOM(theme: "light" | "dark") {
+  document.documentElement.classList.toggle("dark", theme === "dark");
 }
 
-export const useThemeStore = create<{
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-  initTheme: () => void;
-}>((set, get) => ({
-  theme: "system",
+export const useThemeStore = create<ThemeStore>()(
+  persist(
+    (set, get) => ({
+      mode: "system",
+      theme: null,
 
-  setTheme: (theme) => {
-    localStorage.setItem("theme", theme);
-    applyTheme(theme);
-    set({ theme });
-  },
+      setMode: (mode) => {
+        if (mode === "system") {
+          set({ mode, theme: getSystemTheme() });
+        } else {
+          set({ mode });
+        }
+        get().applyTheme();
+      },
 
-  initTheme: () => {
-    const saved = (localStorage.getItem("theme") as Theme) || "system";
+      setTheme: (theme) => {
+        set({ theme, mode: "manual" });
+        get().applyTheme();
+      },
 
-    set({ theme: saved });
-    applyTheme(saved);
+      applyTheme: () => {
+        const { mode, theme } = get();
+        const resolved =
+          mode === "system" ? getSystemTheme() : theme ?? getSystemTheme();
+        applyToDOM(resolved);
+      },
 
-    // system change listener
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
+      initTheme: () => {
+        const { applyTheme } = get();
 
-    const handler = () => {
-      if (get().theme === "system") {
-        applyTheme("system");
-      }
-    };
+        applyTheme();
 
-    media.addEventListener("change", handler);
-  },
-}));
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+        const handler = () => {
+          const { mode } = get();
+          if (mode === "system") {
+            set({ theme: getSystemTheme() });
+            get().applyTheme();
+          }
+        };
+        media.addEventListener("change", handler);
+      },
+    }),
+    {
+      name: "theme-store",
+      partialize: (state) => ({
+        mode: state.mode,
+        theme: state.theme,
+      }),
+    }
+  )
+);

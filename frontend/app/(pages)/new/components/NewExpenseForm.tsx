@@ -125,7 +125,7 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
       </div>
       <button
         type="submit"
-        className="bg-primary w-full text-white text-center py-5 rounded-[16px] font-bold tracking-wide"
+        className="full-button  bg-primary text-white tracking-wide "
       >
         Add Expense
       </button>

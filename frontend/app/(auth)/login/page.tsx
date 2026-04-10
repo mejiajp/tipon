@@ -63,17 +63,14 @@ export default function LoginPage() {
             required
             className="outline rounded-base p-base"
           />
-          <button
-            type="submit"
-            className="bg-primary p-base rounded-base text-white"
-          >
+          <button type="submit" className="full-button bg-primary text-white">
             Continue as Guest
           </button>
         </form>
 
         <div className="my-6 text-center text-text-muted text-sm">or</div>
 
-        <button className="w-full outline rounded-base p-base" disabled>
+        <button className="full-button outline " disabled>
           Login with Email (coming soon)
         </button>
       </div>

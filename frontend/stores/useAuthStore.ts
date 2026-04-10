@@ -3,14 +3,14 @@ import { create } from "zustand";
 import { getCurrentUser, logoutUser } from "@/lib/api/users.client";
 import { User } from "@/types/user";
 
-type AuthState = {
+type AuthStore = {
   user: User | null;
   loading: boolean;
   logout: () => Promise<void>;
   refreshAuth: () => Promise<void>;
 };
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthStore>((set, get) => ({
   user: null,
   loading: true,
 
