@@ -29,8 +29,8 @@ export default async function Page({
 
   return (
     <div className="">
-      <div className="flex justify-between items-center mb-5">
-        <h1 className="text-2xl font-bold">Expenses</h1>
+      <div className="page-title-container ">
+        <h1 className="page-title">Expenses</h1>
         <RangeFilter>
           <p>{selected.label}</p>
           <div></div>

@@ -283,10 +283,14 @@ body {
   }
 
   .page-title {
-    @apply text-huge -tracking-wide font-bold;
+    @apply text-huge;
   }
   .section-title {
     @apply text-base text-text;
+  }
+
+  .page-title-container {
+    @apply flex justify-between items-center h-[40px] mb-8 m-2;
   }
 }
 

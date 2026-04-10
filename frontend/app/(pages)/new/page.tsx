@@ -6,8 +6,8 @@ export default async function page() {
   console.log(categories);
   return (
     <>
-      <div className="mb-5">
-        <h1 className="page-title">New Expense</h1>
+      <div className="page-title-container">
+        <h1 className="page-title ">New Expense</h1>
       </div>
       <NewExpenseForm categories={categories} />
     </>

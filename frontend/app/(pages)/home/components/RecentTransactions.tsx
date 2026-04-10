@@ -16,7 +16,7 @@ export default async function RecentTransactions() {
         <h2>Recent Transactions</h2>
         {/* add current date in this calendar as params later  */}
         <Link href="/calendar" className="text-text-muted text-small">
-          See All
+          See all
         </Link>
       </div>
       <ul>
