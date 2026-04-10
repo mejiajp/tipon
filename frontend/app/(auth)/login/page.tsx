@@ -33,7 +33,6 @@ export default function LoginPage() {
 
     try {
       await guestLogin(name); // backend call
-      console.log(user);
       await refreshAuth(); // update Zustand store
       router.replace("/home"); // navigate
       addToast(

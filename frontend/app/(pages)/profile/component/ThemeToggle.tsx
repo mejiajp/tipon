@@ -13,10 +13,10 @@ export default function ThemeToggle() {
   };
 
   return (
-    <div>
-      <h3>Appearance</h3>
+    <div className="p-base bg-bg rounded-base space-y-base">
+      <h3 className="section-title">Appearance</h3>
 
-      <div className="bg-bg p-base rounded-base ">
+      <div className="bg-bg-light p-base rounded-base ">
         <div className="flex justify-between items-center gap-3 mb-base">
           <p>Use device setings</p>
           {/* Toggle */}
@@ -45,7 +45,7 @@ export default function ThemeToggle() {
               onClick={() => setTheme("light")}
               className={`relative w-8 h-8 p-1 flex items-center ring-1 ring-inset rounded-full transition-colors duration-300 ease-in-out ${
                 theme === "light"
-                  ? "bg-white ring-5 ring-primary "
+                  ? "bg-white ring-4 ring-primary "
                   : " ring-gray"
               }`}
             />
@@ -57,7 +57,7 @@ export default function ThemeToggle() {
               onClick={() => setTheme("dark")}
               className={`relative w-8 h-8 p-1 flex items-center ring-1 ring-inset rounded-full transition-colors duration-300 ease-in-out ${
                 theme === "dark"
-                  ? "bg-white ring-5 ring-primary "
+                  ? "bg-white ring-4 ring-primary "
                   : " ring-gray "
               }`}
             />
