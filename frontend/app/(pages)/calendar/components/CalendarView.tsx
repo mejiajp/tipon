@@ -16,6 +16,7 @@ export default function CalendarView() {
       selected={selectedDate}
       onSelect={setSelectedDate}
       className="w-full"
+      required
     />
   );
 }
