@@ -3,11 +3,16 @@ import React from "react";
 import CalendarView from "./components/CalendarView";
 
 export default async function page() {
-  const data = await getExpenseCalendar("2026", "01");
+  const currentDate = new Date();
+  const year = currentDate.getFullYear().toString();
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+
+  const data = await getExpenseCalendar(year, month);
+
   console.log(data);
   return (
     <div>
-      <CalendarView />
+      <CalendarView data={data} />
     </div>
   );
 }
