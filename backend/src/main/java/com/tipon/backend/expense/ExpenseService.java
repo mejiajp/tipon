@@ -13,10 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ExpenseService {
@@ -87,12 +84,12 @@ public class ExpenseService {
     ){
         User currentUser = currentUserService.getCurrentUser();
 
-        YearMonth yearMonth = YearMonth.of(year,month);
+        YearMonth endYearMonth = YearMonth.of(year, month);
+        YearMonth startYearMonth = endYearMonth.minusMonths(5);
 
-        LocalDate startDate = yearMonth.atDay(1);
-        LocalDate endDate = yearMonth.atEndOfMonth();
+        LocalDate startDate = startYearMonth.atDay(1);
+        LocalDate endDate = endYearMonth.atEndOfMonth();
 
-        // Fetch Expenses for the Month
         List<Expense> expenses =
                 expenseRepository.findByUserAndCreatedAtBetween(
                         currentUser,
@@ -100,32 +97,46 @@ public class ExpenseService {
                         endDate.atTime(LocalTime.MAX)
                 );
 
-        // Aggregate to Date = Total
+        // Aggregate to Date = Total + Expenses
         Map<LocalDate, BigDecimal> totals = new HashMap<>();
+        Map<LocalDate, List<Expense>> expensesByDate = new HashMap<>();
 
         for (Expense expense : expenses) {
             LocalDate date = expense.getCreatedAt().toLocalDate();
-
-            totals.merge(
-                    date,
-                    expense.getAmount(),
-                    BigDecimal::add
-            );
+            totals.merge(date, expense.getAmount(), BigDecimal::add);
+            expensesByDate
+                    .computeIfAbsent(date, k -> new ArrayList<>())
+                    .add(expense);
         }
 
-            List<DailyTotalResponse> result = new ArrayList<>();
+        List<DailyTotalResponse> result = new ArrayList<>();
 
-            LocalDate current = startDate;
+        LocalDate current = startDate;
 
-            while (!current.isAfter(endDate)) {
-                result.add(new DailyTotalResponse(
-                        current,
-                        totals.getOrDefault(current, BigDecimal.ZERO)
-                ));
+        while (!current.isAfter(endDate)) {
+            List<ExpenseResponse> dailyExpenses = expensesByDate
+                    .getOrDefault(current, Collections.emptyList())
+                    .stream()
+                    .map(e -> new ExpenseResponse(
+                            e.getId(),
+                            e.getAmount(),
+                            e.getCategory(),
+                            e.getTitle(),
+                            e.getCreatedAt(),
+                            e.getCreatedAt().toLocalDate()
+                    ))
+                    .toList();
 
-                current = current.plusDays(1);
+            result.add(new DailyTotalResponse(
+                    current,
+                    dailyExpenses,
+                    totals.getOrDefault(current, BigDecimal.ZERO)
+            ));
+
+            current = current.plusDays(1);
         }
-            return result;
+
+        return result;
     }
 
     public List<ExpenseResponse> getRecentTransactions() {
