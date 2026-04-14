@@ -1,5 +1,5 @@
 import TrendUp from "@/components/icons/TrendUp";
-import { formatAmount } from "@/lib/formatAmount";
+import { formatAmount } from "@/lib/formatters";
 import { Expense } from "@/types/expenses";
 import React from "react";
 

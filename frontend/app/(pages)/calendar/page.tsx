@@ -11,8 +11,13 @@ export default async function page() {
 
   console.log(data);
   return (
-    <div>
-      <CalendarView data={data} />
+    <div className="">
+      <div className="page-title-container">
+        <h1 className="page-title ">Calendar</h1>
+      </div>
+      <div className="flex flex-col gap-base">
+        <CalendarView data={data} />
+      </div>
     </div>
   );
 }

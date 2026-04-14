@@ -1,5 +1,6 @@
 "use client";
 
+import Down from "@/components/icons/Down";
 import {
   default as DefaultIcon,
   default as Ellipsis,
@@ -47,11 +48,15 @@ export default function SpendingSplit({
   const sortedCategories = showAll ? categories : categories.slice(0, 3);
   return (
     <section className="flex flex-col p-base rounded-base gap-base bg-bg">
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <h2>Spending Split</h2>
 
         <div onClick={() => setShowAll(!showAll)}>
-          <Ellipsis className="w-6.5 h-6.5" />
+          <Down
+            className={`w-4 h-4 transition-transform duration-200 ${
+              showAll ? "rotate-180" : ""
+            }`}
+          />
         </div>
       </div>
       <ul>
@@ -92,7 +97,7 @@ export default function SpendingSplit({
         {sortedCategories.length === 0 && (
           <div className="h-37.5 flex justify-center items-center">
             <h3>
-              No record of expense this{" "}
+              No recorded expense this{" "}
               {range === "daily"
                 ? "day"
                 : range === "weekly"

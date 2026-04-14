@@ -26,7 +26,7 @@ export const categoryIcons = {
   miscellaneous: Miscellaneous,
   shopping: Shopping,
   pets: Pets,
-  personalCare: PersonalCare,
+  personal: PersonalCare,
   healthcare: Healthcare,
   financial: Financial,
   utilities: Utilities,

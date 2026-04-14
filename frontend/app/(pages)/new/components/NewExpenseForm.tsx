@@ -6,6 +6,7 @@ import { useState } from "react";
 import { createExpense } from "@/lib/api/expenses.client";
 import { Category } from "@/types/category";
 import { useToastStore } from "@/stores/useToastStore";
+import Down from "@/components/icons/Down";
 
 interface NewExpenseFormProps {
   categories: Category[];
@@ -120,7 +121,11 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
           className="w-6.5 h-6.5 cursor-pointer ml-auto"
           onClick={() => setShowAllCategories(!showAllCategories)}
         >
-          <DefaultIcon className=" " />
+          <Down
+            className={`w-4 h-4 transition-transform duration-200 ${
+              showAllCategories ? "rotate-180" : ""
+            }`}
+          />
         </div>
       </div>
       <button

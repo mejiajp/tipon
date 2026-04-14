@@ -37,7 +37,7 @@ export default async function Page({
         </RangeFilter>
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-base">
         <TotalSpent expenses={expenses} />
         <SpendingSplit expenses={expenses} range={range} />
         <RecentTransactions />
