@@ -1,6 +1,7 @@
 import { getExpenseCalendar } from "@/lib/api/expenses.server";
 import React from "react";
 import CalendarView from "./components/CalendarView";
+import PageTitle from "@/components/PageTitle";
 
 export default async function page() {
   const currentDate = new Date();
@@ -12,9 +13,7 @@ export default async function page() {
   console.log(data);
   return (
     <div className="">
-      <div className="page-title-container">
-        <h1 className="page-title ">Calendar</h1>
-      </div>
+      <PageTitle title="Calendar" />
       <div className="flex flex-col gap-base">
         <CalendarView data={data} />
       </div>

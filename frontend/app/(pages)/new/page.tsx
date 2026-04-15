@@ -1,3 +1,4 @@
+import PageTitle from "@/components/PageTitle";
 import NewExpenseForm from "./components/NewExpenseForm";
 import { getAllCategories } from "@/lib/api/categories.server";
 
@@ -6,9 +7,7 @@ export default async function page() {
   console.log(categories);
   return (
     <>
-      <div className="page-title-container">
-        <h1 className="page-title ">New Expense</h1>
-      </div>
+      <PageTitle title="New Expense" />
       <NewExpenseForm categories={categories} />
     </>
   );

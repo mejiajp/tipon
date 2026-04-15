@@ -4,6 +4,7 @@ import RangeFilter from "./components/RangeFilter";
 import RecentTransactions from "./components/RecentTransactions";
 import SpendingSplit from "./components/SpendingSplit";
 import TotalSpent from "./components/TotalSpent";
+import PageTitle from "@/components/PageTitle";
 
 export default async function Page({
   searchParams,
@@ -28,20 +29,22 @@ export default async function Page({
   );
 
   return (
-    <div className="">
-      <div className="page-title-container ">
-        <h1 className="page-title">Expenses</h1>
-        <RangeFilter>
-          <p>{selected.label}</p>
-          <div></div>
-        </RangeFilter>
-      </div>
+    <>
+      <PageTitle
+        title="Home"
+        slot={
+          <RangeFilter>
+            <p>{selected.label}</p>
+            <div></div>
+          </RangeFilter>
+        }
+      />
 
       <div className="flex flex-col gap-base">
         <TotalSpent expenses={expenses} />
         <SpendingSplit expenses={expenses} range={range} />
         <RecentTransactions />
       </div>
-    </div>
+    </>
   );
 }
