@@ -7,9 +7,16 @@ import { createExpense } from "@/lib/api/expenses.client";
 import { Category } from "@/types/category";
 import { useToastStore } from "@/stores/useToastStore";
 import Down from "@/components/icons/Down";
+import { Expense } from "@/types/expenses";
+import { getSortedCategories } from "@/lib/getSortedCategories";
 
 interface NewExpenseFormProps {
   categories: Category[];
+  accumulatedExpense: {
+    date: string;
+    expense: Expense[];
+    total: number;
+  }[];
 }
 
 interface FormData {
@@ -18,7 +25,10 @@ interface FormData {
   category: Category | null;
 }
 
-export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
+export default function NewExpenseForm({
+  categories,
+  accumulatedExpense,
+}: NewExpenseFormProps) {
   const [formData, setFormData] = useState<FormData>({
     amount: "",
     title: "",
@@ -26,10 +36,13 @@ export default function NewExpenseForm({ categories }: NewExpenseFormProps) {
   });
 
   const [showAllCategories, setShowAllCategories] = useState(false);
-  const visibleCategories = showAllCategories
-    ? categories
-    : categories.slice(0, 8);
 
+  const expenses = accumulatedExpense.flatMap((entry) => entry.expense);
+  const sortedCategories = getSortedCategories(categories, expenses);
+
+  const visibleCategories = showAllCategories
+    ? sortedCategories
+    : sortedCategories.slice(0, 8);
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
