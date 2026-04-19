@@ -11,7 +11,7 @@ import ProfileIcon from "@/components/icons/navigation/Profile";
 export default function Navigation() {
   const pathname = usePathname();
   return (
-    <nav className="flex justify-between h-18.75 fixed w-full px-4 mb-4 bottom-0  left-0 right-0  z-10 ">
+    <nav className="flex justify-between h-18.75 fixed w-full px-4 mb-4 bottom-0 max-w-[500px] left-1/2 -translate-x-1/2 z-10 ">
       {/* Nav Pill */}
       <div className="flex  bg-bg  px-3 rounded-full ">
         <NavItem

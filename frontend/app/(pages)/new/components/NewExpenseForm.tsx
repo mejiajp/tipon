@@ -29,6 +29,7 @@ export default function NewExpenseForm({
   categories,
   accumulatedExpense,
 }: NewExpenseFormProps) {
+
   const [formData, setFormData] = useState<FormData>({
     amount: "",
     title: "",
@@ -36,13 +37,15 @@ export default function NewExpenseForm({
   });
 
   const [showAllCategories, setShowAllCategories] = useState(false);
+  const addToast = useToastStore((state) => state.addToast);
 
   const expenses = accumulatedExpense.flatMap((entry) => entry.expense);
   const sortedCategories = getSortedCategories(categories, expenses);
-
+  
   const visibleCategories = showAllCategories
-    ? sortedCategories
-    : sortedCategories.slice(0, 8);
+  ? sortedCategories
+  : sortedCategories.slice(0, 8);
+
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -50,7 +53,7 @@ export default function NewExpenseForm({
       console.error("Category is not selected");
       return;
     }
-
+    
     const toBeSubmitted = {
       title: formData.title,
       category: formData.category,
@@ -59,20 +62,17 @@ export default function NewExpenseForm({
 
     console.log("Submitting form with data:", toBeSubmitted);
 
-    const createdData = await createExpense(toBeSubmitted);
-
-    console.log("Created expense:", createdData);
+    await createExpense(toBeSubmitted);
 
     setFormData({
       title: "",
       amount: "",
       category: null,
     });
-
+    
     addToast("Expense added successfully!", "success");
   };
 
-  const addToast = useToastStore((state) => state.addToast);
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
