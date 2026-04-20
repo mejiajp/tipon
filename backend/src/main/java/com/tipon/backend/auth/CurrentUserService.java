@@ -29,6 +29,8 @@ public class CurrentUserService {
         this.deviceRepository = deviceRepository;
     }
 
+
+
     // Get existing guest or create a new one using deviceId
     public User getOrCreateGuest(String deviceId, String name) {
         // Get User
@@ -56,6 +58,23 @@ public class CurrentUserService {
         deviceRepository.save(device);
 
         return savedUser;
+    }
+
+    public User findGuestByDeviceId(String deviceId) {
+
+        Optional<Device> device = deviceRepository.findByDeviceId(deviceId);
+
+        if (device.isEmpty()) {
+            return null;
+        }
+
+        User user = device.get().getUser();
+
+        if (user.getProvider() != AuthProvider.GUEST) {
+            return null;
+        }
+
+        return user;
     }
 
     public String generateToken(User user) {

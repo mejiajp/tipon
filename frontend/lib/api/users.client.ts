@@ -1,6 +1,6 @@
 import { clientFetch } from "@/lib/api/clientFetch";
 
-export const getCurrentUser = () => clientFetch("/auth/current");
+export const getCurrentUser = () => clientFetch("/auth/me");
 
 export const guestLogin = (name: string) =>
   clientFetch("/auth/guest", {

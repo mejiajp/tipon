@@ -45,10 +45,11 @@ export default function LoginPage() {
     }
   }
 
+  console.log(user);
   return (
     <>
       <div className="flex-1"></div>
-      <div className="bg-bg p-base">
+      <div className="bg-bg p-base rounded-base">
         <h3 className="text-text text-center text-huge font-bold my-5">
           Track your expenses!
         </h3>

@@ -4,12 +4,13 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useRouter } from "next/navigation";
 
 export default function LogoutButton() {
-  const { logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const router = useRouter();
 
   async function handleLogout() {
-    await logout(); // wait for backend to clear session
-    router.replace("/login"); // redirect after logout completes
+    console.log(user);
+    // await logout(); // wait for backend to clear session
+    // router.replace("/login"); // redirect after logout completes
   }
 
   return (

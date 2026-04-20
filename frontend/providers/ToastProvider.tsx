@@ -26,11 +26,11 @@ export default function ToastContainer() {
     guest: <Login className="w-5 text-bg-light" />,
   };
   return (
-    <div className="fixed bottom-4 right-4 flex flex-col gap-2">
+    <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-20">
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className="bg-bg text-text  p-base rounded-base flex justify-center items-center gap-base shadow"
+          className="bg-bg text-text p-base rounded-base flex justify-center items-center gap-base shadow "
         >
           <div className={`rounded-full p-1.25 ${styles[toast.type]}`}>
             {icons[toast.type]}

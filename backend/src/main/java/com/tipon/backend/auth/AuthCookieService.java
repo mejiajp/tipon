@@ -16,27 +16,36 @@ public class AuthCookieService {
 
     public String getOrCreateDeviceId(HttpServletRequest request, HttpServletResponse response) {
 
-        // if exist return
-        if (request.getCookies() != null) {
-            for (Cookie cookie: request.getCookies()) {
-                if (DEVICE_COOKIE.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
 
-        // if not create a new one
         String deviceId = UUID.randomUUID().toString();
 
         Cookie deviceCookie = new Cookie(DEVICE_COOKIE, deviceId);
         deviceCookie.setHttpOnly(false);
         deviceCookie.setPath("/");
         deviceCookie.setMaxAge(60 * 60 * 24 * 365); // 1 year
+        // deviceCookie.setSecure(true);
 
         response.addCookie(deviceCookie);
 
         return deviceId;
     }
+
+    // Used during /auth/me restore check
+    public String getExistingDeviceId(HttpServletRequest request) {
+
+        if (request.getCookies() == null) {
+            return null;
+        }
+
+        for (Cookie cookie : request.getCookies()) {
+            if (DEVICE_COOKIE.equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+
+        return null;
+    }
+
 
     public void setTokenCookie(HttpServletResponse response, String token) {
 

@@ -2,12 +2,14 @@ package com.tipon.backend.auth;
 
 import com.tipon.backend.auth.dto.AuthResponse;
 import com.tipon.backend.auth.dto.GuestLoginRequest;
+import com.tipon.backend.user.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -25,17 +27,43 @@ public class AuthController {
 
     }
 
-    @GetMapping("/current")
-    public AuthResponse getCurrentUser() {
-        var user = currentUserService.getCurrentUser();
+    @GetMapping("/me")
+    public AuthResponse getMe(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        
+        try {
+            User user = currentUserService.getCurrentUser();
+            return toResponse(user);
+        } catch (Exception ignored) {
+        }
+
+        String deviceId = authCookieService.getExistingDeviceId(request);
+
+        if (deviceId != null) {
+            User guest = currentUserService.findGuestByDeviceId(deviceId);
+
+            if (guest != null) {
+                String token = currentUserService.generateToken(guest);
+                authCookieService.setTokenCookie(response, token);
+
+                return toResponse(guest);
+            }
+        }
+
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+    }
+
+    private AuthResponse toResponse(User user) {
         return new AuthResponse(
                 user.getId(),
                 user.getName(),
                 user.getProvider(),
                 user.getEmail(),
-                user.getCreatedAt());
+                user.getCreatedAt()
+        );
     }
-
     @PostMapping("/guest")
     public AuthResponse guestLogin(@RequestBody GuestLoginRequest body, HttpServletRequest request, HttpServletResponse response){
 
