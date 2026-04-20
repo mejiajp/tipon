@@ -2,7 +2,11 @@ package com.tipon.backend.auth;
 
 import com.tipon.backend.auth.dto.AuthResponse;
 import com.tipon.backend.auth.dto.GuestLoginRequest;
+import com.tipon.backend.device.Device;
+import com.tipon.backend.device.DeviceRepository;
+import com.tipon.backend.user.AuthProvider;
 import com.tipon.backend.user.User;
+import com.tipon.backend.user.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,11 +23,17 @@ public class AuthController {
 
     private final CurrentUserService currentUserService;
     private final AuthCookieService authCookieService;
+    private final UserRepository userRepository;
+    private final DeviceRepository deviceRepository;
 
     public AuthController(CurrentUserService currentUserService,
-                          AuthCookieService authCookieService) {
+                          AuthCookieService authCookieService,
+                          UserRepository userRepository,
+                          DeviceRepository deviceRepository) {
         this.currentUserService = currentUserService;
         this.authCookieService = authCookieService;
+        this.userRepository = userRepository;
+        this.deviceRepository = deviceRepository;
 
     }
 
@@ -32,7 +42,7 @@ public class AuthController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        
+
         try {
             User user = currentUserService.getCurrentUser();
             return toResponse(user);
@@ -86,8 +96,23 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/logout")
-    public void logout(HttpServletRequest request, HttpServletResponse response) {
+    public void logout(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+
+        String deviceId = authCookieService.getExistingDeviceId(request);
+
+        if (deviceId != null) {
+            deviceRepository.findByDeviceId(deviceId)
+                    .ifPresent(device -> {
+                        userRepository.delete(device.getUser());
+                        deviceRepository.delete(device);
+                    });
+        }
+
         authCookieService.clearTokenCookie(response);
+        authCookieService.clearDeviceCookie(response);
     }
 
 }

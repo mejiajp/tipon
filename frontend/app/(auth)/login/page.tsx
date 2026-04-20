@@ -45,7 +45,6 @@ export default function LoginPage() {
     }
   }
 
-  console.log(user);
   return (
     <>
       <div className="flex-1"></div>

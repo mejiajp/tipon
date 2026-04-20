@@ -74,12 +74,16 @@ public class AuthCookieService {
     }
 
     public void clearTokenCookie(HttpServletResponse response) {
-
         Cookie cookie = new Cookie(TOKEN_COOKIE, null);
         cookie.setPath("/");
         cookie.setMaxAge(0);
-
         response.addCookie(cookie);
+    }
 
+    public void clearDeviceCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie(DEVICE_COOKIE, null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 }

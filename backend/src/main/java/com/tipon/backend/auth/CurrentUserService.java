@@ -91,4 +91,8 @@ public class CurrentUserService {
 
         return (User) auth.getPrincipal();
     }
+
+    public boolean isGuest(User user) {
+        return user.getProvider() == AuthProvider.GUEST;
+    }
 }

@@ -1,4 +1,3 @@
-// lib/store/authStore.ts
 import { create } from "zustand";
 import { getCurrentUser, logoutUser } from "@/lib/api/users.client";
 import { User } from "@/types/user";
@@ -8,14 +7,16 @@ type AuthStore = {
   loading: boolean;
   logout: () => Promise<void>;
   refreshAuth: () => Promise<void>;
+  clearAuth: () => void;
 };
 
-export const useAuthStore = create<AuthStore>((set, get) => ({
+export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   loading: true,
 
   refreshAuth: async () => {
     set({ loading: true });
+
     try {
       const currentUser = await getCurrentUser();
       set({ user: currentUser ?? null });
@@ -27,7 +28,22 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   },
 
   logout: async () => {
-    await logoutUser();
-    set({ user: null });
+    set({ loading: true });
+
+    try {
+      await logoutUser();
+    } finally {
+      set({
+        user: null,
+        loading: false,
+      });
+    }
+  },
+
+  clearAuth: () => {
+    set({
+      user: null,
+      loading: false,
+    });
   },
 }));
