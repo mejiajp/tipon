@@ -296,7 +296,7 @@ body {
   }
 
   .full-button {
-    @apply w-full p-base rounded-base text-center;
+    @apply w-full !p-base rounded-base text-center;
   }
 }
 

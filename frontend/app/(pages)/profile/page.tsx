@@ -1,7 +1,7 @@
 import PageTitle from "@/components/PageTitle";
-import Logout from "./component/Logout";
 import ThemeToggle from "./component/ThemeToggle";
 import UserDetails from "./component/UserDetails";
+import LogoutButton from "./component/LogoutButton";
 
 export default async function page() {
   return (
@@ -10,7 +10,7 @@ export default async function page() {
       <div className="flex flex-col gap-base">
         <UserDetails />
         <ThemeToggle />
-        <Logout />
+        <LogoutButton />
       </div>
     </>
   );
