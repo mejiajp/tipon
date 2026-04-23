@@ -2,6 +2,7 @@ import PageTitle from "@/components/PageTitle";
 import ThemeToggle from "./component/ThemeToggle";
 import UserDetails from "./component/UserDetails";
 import LogoutButton from "./component/LogoutButton";
+import Suggestions from "./component/Suggestions";
 
 export default async function page() {
   return (
@@ -11,6 +12,7 @@ export default async function page() {
         <UserDetails />
         <ThemeToggle />
         <LogoutButton />
+        <Suggestions />
       </div>
     </>
   );
