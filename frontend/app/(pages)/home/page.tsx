@@ -13,7 +13,9 @@ export default async function Page({
 }) {
   const params = await searchParams;
   const range = params.range ?? "weekly";
-  const ranges = getDateRanges(new Date());
+
+  const now = new Date();
+  const ranges = getDateRanges(now);
 
   const selected =
     range === "daily"
@@ -22,10 +24,32 @@ export default async function Page({
       ? ranges.week
       : ranges.month;
 
-  // Fetch expenses for selected range
+  // current expenses
   const expenses = await getExpenseRange(
     selected.start.toISOString().split("T")[0],
     selected.end.toISOString().split("T")[0]
+  );
+
+  // previous date reference
+  const previousDate =
+    range === "daily"
+      ? new Date(now.setDate(now.getDate() - 1))
+      : range === "weekly"
+      ? new Date(now.setDate(now.getDate() - 7))
+      : new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+  const prevRanges = getDateRanges(previousDate);
+
+  const previous =
+    range === "daily"
+      ? prevRanges.day
+      : range === "weekly"
+      ? prevRanges.week
+      : prevRanges.month;
+
+  const previousExpenses = await getExpenseRange(
+    previous.start.toISOString().split("T")[0],
+    previous.end.toISOString().split("T")[0]
   );
 
   return (
@@ -35,13 +59,16 @@ export default async function Page({
         slot={
           <RangeFilter>
             <p>{selected.label}</p>
-            <div></div>
           </RangeFilter>
         }
       />
 
       <div className="flex flex-col gap-base">
-        <TotalSpent expenses={expenses} />
+        <TotalSpent
+          expenses={expenses}
+          previousExpenses={previousExpenses}
+          range={range}
+        />
         <SpendingSplit expenses={expenses} range={range} />
         <RecentTransactions />
       </div>

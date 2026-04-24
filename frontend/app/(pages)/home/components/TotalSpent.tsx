@@ -1,19 +1,43 @@
 import TrendUp from "@/components/icons/TrendUp";
 import { formatAmount } from "@/lib/formatters";
 import { Expense } from "@/types/expenses";
-import React from "react";
 
-export default function TotalSpent({ expenses }: { expenses: Expense[] }) {
+export default function TotalSpent({
+  expenses,
+  previousExpenses,
+  range,
+}: {
+  expenses: Expense[];
+  previousExpenses: Expense[];
+  range: string;
+}) {
   const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+  const previousTotal = previousExpenses.reduce((sum, e) => sum + e.amount, 0);
+
+  const percent =
+    previousTotal === 0 ? 100 : ((total - previousTotal) / previousTotal) * 100;
+
+  const label =
+    range === "daily"
+      ? "yesterday"
+      : range === "weekly"
+      ? "last week"
+      : "last month";
+
   return (
     <section className="px-base py-16 flex flex-col items-center">
       <h2 className="text-base">Total Spent</h2>
+
       <p className="font-bold text-[48px] -tracking-wider">
         PHP {formatAmount(total)}
       </p>
-      <div className="flex items-center ">
+
+      <div className="flex items-center gap-1">
         <TrendUp className="w-4 h-4" />
-        <label>12% above last month</label>
+        <label>
+          {Math.abs(percent).toFixed(0)}% {percent >= 0 ? "above" : "below"}{" "}
+          {label}
+        </label>
       </div>
     </section>
   );
