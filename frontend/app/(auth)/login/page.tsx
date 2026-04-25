@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { guestLogin } from "@/lib/api/users.client";
 import { useToastStore } from "@/stores/useToastStore";
 import { useAuthStore } from "@/stores/useAuthStore";
+import GoogleButton from "./GoogleButton";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -70,7 +71,7 @@ export default function LoginPage() {
         <div className="my-6 text-center text-text-muted text-sm">or</div>
 
         <button className="full-button outline " disabled>
-          Login with Email (coming soon)
+          <GoogleButton />
         </button>
       </div>
     </>
