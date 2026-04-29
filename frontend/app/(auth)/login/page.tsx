@@ -70,9 +70,7 @@ export default function LoginPage() {
 
         <div className="my-6 text-center text-text-muted text-sm">or</div>
 
-        <button className="full-button outline " disabled>
-          <GoogleButton />
-        </button>
+        <GoogleButton />
       </div>
     </>
   );

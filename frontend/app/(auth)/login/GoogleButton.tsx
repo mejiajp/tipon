@@ -1,16 +1,23 @@
 "use client";
 
-import { GoogleLogin } from "@react-oauth/google";
+import { googleLogin } from "@/lib/api/users.client";
+import { useGoogleLogin } from "@react-oauth/google";
 
 export default function GoogleButton() {
-  const handleSuccess = async () => {
-    //call backend to exchange token and log in user, then refresh auth state and navigate
-  };
+  const login = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (res) => {
+      console.log(res);
+      await googleLogin(res.code);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   return (
-    <GoogleLogin
-      onSuccess={handleSuccess}
-      onError={() => console.log("Login Failed")}
-    />
+    <button onClick={() => login()} className="full-button outline">
+      Continue with Google
+    </button>
   );
 }
