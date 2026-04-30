@@ -3,21 +3,14 @@ package com.tipon.backend.auth;
 import com.tipon.backend.auth.dto.AuthResponse;
 import com.tipon.backend.auth.dto.GoogleLoginRequest;
 import com.tipon.backend.auth.dto.GuestLoginRequest;
-import com.tipon.backend.device.Device;
 import com.tipon.backend.device.DeviceRepository;
-import com.tipon.backend.user.AuthProvider;
 import com.tipon.backend.user.User;
 import com.tipon.backend.user.UserRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -74,13 +67,14 @@ public class AuthController {
                 user.getProvider(),
                 user.getEmail(),
                 user.getCreatedAt()
+
         );
     }
 
-//    @PostMapping("/google")
-//    public AuthResponse googleLogin(@RequestBody GoogleLoginRequest request){
-//        return ResponseEntity.ok(currentUserService.googleLogin(request.getToken());
-//    }
+    @PostMapping("/google")
+    public AuthResponse googleLogin(@RequestBody GoogleLoginRequest request, HttpServletResponse response){
+      return currentUserService.googleLogin(request.code(), response);
+    }
 
     @PostMapping("/guest")
     public AuthResponse guestLogin(@RequestBody GuestLoginRequest body, HttpServletRequest request, HttpServletResponse response){
@@ -99,6 +93,7 @@ public class AuthController {
                 user.getProvider(),
                 user.getEmail(),
                 user.getCreatedAt()
+
         );
     }
 

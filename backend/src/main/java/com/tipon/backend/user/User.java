@@ -29,6 +29,8 @@ public class User {
     @Column(nullable = false)
     private AuthProvider provider;
 
+    private String googleId;
+
     @Column(nullable = false)
     private LocalDate createdAt;
 

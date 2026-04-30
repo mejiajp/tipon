@@ -66,9 +66,5 @@ public class JwtService {
             return false;
         }
     }
-
-//    public Key getSigningKey() {
-//        return key;
-//    }
 }
 
