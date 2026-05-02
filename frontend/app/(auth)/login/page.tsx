@@ -6,6 +6,8 @@ import { guestLogin } from "@/lib/api/users.client";
 import { useToastStore } from "@/stores/useToastStore";
 import { useAuthStore } from "@/stores/useAuthStore";
 import GoogleButton from "./GoogleButton";
+import Image from "next/image";
+import BackgroundImage from "@/public/images/login-background.jpg";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -14,7 +16,6 @@ export default function LoginPage() {
   const { user, loading, refreshAuth } = useAuthStore();
   const [name, setName] = useState("");
 
-  // Redirect if already logged in
   useEffect(() => {
     if (!loading && user) {
       router.replace("/home");
@@ -29,13 +30,14 @@ export default function LoginPage() {
     );
   }
 
-  async function handleGuestLogin(e: React.SubmitEvent<HTMLFormElement>) {
+  async function handleGuestLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
-      await guestLogin(name); // backend call
-      await refreshAuth(); // update Zustand store
-      router.replace("/home"); // navigate
+      await guestLogin(name);
+      await refreshAuth();
+      router.replace("/home");
+
       addToast(
         `Logged in as Guest, welcome ${useAuthStore.getState().user?.name}!`,
         "guest"
@@ -47,14 +49,25 @@ export default function LoginPage() {
   }
 
   return (
-    <>
-      <div className="flex-1"></div>
-      <div className="bg-bg p-base rounded-base">
+    <div className="relative min-h-screen ">
+      <Image
+        src={BackgroundImage}
+        alt="background"
+        fill
+        className="object-cover"
+        priority
+      />
+
+      {/* Dark overlay */}
+      <div className="absolute bottom-0 inset-0 bg-black/40" />
+
+      {/* Content */}
+      <div className="absolute bottom-0 z-10 bg-bg p-base rounded-t-base w-full max-w-md">
         <h3 className="text-text text-center text-huge font-bold my-5">
           Track your expenses!
         </h3>
 
-        <form onSubmit={handleGuestLogin} className="flex flex-col gap-4 ">
+        <form onSubmit={handleGuestLogin} className="flex flex-col gap-4">
           <input
             type="text"
             placeholder="Enter name as guest"
@@ -72,6 +85,6 @@ export default function LoginPage() {
 
         <GoogleButton />
       </div>
-    </>
+    </div>
   );
 }
