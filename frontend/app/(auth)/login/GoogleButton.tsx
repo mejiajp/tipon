@@ -10,7 +10,12 @@ export default function GoogleButton() {
     flow: "auth-code",
     onSuccess: async (res) => {
       console.log(res);
-      await googleLogin(res.code);
+      try {
+        await googleLogin(res.code);
+        window.location.href = "/home";
+      } catch (err) {
+        console.log(err);
+      }
     },
     onError: (error) => {
       console.log(error);

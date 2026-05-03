@@ -62,7 +62,7 @@ export default function LoginPage() {
       <div className="absolute bottom-0 inset-0 bg-black/40" />
 
       {/* Content */}
-      <div className="absolute bottom-0 z-10 bg-bg p-base rounded-t-base w-full max-w-md">
+      <div className="absolute bottom-0 z-10 bg-bg p-base rounded-t-base w-full ">
         <h3 className="text-text text-center text-huge font-bold my-5">
           Track your expenses!
         </h3>
