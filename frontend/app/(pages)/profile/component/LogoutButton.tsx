@@ -32,10 +32,7 @@ export default function LogoutButton() {
   };
 
   const handleClick = () => {
-    if (user?.provider === "GUEST") {
-      setOpen(true);
-      return;
-    }
+    setOpen(true);
 
     handleLogout();
   };
