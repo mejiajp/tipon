@@ -4,10 +4,11 @@ import { googleLogin } from "@/lib/api/users.client";
 import { useGoogleLogin } from "@react-oauth/google";
 import GoogleIcon from "@/public/images/google-icon.png";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function GoogleButton() {
   const router = useRouter();
+
   const login = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (res) => {
