@@ -18,9 +18,7 @@ interface CalendarViewProps {
 }
 
 export default function CalendarView({ data }: CalendarViewProps) {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date()
-  );
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const getHeat = (total: number) => {
     const ratio = total / 10000;
@@ -32,7 +30,7 @@ export default function CalendarView({ data }: CalendarViewProps) {
   };
 
   const selectedDateExpenses = data.find(
-    (d) => new Date(d.date).toDateString() === selectedDate?.toDateString()
+    (d) => new Date(d.date).toDateString() === selectedDate.toDateString()
   );
   console.log(selectedDateExpenses);
 
@@ -77,24 +75,23 @@ export default function CalendarView({ data }: CalendarViewProps) {
         }}
       />
       <section className="flex flex-col p-base rounded-base gap-base bg-bg">
-        {selectedDateExpenses?.expense.length ? (
-          <>
-            <h3 className="section">
-              {new Date(selectedDateExpenses.date).toLocaleString("en-PH", {
+        <h3 className="section">
+          {selectedDateExpenses?.date
+            ? new Date(selectedDateExpenses.date).toLocaleString("en-PH", {
                 weekday: "long",
                 month: "long",
                 day: "numeric",
-              })}
-            </h3>
-            <div>
-              <ExpenseList expenses={selectedDateExpenses.expense} />
-            </div>
-          </>
-        ) : (
+              })
+            : ""}
+        </h3>
+
+        {selectedDateExpenses?.expense.length ? (
           <div>
-            <div className="h-20 flex justify-center items-center">
-              <h3>No recorded expense this day...</h3>
-            </div>
+            <ExpenseList expenses={selectedDateExpenses.expense} />
+          </div>
+        ) : (
+          <div className="h-20 flex justify-center items-center">
+            <h3>No recorded expense this day...</h3>
           </div>
         )}
       </section>
