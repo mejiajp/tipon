@@ -47,18 +47,19 @@ export default function CalendarView({ data }: CalendarViewProps) {
     <div className="flex flex-col gap-4 p-2 bg-bg rounded-base">
       {/* 🔥 CUSTOM HEADER (STANDARD APPROACH) */}
       <div className="flex items-center justify-between p-2">
-        <h2 className=" text-larger pl-1 ">
+        <h2 className=" text-larger pl-1 font-semibold ">
           {month.toLocaleString("en-PH", {
             month: "long",
             year: "numeric",
           })}
         </h2>
 
-        <div className="flex gap-1">
+        <div className="flex">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => changeMonth("prev")}
+            className="border border-text-muted rounded-r-none cursor-pointer"
           >
             <ChevronLeftIcon className="size-4" />
           </Button>
@@ -67,6 +68,7 @@ export default function CalendarView({ data }: CalendarViewProps) {
             variant="ghost"
             size="icon"
             onClick={() => changeMonth("next")}
+            className="border border-l-0 border-text-muted rounded-l-none cursor-pointer"
           >
             <ChevronRightIcon className="size-4" />
           </Button>
