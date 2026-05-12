@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function FoodAndDining({ className }: { className?: string }) {
+export default function Food({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

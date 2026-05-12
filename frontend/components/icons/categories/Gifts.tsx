@@ -1,10 +1,6 @@
 import React from "react";
 
-export default function GiftsAndDonations({
-  className,
-}: {
-  className?: string;
-}) {
+export default function Gifts({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

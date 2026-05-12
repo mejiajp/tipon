@@ -12,16 +12,16 @@ import Utilities from "@/components/icons/categories/Utilities";
 import Travel from "@/components/icons/categories/Travel";
 import Subscriptions from "@/components/icons/categories/Subscriptions";
 import Family from "@/components/icons/categories/Family";
-import GiftsAndDonations from "@/components/icons/categories/GiftsAndDonations";
-import FoodAndDining from "@/components/icons/categories/FoodAndDining";
-import SavingsAndInvestments from "@/components/icons/categories/SavingsAndInvestments";
+import Gifts from "@/components/icons/categories/Gifts";
+import Food from "@/components/icons/categories/Food";
+import Savings from "@/components/icons/categories/Savings";
 
 export const categoryIcons = {
   transportation: Transportation,
   education: Education,
-  gifts: GiftsAndDonations,
+  gifts: Gifts,
   entertainment: Entertainment,
-  savings: SavingsAndInvestments,
+  savings: Savings,
   housing: Housing,
   miscellaneous: Miscellaneous,
   shopping: Shopping,
@@ -32,6 +32,6 @@ export const categoryIcons = {
   utilities: Utilities,
   travel: Travel,
   subscriptions: Subscriptions,
-  food: FoodAndDining,
+  food: Food,
   family: Family,
 };
