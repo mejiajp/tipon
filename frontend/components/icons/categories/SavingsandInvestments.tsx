@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SavingsandInvestments({
+export default function SavingsAndInvestments({
   className,
 }: {
   className?: string;

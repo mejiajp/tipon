@@ -1,8 +1,6 @@
 import Transportation from "@/components/icons/categories/Transportation";
 import Education from "@/components/icons/categories/Education";
-import GiftsAndDonations from "@/components/icons/categories/GiftsAndDonations";
 import Entertainment from "@/components/icons/categories/Entertainment";
-import SavingsAndInvestments from "@/components/icons/categories/SavingsAndInvestments";
 import Housing from "@/components/icons/categories/Housing";
 import Miscellaneous from "@/components/icons/categories/Miscellaneous";
 import Shopping from "@/components/icons/categories/Shopping";
@@ -13,8 +11,10 @@ import Financial from "@/components/icons/categories/Financial";
 import Utilities from "@/components/icons/categories/Utilities";
 import Travel from "@/components/icons/categories/Travel";
 import Subscriptions from "@/components/icons/categories/Subscriptions";
-import FoodAndDining from "@/components/icons/categories/FoodAndDining";
 import Family from "@/components/icons/categories/Family";
+import GiftsAndDonations from "@/components/icons/categories/GiftsAndDonations";
+import FoodAndDining from "@/components/icons/categories/FoodAndDining";
+import SavingsAndInvestments from "@/components/icons/categories/SavingsAndInvestments";
 
 export const categoryIcons = {
   transportation: Transportation,

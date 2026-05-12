@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function GiftsandDonations({
+export default function GiftsAndDonations({
   className,
 }: {
   className?: string;
