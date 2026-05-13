@@ -31,16 +31,11 @@ export default function LogoutButton() {
     }
   };
 
-  const handleClick = () => {
-    setOpen(true);
-
-    handleLogout();
-  };
   return (
     <>
       <button
         type="button"
-        onClick={handleClick}
+        onClick={() => setOpen(true)}
         className="full-button text-white font-bold bg-red-500"
       >
         {submitting ? "Logging out..." : "Logout"}
