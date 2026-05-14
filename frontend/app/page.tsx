@@ -9,4 +9,5 @@ export default async function Home() {
   if (!token) {
     redirect("/login");
   }
+  return <></>;
 }
