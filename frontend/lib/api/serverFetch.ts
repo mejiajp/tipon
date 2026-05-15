@@ -24,13 +24,16 @@ export async function serverFetch(path: string, options: RequestInit = {}) {
     },
   });
 
+  const contentType = res.headers.get("content-type");
+
   let data;
 
-  try {
-    data = await res.json();
-  } catch (err) {
-    console.error("Failed to parse JSON:", err);
-    throw new Error("Invalid API response format");
+  if (contentType?.includes("application/json")) {
+    data = await res.json().catch(() => null);
+  } else {
+    const text = await res.text().catch(() => "");
+    console.warn("Non-JSON response:", text);
+    data = null;
   }
 
   if (!res.ok) {
