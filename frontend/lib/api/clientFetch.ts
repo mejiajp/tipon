@@ -10,12 +10,18 @@ export async function clientFetch(path: string, options: RequestInit = {}) {
     },
   });
 
-  const text = await res.text();
-  const data = text ? JSON.parse(text) : null;
+  let data = null;
 
-  if (!res.ok) {
-    throw new Error(data?.message || `HTTP ${res.status}`);
+  try {
+    data = await res.json();
+  } catch {
+    data = null;
   }
 
+  if (!res.ok) {
+    console.error("API ERROR:", res.status, data);
+
+    throw new Error(data?.message || `HTTP ${res.status}`);
+  }
   return data;
 }

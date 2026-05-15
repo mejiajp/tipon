@@ -9,5 +9,6 @@ export default async function Home() {
   if (!token) {
     redirect("/login");
   }
+  console.log("BACKEND URL:", process.env.BACKEND_URL);
   return <></>;
 }
