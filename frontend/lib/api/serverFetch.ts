@@ -5,9 +5,14 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export async function serverFetch(path: string, options: RequestInit = {}) {
   const cookieStore = await cookies();
 
-  const cookieHeader = cookieStore
-    .getAll()
-    .map((c) => `${c.name}=${c.value}`)
+  const jwt = cookieStore.get("jwt")?.value;
+  const deviceId = cookieStore.get("deviceId")?.value;
+
+  const cookieHeader = [
+    jwt ? `jwt=${jwt}` : null,
+    deviceId ? `deviceId=${deviceId}` : null,
+  ]
+    .filter(Boolean)
     .join("; ");
 
   const res = await fetch(`${API_URL}${path}`, {
@@ -19,12 +24,13 @@ export async function serverFetch(path: string, options: RequestInit = {}) {
     },
   });
 
-  let data = null;
+  let data;
 
   try {
     data = await res.json();
-  } catch {
-    data = null;
+  } catch (err) {
+    console.error("Failed to parse JSON:", err);
+    throw new Error("Invalid API response format");
   }
 
   if (!res.ok) {

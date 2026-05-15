@@ -10,12 +10,13 @@ export async function clientFetch(path: string, options: RequestInit = {}) {
     },
   });
 
-  let data = null;
+  let data;
 
   try {
     data = await res.json();
-  } catch {
-    data = null;
+  } catch (err) {
+    console.error("Failed to parse JSON:", err);
+    throw new Error("Invalid API response format");
   }
 
   if (!res.ok) {
