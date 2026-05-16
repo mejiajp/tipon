@@ -33,9 +33,9 @@ export default async function Page({
   // previous date reference
   const previousDate =
     range === "daily"
-      ? new Date(now.setDate(now.getDate() - 1))
+      ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1)
       : range === "weekly"
-      ? new Date(now.setDate(now.getDate() - 7))
+      ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7)
       : new Date(now.getFullYear(), now.getMonth() - 1, 1);
 
   const prevRanges = getDateRanges(previousDate);

@@ -10,25 +10,10 @@ export async function clientFetch(path: string, options: RequestInit = {}) {
     },
   });
 
-  const contentType = res.headers.get("content-type");
-
-  let data = null;
-
-  if (contentType?.includes("application/json")) {
-    try {
-      data = await res.json();
-    } catch (err) {
-      console.error("Failed to parse JSON:", err);
-      data = null;
-    }
-  } else {
-    const text = await res.text().catch(() => "");
-    console.warn("Non-JSON response:", text);
-    data = null;
-  }
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : null;
 
   if (!res.ok) {
-    console.error("API ERROR:", res.status, data);
     throw new Error(data?.message || `HTTP ${res.status}`);
   }
 

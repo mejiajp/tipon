@@ -10,6 +10,19 @@ export default async function page() {
 
   const data = await getExpenseCalendar(year, month);
 
+  if (!data) {
+    return (
+      <div className="">
+        <PageTitle title="Calendar" />
+        <div className="flex flex-col gap-base">
+          <p className="text-center text-gray-500">
+            Failed to load calendar data.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   console.log(data);
   return (
     <div className="">
