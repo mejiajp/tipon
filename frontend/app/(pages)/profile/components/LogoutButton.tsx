@@ -31,6 +31,10 @@ export default function LogoutButton() {
     }
   };
 
+  const logoutDialog = user?.provider
+    ? "Leaving guest mode will delete all your data. Are you sure you want to leave guest mode?"
+    : "Logging out with connected account will not delete your data. Do you want to log out?";
+
   return (
     <>
       <button
