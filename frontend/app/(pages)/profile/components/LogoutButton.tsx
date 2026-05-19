@@ -48,10 +48,7 @@ export default function LogoutButton() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Leave guest mode?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Leaving guest mode will delete all your data. Are you sure you
-              want to leave guest mode?
-            </AlertDialogDescription>
+            <AlertDialogDescription>{logoutDialog}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="">
             <AlertDialogCancel className="full-button" disabled={submitting}>

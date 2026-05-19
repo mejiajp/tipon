@@ -1,8 +1,8 @@
 import PageTitle from "@/components/PageTitle";
-import ThemeToggle from "./component/ThemeToggle";
-import UserDetails from "./component/UserDetails";
-import LogoutButton from "./component/LogoutButton";
-import Suggestions from "./component/Suggestions";
+import ThemeToggle from "./components/ThemeToggle";
+import UserDetails from "./components/UserDetails";
+import LogoutButton from "./components/LogoutButton";
+import Suggestions from "./components/Suggestions";
 
 export default async function page() {
   return (
