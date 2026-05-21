@@ -32,8 +32,8 @@ export default function UserDetails() {
           </p>
         </div>
         <div className="bg-bg rounded-base flex-1 p-base text-center">
-          <p>Total Expense:</p>
-          <p>{user.createdAt}</p>
+          <p>Account Type:</p>
+          <p>{user.provider}</p>
         </div>
       </div>
     </div>
