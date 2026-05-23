@@ -32,8 +32,17 @@ export default function UserDetails() {
           </p>
         </div>
         <div className="bg-bg rounded-base flex-1 p-base text-center">
-          <p>Account Type:</p>
-          <p>{user.provider}</p>
+          {user.provider && user.provider === "GOOGLE" ? (
+            <>
+              <p>Account Type:</p>
+              <p>{user.provider}</p>
+            </>
+          ) : (
+            <>
+              <p>Logged as Guest:</p>
+              <button>Link to Google</button>
+            </>
+          )}
         </div>
       </div>
     </div>
