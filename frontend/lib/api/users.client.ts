@@ -21,3 +21,11 @@ export const logoutUser = () =>
   clientFetch("/auth/logout", {
     method: "POST",
   });
+
+export const googleLink = (code: string) => {
+  clientFetch("/auth/link/google", {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify({ code }),
+  });
+};
