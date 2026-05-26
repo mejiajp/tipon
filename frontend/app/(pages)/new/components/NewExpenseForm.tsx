@@ -29,7 +29,6 @@ export default function NewExpenseForm({
   categories,
   accumulatedExpense,
 }: NewExpenseFormProps) {
-
   const [formData, setFormData] = useState<FormData>({
     amount: "",
     title: "",
@@ -41,10 +40,17 @@ export default function NewExpenseForm({
 
   const expenses = accumulatedExpense.flatMap((entry) => entry.expense);
   const sortedCategories = getSortedCategories(categories, expenses);
-  
+
   const visibleCategories = showAllCategories
-  ? sortedCategories
-  : sortedCategories.slice(0, 8);
+    ? sortedCategories
+    : sortedCategories.slice(0, 8);
+
+  const isFormValid =
+    formData.amount.trim() !== "" &&
+    !isNaN(parseFloat(formData.amount)) &&
+    parseFloat(formData.amount) > 0 &&
+    formData.title.trim() !== "" &&
+    formData.category !== null;
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -53,7 +59,7 @@ export default function NewExpenseForm({
       console.error("Category is not selected");
       return;
     }
-    
+
     const toBeSubmitted = {
       title: formData.title,
       category: formData.category,
@@ -69,10 +75,9 @@ export default function NewExpenseForm({
       amount: "",
       category: null,
     });
-    
+
     addToast("Expense added successfully!", "success");
   };
-
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -83,7 +88,7 @@ export default function NewExpenseForm({
           value={formData.amount}
           onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
           placeholder="PHP 0.00"
-          className="bg-bg-light p-4 rounded-base outline-none focus:ring-2 focus:ring-gray-300"
+          className="bg-bg-light p-4 rounded-base outline-none focus:ring-2 focus:ring-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
       </div>
       <div className="flex flex-col gap-small p-base rounded-base bg-bg">
@@ -143,7 +148,10 @@ export default function NewExpenseForm({
       </div>
       <button
         type="submit"
-        className="full-button  bg-primary text-white tracking-wide "
+        disabled={!isFormValid}
+        className={`full-button bg-primary text-white tracking-wide transition-all ${
+          isFormValid ? "cursor-pointer" : "cursor-not-allowed "
+        }`}
       >
         Add Expense
       </button>
