@@ -120,7 +120,7 @@ export default function CalendarView({ data }: CalendarViewProps) {
             );
 
             return (
-              <div className="relative group">
+              <div className="relative w-full h-full flex items-center justify-center group">
                 <button {...props} className={cn(props.className)} />
 
                 {/* heat indicator */}
