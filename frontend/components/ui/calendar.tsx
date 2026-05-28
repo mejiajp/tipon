@@ -117,7 +117,7 @@ function Calendar({
           "relative isolate z-0 rounded-r-base bg-muted after:absolute after:inset-y-0 after:left-0 after:w-4 after:bg-muted",
           defaultClassNames.range_end
         ),
-        today: cn("rounded-base ", defaultClassNames.today),
+        today: cn("bg-primary", defaultClassNames.today),
         outside: cn(
           "text-muted-foreground aria-selected:text-muted-foreground",
           defaultClassNames.outside

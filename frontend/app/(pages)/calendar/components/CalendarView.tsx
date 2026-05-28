@@ -120,8 +120,11 @@ export default function CalendarView({ data }: CalendarViewProps) {
             );
 
             return (
-              <div className="relative w-full h-full flex items-center justify-center group">
-                <button {...props} className={cn(props.className)} />
+              <div className="relative w-full h-full flex items-center justify-center hover:bg-primary/10 rounded-base cursor-pointer group">
+                <button
+                  {...props}
+                  className={cn(props.className, "cursor-pointer")}
+                />
 
                 {/* heat indicator */}
                 <span
