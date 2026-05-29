@@ -1,4 +1,5 @@
 import TrendUp from "@/components/icons/TrendUp";
+import TrendDown from "@/components/icons/TrendDown";
 import { formatAmount } from "@/lib/formatters";
 import { Expense } from "@/types/expenses";
 
@@ -12,10 +13,14 @@ export default function TotalSpent({
   range: string;
 }) {
   const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+
   const previousTotal = previousExpenses.reduce((sum, e) => sum + e.amount, 0);
 
   const percent =
-    previousTotal === 0 ? 100 : ((total - previousTotal) / previousTotal) * 100;
+    previousTotal === 0 ? 0 : ((total - previousTotal) / previousTotal) * 100;
+
+  const comparisonText =
+    percent > 0 ? "above" : percent < 0 ? "below" : "same as";
 
   const label =
     range === "daily"
@@ -33,10 +38,15 @@ export default function TotalSpent({
       </p>
 
       <div className="flex items-center gap-1">
-        <TrendUp className="w-4 h-4" />
+        {percent > 0 ? (
+          <TrendUp className="w-4 h-4" />
+        ) : percent < 0 ? (
+          <TrendDown className="w-4 h-4" />
+        ) : null}
+
         <label>
-          {Math.abs(percent).toFixed(0)}% {percent >= 0 ? "above" : "below"}{" "}
-          {label}
+          {Math.abs(percent).toFixed(0)}%{" "}
+          {percent > 0 ? "above" : percent < 0 ? "below" : "same as"} {label}
         </label>
       </div>
     </section>
