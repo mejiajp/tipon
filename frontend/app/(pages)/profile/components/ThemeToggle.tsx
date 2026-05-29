@@ -22,7 +22,7 @@ export default function ThemeToggle() {
           {/* Toggle */}
           <button
             onClick={toggleMode}
-            className={`relative w-16 h-8 p-1 flex items-center rounded-full transition-colors duration-300 ease-in-out ${
+            className={`relative w-16 h-8 p-1 flex items-center rounded-full transition-colors duration-300 ease-in-out cursor-pointer ${
               mode === "system" ? "bg-primary" : "bg-gray"
             }`}
           >
@@ -43,7 +43,7 @@ export default function ThemeToggle() {
             <p>Light</p>
             <button
               onClick={() => setTheme("light")}
-              className={`relative w-8 h-8 p-1 flex items-center ring-1 ring-inset rounded-full transition-colors duration-300 ease-in-out ${
+              className={`relative w-8 h-8 p-1 flex items-center ring-1 ring-inset rounded-full transition-colors duration-300 ease-in-out cursor-pointer ${
                 theme === "light"
                   ? "bg-white ring-4 ring-primary "
                   : " ring-gray"
@@ -55,7 +55,7 @@ export default function ThemeToggle() {
 
             <button
               onClick={() => setTheme("dark")}
-              className={`relative w-8 h-8 p-1 flex items-center ring-1 ring-inset rounded-full transition-colors duration-300 ease-in-out ${
+              className={`relative w-8 h-8 p-1 flex items-center ring-1 ring-inset rounded-full transition-colors duration-300 ease-in-out cursor-pointer ${
                 theme === "dark"
                   ? "bg-white ring-4 ring-primary "
                   : " ring-gray "

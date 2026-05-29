@@ -74,7 +74,7 @@ export default function UserDetails() {
 
               <button
                 onClick={() => linkGoogle()}
-                className="mt-2 border border-text-muted text-white px-4 py-2 rounded-base flex justify-center hover:bg-primary hover:border-primary transition-colors duration-300 ease-in-out"
+                className="mt-2 border border-text-muted text-white px-4 py-2 rounded-base flex justify-center hover:bg-primary hover:border-primary transition-colors duration-300 ease-in-out cursor-pointer"
               >
                 <Image
                   width="100"
