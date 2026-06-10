@@ -3,6 +3,8 @@ package com.tipon.backend.auth;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -14,18 +16,26 @@ public class AuthCookieService {
     private static final String DEVICE_COOKIE = "deviceId";
 
 
+
     public String getOrCreateDeviceId(HttpServletRequest request, HttpServletResponse response) {
 
+        String existingId = getExistingDeviceId(request);
+
+        if (existingId != null) {
+            return existingId;
+        }
 
         String deviceId = UUID.randomUUID().toString();
+        ResponseCookie deviceCookie = ResponseCookie.from(DEVICE_COOKIE, deviceId)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(60 * 60 * 24 * 365) // 1 year
+                .sameSite("None")
+                .build();
 
-        Cookie deviceCookie = new Cookie(DEVICE_COOKIE, deviceId);
-        deviceCookie.setHttpOnly(false);
-        deviceCookie.setPath("/");
-        deviceCookie.setMaxAge(60 * 60 * 24 * 365); // 1 year
-        // deviceCookie.setSecure(true);
 
-        response.addCookie(deviceCookie);
+        response.addHeader(HttpHeaders.SET_COOKIE, deviceCookie.toString());
 
         return deviceId;
     }
@@ -49,14 +59,15 @@ public class AuthCookieService {
 
     public void setTokenCookie(HttpServletResponse response, String token) {
 
-        Cookie tokenCookie = new Cookie(TOKEN_COOKIE, token);
-        tokenCookie.setHttpOnly(true);
-        tokenCookie.setPath("/");
-        tokenCookie.setMaxAge(60 * 60 * 24); // 1 day
+        ResponseCookie tokenCookie = ResponseCookie.from(TOKEN_COOKIE, token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(60 * 60 * 24)
+                .sameSite("None")
+                .build();
 
-        //tokenCookie.setSecure(true); // https for production
-
-        response.addCookie(tokenCookie);
+        response.addHeader(HttpHeaders.SET_COOKIE, tokenCookie.toString());
     }
 
     public String getTokenCookie(HttpServletRequest request) {
@@ -74,16 +85,30 @@ public class AuthCookieService {
     }
 
     public void clearTokenCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie(TOKEN_COOKIE, null);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+
+        ResponseCookie tokenCookie = ResponseCookie.from(TOKEN_COOKIE, null)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(0)
+                .sameSite("None")
+                .build();
+
+
+        response.addHeader(HttpHeaders.SET_COOKIE, tokenCookie.toString());
     }
 
     public void clearDeviceCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie(DEVICE_COOKIE, null);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+
+        ResponseCookie deviceCookie = ResponseCookie.from(TOKEN_COOKIE, null)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(0)
+                .sameSite("None")
+                .build();
+
+
+        response.addHeader(HttpHeaders.SET_COOKIE, deviceCookie.toString());
     }
 }
