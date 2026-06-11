@@ -47,7 +47,8 @@ export default function RootLayout({
         />
       </head>
       <body className={`antialiased `}>
-        <div className="max-w-[500px] mx-auto relative">
+        <div className="max-w-[500px] mx-auto relative pb-22.75">
+          {/* 18.75 + 4 (nav height + nav margin)  */}
           <Providers>{children}</Providers>
         </div>
       </body>
