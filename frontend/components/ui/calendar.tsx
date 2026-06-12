@@ -191,7 +191,7 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        "relative isolate z-10 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 data-[range-end=true]:rounded-base data-[range-end=true]:rounded-r-base [&>span]:text-xs [&>span]:opacity-70",
+        "relative isolate z-10 flex aspect-square  cursor-pointer size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 data-[range-end=true]:rounded-base data-[range-end=true]:rounded-r-base [&>span]:text-xs [&>span]:opacity-70",
 
         // Hover only on plain days
         "data-[today=false]:data-[selected-single=false]:hover:bg-bg-dark!",

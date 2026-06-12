@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
@@ -120,10 +120,12 @@ export default function CalendarView({ data }: CalendarViewProps) {
             );
 
             return (
-              <div className="relative w-full h-full flex items-center justify-center hover:bg-primary/10 rounded-base cursor-pointer group">
-                <button
-                  {...props}
+              <div className="relative w-full h-full flex items-center justify-center hover:bg-primary/10  rounded-base group">
+                <CalendarDayButton
+                  day={day}
+                  modifiers={modifiers}
                   className={cn(props.className, "cursor-pointer")}
+                  {...props}
                 />
 
                 {/* heat indicator */}
