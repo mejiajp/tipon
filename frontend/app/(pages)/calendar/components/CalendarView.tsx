@@ -69,78 +69,80 @@ export default function CalendarView({ data }: CalendarViewProps) {
     month.getMonth() === endMonth.getMonth();
 
   return (
-    <div className="flex flex-col gap-4 p-2 bg-bg rounded-base">
-      {/* HEADER */}
-      <div className="flex items-center justify-between p-2">
-        <h2 className="text-larger pl-1 font-semibold">
-          {month.toLocaleString("en-PH", {
-            month: "long",
-            year: "numeric",
-          })}
-        </h2>
+    <div className="flex flex-col gap-4">
+      <div className=" p-2 bg-bg rounded-base">
+        {/* HEADER */}
+        <div className="flex items-center justify-between p-2">
+          <h2 className="text-larger pl-1 font-semibold">
+            {month.toLocaleString("en-PH", {
+              month: "long",
+              year: "numeric",
+            })}
+          </h2>
 
-        <div className="flex">
-          <Button
-            variant="ghost"
-            size="icon"
-            disabled={isPrevDisabled}
-            onClick={() => changeMonth("prev")}
-            className="border border-text-muted rounded-r-none cursor-pointer"
-          >
-            <ChevronLeftIcon className="size-4" />
-          </Button>
+          <div className="flex">
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={isPrevDisabled}
+              onClick={() => changeMonth("prev")}
+              className="border border-text-muted rounded-r-none cursor-pointer"
+            >
+              <ChevronLeftIcon className="size-4" />
+            </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            disabled={isNextDisabled}
-            onClick={() => changeMonth("next")}
-            className="border border-l-0 border-text-muted rounded-l-none cursor-pointer"
-          >
-            <ChevronRightIcon className="size-4" />
-          </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={isNextDisabled}
+              onClick={() => changeMonth("next")}
+              className="border border-l-0 border-text-muted rounded-l-none cursor-pointer"
+            >
+              <ChevronRightIcon className="size-4" />
+            </Button>
+          </div>
         </div>
+
+        {/* CALENDAR */}
+        <Calendar
+          mode="single"
+          month={month}
+          onMonthChange={setMonth}
+          selected={selectedDate}
+          onSelect={setSelectedDate}
+          startMonth={startMonth}
+          endMonth={endMonth}
+          className="w-full"
+          required
+          components={{
+            DayButton: ({ day, modifiers, ...props }) => {
+              const entry = data.find(
+                (d) =>
+                  new Date(d.date).toDateString() === day.date.toDateString()
+              );
+
+              return (
+                <div className="relative w-full h-full flex items-center justify-center hover:bg-primary/10  rounded-base group">
+                  <CalendarDayButton
+                    day={day}
+                    modifiers={modifiers}
+                    className={cn(props.className, "cursor-pointer")}
+                    {...props}
+                  />
+
+                  {/* heat indicator */}
+                  <span
+                    className={cn(
+                      "absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[70%] h-1 rounded-full pointer-events-none",
+                      entry ? getHeat(entry.total) : ""
+                    )}
+                  />
+                </div>
+              );
+            },
+          }}
+        />
       </div>
-
-      {/* CALENDAR */}
-      <Calendar
-        mode="single"
-        month={month}
-        onMonthChange={setMonth}
-        selected={selectedDate}
-        onSelect={setSelectedDate}
-        startMonth={startMonth}
-        endMonth={endMonth}
-        className="w-full"
-        required
-        components={{
-          DayButton: ({ day, modifiers, ...props }) => {
-            const entry = data.find(
-              (d) => new Date(d.date).toDateString() === day.date.toDateString()
-            );
-
-            return (
-              <div className="relative w-full h-full flex items-center justify-center hover:bg-primary/10  rounded-base group">
-                <CalendarDayButton
-                  day={day}
-                  modifiers={modifiers}
-                  className={cn(props.className, "cursor-pointer")}
-                  {...props}
-                />
-
-                {/* heat indicator */}
-                <span
-                  className={cn(
-                    "absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[70%] h-1 rounded-full pointer-events-none",
-                    entry ? getHeat(entry.total) : ""
-                  )}
-                />
-              </div>
-            );
-          },
-        }}
-      />
-
       {/* EXPENSE SECTION */}
       <section className="flex flex-col p-base rounded-base gap-base bg-bg">
         <h3 className="section">
