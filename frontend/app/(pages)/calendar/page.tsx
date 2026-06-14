@@ -3,6 +3,8 @@ import React from "react";
 import CalendarView from "./components/CalendarView";
 import PageTitle from "@/components/PageTitle";
 
+export const dynamic = "force-dynamic";
+
 export default async function page() {
   const currentDate = new Date();
   const year = currentDate.getFullYear().toString();
