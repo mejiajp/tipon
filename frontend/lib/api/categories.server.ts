@@ -1,3 +1,3 @@
-import { serverFetch } from "@/lib/api/serverFetch";
+import { clientFetch } from "@/lib/api/clientFetch";
 
-export const getAllCategories = () => serverFetch("/categories");
+export const getAllCategories = () => clientFetch("/categories");

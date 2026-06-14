@@ -1,15 +1,15 @@
-import { serverFetch } from "@/lib/api/serverFetch";
+import { clientFetch } from "@/lib/api/clientFetch";
 
 // GET ALL
-export const getAllExpenses = () => serverFetch("/expenses");
+export const getAllExpenses = () => clientFetch("/expenses");
 
 // GET GIVEN A RANGE
 export const getExpenseRange = (start: string, end: string) =>
-  serverFetch(`/expenses/range?start=${start}&end=${end}`);
+  clientFetch(`/expenses/range?start=${start}&end=${end}`);
 
 // GET MONTHLY CALENDAR
 export const getExpenseCalendar = (year: string, month: string) =>
-  serverFetch(`/expenses/calendar?year=${year}&month=${month}`);
+  clientFetch(`/expenses/calendar?year=${year}&month=${month}`);
 
 // GET RECENT
-export const getRecentExpenses = () => serverFetch("/expenses/recent");
+export const getRecentExpenses = () => clientFetch("/expenses/recent");
