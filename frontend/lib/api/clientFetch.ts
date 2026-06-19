@@ -1,3 +1,5 @@
+import parsingResponse from "./parsingResponse";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function clientFetch(path: string, options: RequestInit = {}) {
@@ -10,12 +12,7 @@ export async function clientFetch(path: string, options: RequestInit = {}) {
     },
   });
 
-  const text = await res.text();
-  const data = text ? JSON.parse(text) : null;
-
-  if (!res.ok) {
-    throw new Error(data?.message || `HTTP ${res.status}`);
-  }
+  const data = parsingResponse(res);
 
   return data;
 }
