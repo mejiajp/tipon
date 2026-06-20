@@ -22,12 +22,16 @@ export default function LoginPage() {
     }
   }, [user, loading, router]);
 
-  if (loading || user) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p>Loading...</p>
       </div>
     );
+  }
+
+  if (user) {
+    return null;
   }
 
   async function handleGuestLogin(e: React.FormEvent<HTMLFormElement>) {
