@@ -153,6 +153,64 @@ public class CurrentUserService {
                 user.getCreatedAt());
     }
 
+    public AuthResponse linkGoogle(
+            String code,
+            HttpServletResponse response
+    ) {
+
+        User currentUser = getCurrentUser();
+
+        if (currentUser.getProvider() != AuthProvider.GUEST) {
+            throw new RuntimeException(
+                    "Only guest accounts can be linked"
+            );
+        }
+
+        GoogleTokenResponse tokenResponse =
+                exchangeCodeForTokens(code);
+
+        Jwt googleJwt =
+                verifyGoogleIdToken(tokenResponse.id_token());
+
+        String googleId = googleJwt.getSubject();
+        String email = googleJwt.getClaimAsString("email");
+        String name = googleJwt.getClaimAsString("name");
+
+        // Prevent linking an already existing Google account
+        Optional<User> existingGoogleUser =
+                userRepository.findByGoogleId(googleId);
+
+        if (existingGoogleUser.isPresent()) {
+            throw new RuntimeException(
+                    "Google account already linked to another user"
+            );
+        }
+
+        currentUser.setGoogleId(googleId);
+        currentUser.setEmail(email);
+        currentUser.setName(name);
+        currentUser.setProvider(AuthProvider.GOOGLE);
+
+        User savedUser =
+                userRepository.save(currentUser);
+
+        String token =
+                jwtService.generateToken(savedUser);
+
+        authCookieService.setTokenCookie(
+                response,
+                token
+        );
+
+        return new AuthResponse(
+                savedUser.getId(),
+                savedUser.getName(),
+                savedUser.getProvider(),
+                savedUser.getEmail(),
+                savedUser.getCreatedAt()
+        );
+    }
+
     private GoogleTokenResponse exchangeCodeForTokens(String code) {
 
         RestTemplate rest = new RestTemplate();

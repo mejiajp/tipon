@@ -97,6 +97,17 @@ public class AuthController {
         );
     }
 
+    @PostMapping("/google/link")
+    public AuthResponse linkGoogle(
+            @RequestBody GoogleLoginRequest request,
+            HttpServletResponse response
+    ) {
+        return currentUserService.linkGoogle(
+                request.code(),
+                response
+        );
+    }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/logout")
     public void logout(
