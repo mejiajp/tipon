@@ -26,7 +26,7 @@ export default function ToastContainer() {
     guest: <Login className="w-5 text-bg-light" />,
   };
   return (
-    <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-20">
+    <div className="fixed  bottom-4 right-4 flex flex-col gap-2 z-20">
       {toasts.map((toast) => (
         <div
           key={toast.id}
