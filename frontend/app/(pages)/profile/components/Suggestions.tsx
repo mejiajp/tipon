@@ -13,11 +13,11 @@ export default function Suggestions() {
     window.open(gmailUrl, "_blank");
   };
   return (
-    <div className="absolute bottom-26.75 left-1/2 -translate-x-1/2 text-nowrap text-small">
-      <span>for bugs report and feature suggestion </span>
+    <div className="flex justify-center text-nowrap text-small">
+      <span>for bugs report and feature suggestion&nbsp;</span>
       <span
-        className="underline  text-primary  cursor-pointer"
-        onClick={() => handleMailClick()}
+        className="underline text-primary cursor-pointer"
+        onClick={handleMailClick}
       >
         send an email
       </span>
