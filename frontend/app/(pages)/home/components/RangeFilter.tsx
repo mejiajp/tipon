@@ -52,21 +52,21 @@ export default function RangeFilter({
 
       {/* Dropdown menu */}
       {open && (
-        <div className="absolute right-0 mt-2 w-full bg-primary text-white rounded-base shadow z-10">
+        <div className="absolute right-0 mt-2 w-full bg-bg-light overflow-auto text-white rounded-base shadow z-10">
           <div
-            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            className="px-4 py-2 hover:bg-primary  cursor-pointer"
             onClick={() => setFilter("daily")}
           >
             Daily
           </div>
           <div
-            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            className="px-4 py-2 hover:bg-primary   cursor-pointer"
             onClick={() => setFilter("weekly")}
           >
             Weekly
           </div>
           <div
-            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            className="px-4 py-2 hover:bg-primary   cursor-pointer"
             onClick={() => setFilter("monthly")}
           >
             Monthly
