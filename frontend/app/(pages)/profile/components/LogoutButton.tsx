@@ -46,12 +46,14 @@ export default function LogoutButton() {
         {submitting ? "Logging out..." : "Logout"}
       </button>
       <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-bg-light text-text">
           <AlertDialogHeader>
             <AlertDialogTitle>Leave guest mode?</AlertDialogTitle>
-            <AlertDialogDescription>{logoutDialog}</AlertDialogDescription>
+            <AlertDialogDescription className="text-text-muted">
+              {logoutDialog}
+            </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="sm:flex-col-reverse">
+          <AlertDialogFooter className="sm:flex-col-reverse border-0 bg-bg-light">
             <AlertDialogCancel className="full-button" disabled={submitting}>
               Cancel
             </AlertDialogCancel>
