@@ -53,17 +53,20 @@ export default function LogoutButton() {
               {logoutDialog}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="sm:flex-col-reverse border-0 bg-bg-light">
-            <AlertDialogCancel className="full-button" disabled={submitting}>
-              Cancel
-            </AlertDialogCancel>
+          <AlertDialogFooter className="flex flex-end">
             <AlertDialogAction
-              className="full-button"
+              className=" bg-red-500 h-full px-base py-2 cursor-pointer"
               disabled={submitting}
               onClick={handleLogout}
             >
               {submitting ? "Logging out..." : "Logout"}
             </AlertDialogAction>
+            <AlertDialogCancel
+              className=" border-0 h-full px-base py-2 cursor-pointer"
+              disabled={submitting}
+            >
+              Cancel
+            </AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
