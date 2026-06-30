@@ -59,7 +59,7 @@ export default function LogoutButton() {
               disabled={submitting}
               onClick={handleLogout}
             >
-              {submitting ? "Logging out..." : "Logout"}
+              Logout
             </AlertDialogAction>
             <AlertDialogCancel
               className=" border-0 h-full px-base py-2 cursor-pointer"
