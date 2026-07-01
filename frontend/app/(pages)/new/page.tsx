@@ -3,8 +3,6 @@ import NewExpenseForm from "./components/NewExpenseForm";
 import { getAllCategories } from "@/lib/api/categories.server";
 import { getExpenseCalendar } from "@/lib/api/expenses.server";
 
-export const dynamic = "force-dynamic";
-
 export default async function page() {
   const categories = await getAllCategories();
   const currentDate = new Date();

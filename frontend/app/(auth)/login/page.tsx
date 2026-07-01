@@ -25,7 +25,7 @@ export default function LoginPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p>Logging in...</p>
+        <p>Loading...</p>
       </div>
     );
   }
