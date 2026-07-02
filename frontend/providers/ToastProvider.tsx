@@ -6,10 +6,12 @@ import Check from "@/components/icons/toast/Check";
 import Default from "@/components/icons/Ellipsis";
 
 import Login from "@/components/icons/navigation/Profile";
+import { Toast } from "@/types/toast";
+import { useRouter } from "next/navigation";
 
 export default function ToastContainer() {
   const { toasts, removeToast } = useToastStore();
-
+  const router = useRouter();
   const styles = {
     success: "bg-primary",
     error: "bg-red-500 text-white",
@@ -25,12 +27,20 @@ export default function ToastContainer() {
     google: <Login className="w-5 text-bg-light" />,
     guest: <Login className="w-5 text-bg-light" />,
   };
+
+  const handleToastClick = (toast: Toast) => {
+    if (toast.type === "success") {
+      router.push("/home");
+    }
+  };
+
   return (
     <div className="fixed  bottom-4 right-4 flex flex-col gap-2 z-20">
       {toasts.map((toast) => (
         <div
           key={toast.id}
           className="bg-bg text-text p-base rounded-base flex justify-center items-center gap-base shadow "
+          onClick={() => handleToastClick(toast)}
         >
           <div className={`rounded-full p-1.25 ${styles[toast.type]}`}>
             {icons[toast.type]}
