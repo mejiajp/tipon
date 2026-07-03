@@ -133,7 +133,7 @@ export default function CalendarView({ data }: CalendarViewProps) {
                   {/* heat indicator */}
                   <span
                     className={cn(
-                      "absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[70%] h-1 rounded-full pointer-events-none",
+                      "absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[70%] h-1 rounded-full pointer-events-none z-10",
                       entry ? getHeat(entry.total) : ""
                     )}
                   />
