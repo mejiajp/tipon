@@ -13,14 +13,7 @@ export default function TotalSpent({
   range: string;
 }) {
   const total = expenses.reduce((sum, e) => sum + e.amount, 0);
-
   const previousTotal = previousExpenses.reduce((sum, e) => sum + e.amount, 0);
-
-  const percent =
-    previousTotal === 0 ? 0 : ((total - previousTotal) / previousTotal) * 100;
-
-  const comparisonText =
-    percent > 0 ? "above" : percent < 0 ? "below" : "same as";
 
   const label =
     range === "daily"
@@ -28,6 +21,26 @@ export default function TotalSpent({
       : range === "weekly"
       ? "last week"
       : "last month";
+
+  const hasPreviousData = previousExpenses.length > 0;
+
+  let percent: number | null = null;
+  let comparisonLabel: string;
+
+  if (!hasPreviousData) {
+    comparisonLabel = `₱${formatAmount(total)} new since ${label}`;
+  } else if (previousTotal === 0 && total === 0) {
+    percent = 0;
+    comparisonLabel = `0% same as ${label}`;
+  } else if (previousTotal === 0) {
+    comparisonLabel = `₱${formatAmount(total)} new spending since ${label}`;
+  } else {
+    percent = ((total - previousTotal) / previousTotal) * 100;
+
+    comparisonLabel = `${Math.abs(percent).toFixed(0)}% ${
+      percent > 0 ? "above" : percent < 0 ? "below" : "same as"
+    } ${label}`;
+  }
 
   return (
     <section className="px-base py-16 flex flex-col items-center">
@@ -38,16 +51,10 @@ export default function TotalSpent({
       </p>
 
       <div className="flex items-center gap-1">
-        {percent > 0 ? (
-          <TrendUp className="w-4 h-4" />
-        ) : percent < 0 ? (
-          <TrendDown className="w-4 h-4" />
-        ) : null}
+        {percent !== null && percent > 0 && <TrendUp className="w-4 h-4" />}
+        {percent !== null && percent < 0 && <TrendDown className="w-4 h-4" />}
 
-        <label>
-          {Math.abs(percent).toFixed(0)}%{" "}
-          {percent > 0 ? "above" : percent < 0 ? "below" : "same as"} {label}
-        </label>
+        <label>{comparisonLabel}</label>
       </div>
     </section>
   );
