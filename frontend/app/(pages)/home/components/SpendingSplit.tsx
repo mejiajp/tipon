@@ -51,7 +51,13 @@ export default function SpendingSplit({
       <div className="flex justify-between items-center">
         <h2>Spending Split</h2>
 
-        <div onClick={() => setShowAll(!showAll)}>
+        <div
+          onClick={() => {
+            if (categories.length > 3) {
+              setShowAll(!showAll);
+            }
+          }}
+        >
           <Down
             className={`w-4 h-4 transition-transform duration-200 ${
               showAll ? "rotate-180" : ""
