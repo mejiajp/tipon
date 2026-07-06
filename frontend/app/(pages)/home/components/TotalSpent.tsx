@@ -22,12 +22,21 @@ export default function TotalSpent({
       ? "last week"
       : "last month";
 
+  const hasCurrentData = expenses.length > 0;
   const hasPreviousData = previousExpenses.length > 0;
 
   let percent: number | null = null;
   let comparisonLabel: string;
 
-  if (!hasPreviousData) {
+  if (!hasCurrentData) {
+    comparisonLabel = `No record ${
+      range === "daily"
+        ? "today"
+        : range === "weekly"
+        ? "this week"
+        : "this month"
+    }`;
+  } else if (!hasPreviousData) {
     comparisonLabel = `₱${formatAmount(total)} new since ${label}`;
   } else if (previousTotal === 0 && total === 0) {
     percent = 0;
