@@ -100,7 +100,7 @@ public class AuthCookieService {
 
     public void clearDeviceCookie(HttpServletResponse response) {
 
-        ResponseCookie deviceCookie = ResponseCookie.from(TOKEN_COOKIE, null)
+        ResponseCookie deviceCookie = ResponseCookie.from(DEVICE_COOKIE, null)
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
