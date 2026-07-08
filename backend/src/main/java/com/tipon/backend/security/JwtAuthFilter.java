@@ -1,6 +1,5 @@
 package com.tipon.backend.security;
 
-import com.tipon.backend.auth.AuthCookieService;
 import com.tipon.backend.auth.JwtService;
 import com.tipon.backend.user.User;
 import com.tipon.backend.user.UserRepository;
@@ -21,50 +20,50 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
-    private final AuthCookieService authCookieService;
 
-
-    public JwtAuthFilter(JwtService tokenService, UserRepository userRepository,
-                         AuthCookieService authCookieService) {
-        this.jwtService = tokenService;
+    public JwtAuthFilter(JwtService jwtService, UserRepository userRepository) {
+        this.jwtService = jwtService;
         this.userRepository = userRepository;
-        this.authCookieService = authCookieService;
     }
 
     @Override
-    protected  void doFilterInternal(HttpServletRequest request,
-                                     HttpServletResponse response,
-                                     FilterChain filterChain)
-        throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
-
-
-        String token = authCookieService.getTokenCookie(request);
+        String token = extractBearerToken(request);
 
         if (token == null) {
             filterChain.doFilter(request, response);
             return;
         }
-        
-        Long userId = jwtService.extractUserId(token);
 
-        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        try {
+            Long userId = jwtService.extractUserId(token);
 
-            User user = userRepository.findById(userId).orElse(null);
+            if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                User user = userRepository.findById(userId).orElse(null);
 
-            if (user != null) {
-
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, null);
-
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-
+                if (user != null) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(user, null, null);
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+        } catch (Exception e) {
+            // invalid/expired token = treat as unauthenticated not 500
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private String extractBearerToken(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            return header.substring(7);
+        }
+        return null;
     }
 }
