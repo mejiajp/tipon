@@ -12,21 +12,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
     private final CurrentUserService currentUserService;
-    private final AuthCookieService authCookieService;
+//    private final AuthCookieService authCookieService;
     private final UserRepository userRepository;
     private final DeviceRepository deviceRepository;
 
     public AuthController(CurrentUserService currentUserService,
-                          AuthCookieService authCookieService,
+//                          AuthCookieService authCookieService,
                           UserRepository userRepository,
                           DeviceRepository deviceRepository) {
         this.currentUserService = currentUserService;
-        this.authCookieService = authCookieService;
+//        this.authCookieService = authCookieService;
         this.userRepository = userRepository;
         this.deviceRepository = deviceRepository;
 
@@ -34,39 +36,36 @@ public class AuthController {
 
     @GetMapping("/me")
     public AuthResponse getMe(
-            HttpServletRequest request,
-            HttpServletResponse response
+        @RequestHeader(value = "X-Device-Id", required=false) String deviceId
     ) {
 
         try {
             User user = currentUserService.getCurrentUser();
-            return toResponse(user);
+            return toResponse(user, null, null);
         } catch (Exception ignored) {
         }
-
-        String deviceId = authCookieService.getExistingDeviceId(request);
 
         if (deviceId != null) {
             User guest = currentUserService.findGuestByDeviceId(deviceId);
 
             if (guest != null) {
                 String token = currentUserService.generateToken(guest);
-                authCookieService.setTokenCookie(response, token);
-
-                return toResponse(guest);
+                return toResponse(guest, token, deviceId);
             }
         }
 
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
     }
 
-    private AuthResponse toResponse(User user) {
+    private AuthResponse toResponse(User user, String token, String deviceId) {
         return new AuthResponse(
                 user.getId(),
                 user.getName(),
                 user.getProvider(),
                 user.getEmail(),
-                user.getCreatedAt()
+                user.getCreatedAt(),
+                token,
+                deviceId
 
         );
     }
@@ -77,24 +76,14 @@ public class AuthController {
     }
 
     @PostMapping("/guest")
-    public AuthResponse guestLogin(@RequestBody GuestLoginRequest body, HttpServletRequest request, HttpServletResponse response){
+    public AuthResponse guestLogin(@RequestBody GuestLoginRequest body, @RequestHeader(value = "X-Device-Id", required = false)  String deviceId){
 
-        String deviceId =  authCookieService.getOrCreateDeviceId(request, response);
 
-        var user = currentUserService.getOrCreateGuest(deviceId, body.name());
-
+        String finalDeviceId = deviceId != null ? deviceId : UUID.randomUUID().toString();
+        var user = currentUserService.getOrCreateGuest(finalDeviceId, body.name());
         String token = currentUserService.generateToken(user);
 
-        authCookieService.setTokenCookie(response, token);
-
-        return new AuthResponse(
-                user.getId(),
-                user.getName(),
-                user.getProvider(),
-                user.getEmail(),
-                user.getCreatedAt()
-
-        );
+        return toResponse(user, token, finalDeviceId);
     }
 
     @PostMapping("/google/link")
@@ -111,12 +100,8 @@ public class AuthController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/logout")
     public void logout(
-            HttpServletRequest request,
-            HttpServletResponse response
+           @RequestHeader(value = "X-Device-Id", required = false) String deviceId
     ) {
-
-        String deviceId = authCookieService.getExistingDeviceId(request);
-
         if (deviceId != null) {
             deviceRepository.findByDeviceId(deviceId)
                     .ifPresent(device -> {
@@ -124,9 +109,6 @@ public class AuthController {
                         deviceRepository.delete(device);
                     });
         }
-
-        authCookieService.clearTokenCookie(response);
-        authCookieService.clearDeviceCookie(response);
     }
 
 }
