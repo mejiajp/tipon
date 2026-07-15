@@ -1,9 +1,8 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 export async function clientFetch(path: string, options: RequestInit = {}) {
-  const res = await fetch(`${API_URL}${path}`, {
+  const res = await fetch(`/api/proxy${path}`, {
+    // relative, same-origin → Next.js server
     ...options,
-    credentials: "include",
+    credentials: "include", //it's same-site, so it just works
     headers: {
       "Content-Type": "application/json",
       ...(options.headers || {}),
