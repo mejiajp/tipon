@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { guestLogin } from "@/lib/api/users.client";
+import { guestLogin } from "@/lib/api/authApi";
 import { useToastStore } from "@/stores/useToastStore";
 import { useAuthStore } from "@/stores/useAuthStore";
 import GoogleButton from "./GoogleButton";
