@@ -1,15 +1,12 @@
 package com.tipon.backend.auth;
 
-
 import com.tipon.backend.auth.dto.AuthResponse;
-import com.tipon.backend.auth.dto.GoogleLoginRequest;
 import com.tipon.backend.auth.dto.GoogleTokenResponse;
 import com.tipon.backend.device.Device;
 import com.tipon.backend.device.DeviceRepository;
 import com.tipon.backend.user.AuthProvider;
 import com.tipon.backend.user.User;
 import com.tipon.backend.user.UserRepository;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -27,16 +24,11 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
 import java.util.Optional;
 
-
 @Service
 public class CurrentUserService {
 
     private final UserRepository userRepository;
-
     private final JwtService jwtService;
-
-    private final AuthCookieService authCookieService;
-
     private final DeviceRepository deviceRepository;
 
     @Value("${google.client-id}")
@@ -45,24 +37,19 @@ public class CurrentUserService {
     @Value("${google.client-secret}")
     private String clientSecret;
 
-    public CurrentUserService(UserRepository userRepository, JwtService tokenService, AuthCookieService authCookieService, DeviceRepository deviceRepository) {
+    public CurrentUserService(UserRepository userRepository, JwtService jwtService, DeviceRepository deviceRepository) {
         this.userRepository = userRepository;
-        this.jwtService = tokenService;
-        this.authCookieService = authCookieService;
+        this.jwtService = jwtService;
         this.deviceRepository = deviceRepository;
     }
 
-
-    // Get existing guest or create a new one using deviceId
     public User getOrCreateGuest(String deviceId, String name) {
-        // Get User
         Optional<Device> existingDevice = deviceRepository.findByDeviceId(deviceId);
 
         if (existingDevice.isPresent()) {
             return existingDevice.get().getUser();
         }
 
-        // else Create User
         User guest = new User();
         guest.setName(name);
         guest.setEmail(null);
@@ -70,21 +57,17 @@ public class CurrentUserService {
         guest.setGoogleId(null);
         guest.setCreatedAt(LocalDate.now());
 
-        // Save user first to attach device
         User savedUser = userRepository.save(guest);
 
         Device device = new Device();
         device.setDeviceId(deviceId);
         device.setUser(savedUser);
-
-        // Save device
         deviceRepository.save(device);
 
         return savedUser;
     }
 
     public User findGuestByDeviceId(String deviceId) {
-
         Optional<Device> device = deviceRepository.findByDeviceId(deviceId);
 
         if (device.isEmpty()) {
@@ -104,7 +87,6 @@ public class CurrentUserService {
         return jwtService.generateToken(user);
     }
 
-
     public User getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -119,11 +101,9 @@ public class CurrentUserService {
         return user.getProvider() == AuthProvider.GUEST;
     }
 
-    public AuthResponse googleLogin(String code,
-                                    HttpServletResponse response) {
+    public AuthResponse googleLogin(String code) {
 
         GoogleTokenResponse tokenResponse = exchangeCodeForTokens(code);
-
         Jwt googleJwt = verifyGoogleIdToken(tokenResponse.id_token());
 
         String googleId = googleJwt.getSubject();
@@ -132,58 +112,47 @@ public class CurrentUserService {
 
         User user = userRepository.findByGoogleId(googleId)
                 .orElseGet(() -> {
-            User newUser = new User();
-            newUser.setGoogleId(googleId);
-            newUser.setEmail(email);
-            newUser.setName(name);
-            newUser.setCreatedAt(LocalDate.now());
-            newUser.setProvider(AuthProvider.GOOGLE);
-            return userRepository.save(newUser);
-        });
+                    User newUser = new User();
+                    newUser.setGoogleId(googleId);
+                    newUser.setEmail(email);
+                    newUser.setName(name);
+                    newUser.setCreatedAt(LocalDate.now());
+                    newUser.setProvider(AuthProvider.GOOGLE);
+                    return userRepository.save(newUser);
+                });
 
         String token = jwtService.generateToken(user);
-
-        authCookieService.setTokenCookie(response, token);
 
         return new AuthResponse(
                 user.getId(),
                 user.getName(),
                 user.getProvider(),
                 user.getEmail(),
-                user.getCreatedAt());
+                user.getCreatedAt(),
+                token,
+                null   // no deviceId relevant for google login
+        );
     }
 
-    public AuthResponse linkGoogle(
-            String code,
-            HttpServletResponse response
-    ) {
+    public AuthResponse linkGoogle(String code) {
 
         User currentUser = getCurrentUser();
 
         if (currentUser.getProvider() != AuthProvider.GUEST) {
-            throw new RuntimeException(
-                    "Only guest accounts can be linked"
-            );
+            throw new RuntimeException("Only guest accounts can be linked");
         }
 
-        GoogleTokenResponse tokenResponse =
-                exchangeCodeForTokens(code);
-
-        Jwt googleJwt =
-                verifyGoogleIdToken(tokenResponse.id_token());
+        GoogleTokenResponse tokenResponse = exchangeCodeForTokens(code);
+        Jwt googleJwt = verifyGoogleIdToken(tokenResponse.id_token());
 
         String googleId = googleJwt.getSubject();
         String email = googleJwt.getClaimAsString("email");
         String name = googleJwt.getClaimAsString("name");
 
-        // Prevent linking an already existing Google account
-        Optional<User> existingGoogleUser =
-                userRepository.findByGoogleId(googleId);
+        Optional<User> existingGoogleUser = userRepository.findByGoogleId(googleId);
 
         if (existingGoogleUser.isPresent()) {
-            throw new RuntimeException(
-                    "Google account already linked to another user"
-            );
+            throw new RuntimeException("Google account already linked to another user");
         }
 
         currentUser.setGoogleId(googleId);
@@ -191,28 +160,21 @@ public class CurrentUserService {
         currentUser.setName(name);
         currentUser.setProvider(AuthProvider.GOOGLE);
 
-        User savedUser =
-                userRepository.save(currentUser);
-
-        String token =
-                jwtService.generateToken(savedUser);
-
-        authCookieService.setTokenCookie(
-                response,
-                token
-        );
+        User savedUser = userRepository.save(currentUser);
+        String token = jwtService.generateToken(savedUser);
 
         return new AuthResponse(
                 savedUser.getId(),
                 savedUser.getName(),
                 savedUser.getProvider(),
                 savedUser.getEmail(),
-                savedUser.getCreatedAt()
+                savedUser.getCreatedAt(),
+                token,
+                null
         );
     }
 
     private GoogleTokenResponse exchangeCodeForTokens(String code) {
-
         RestTemplate rest = new RestTemplate();
 
         MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
@@ -223,21 +185,15 @@ public class CurrentUserService {
         form.add("grant_type", "authorization_code");
 
         HttpHeaders headers = new HttpHeaders();
-
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        HttpEntity<MultiValueMap<String,String>> request =
-                new HttpEntity<>(form,headers);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
 
-        ResponseEntity<GoogleTokenResponse> response =
-            rest.postForEntity(
-                "https://oauth2.googleapis.com/token",
-                request,
-                GoogleTokenResponse.class
+        ResponseEntity<GoogleTokenResponse> response = rest.postForEntity(
+                "https://oauth2.googleapis.com/token", request, GoogleTokenResponse.class
         );
 
-        if(!response.getStatusCode().is2xxSuccessful() ||
-            response.getBody() == null) {
+        if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
             throw new RuntimeException("Failed to exchange Google auth code to tokens");
         }
 
@@ -245,7 +201,6 @@ public class CurrentUserService {
     }
 
     private Jwt verifyGoogleIdToken(String idToken) {
-
         NimbusJwtDecoder decoder = NimbusJwtDecoder
                 .withJwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
                 .build();
