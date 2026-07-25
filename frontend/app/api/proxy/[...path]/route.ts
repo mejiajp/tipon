@@ -5,7 +5,7 @@ async function handler(
   { params }: { params: Promise<{ path: string[] }> }
 ) {
   const token = await getTokenCookie();
-  const { path: pathSegments } = await params; // ← await params before destructuring
+  const { path: pathSegments } = await params;
   const path = pathSegments.join("/");
 
   const springRes = await fetch(`${process.env.SPRING_API_URL}/api/${path}`, {
