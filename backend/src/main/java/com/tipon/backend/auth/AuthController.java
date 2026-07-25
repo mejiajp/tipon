@@ -72,7 +72,7 @@ public class AuthController {
 
     @PostMapping("/google")
     public AuthResponse googleLogin(@RequestBody GoogleLoginRequest request, HttpServletResponse response){
-      return currentUserService.googleLogin(request.code(), response);
+      return currentUserService.googleLogin(request.code());
     }
 
     @PostMapping("/guest")
@@ -92,8 +92,7 @@ public class AuthController {
             HttpServletResponse response
     ) {
         return currentUserService.linkGoogle(
-                request.code(),
-                response
+                request.code()
         );
     }
 
