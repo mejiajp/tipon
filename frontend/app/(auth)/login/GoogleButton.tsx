@@ -1,6 +1,6 @@
 "use client";
 
-import { googleLogin } from "@/lib/api/users.client";
+import { googleLogin } from "@/lib/api/authApi";
 import { useGoogleLogin } from "@react-oauth/google";
 import GoogleIcon from "@/public/images/google-icon.png";
 import Image from "next/image";
