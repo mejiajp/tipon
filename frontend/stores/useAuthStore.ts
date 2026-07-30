@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getCurrentUser, logoutUser } from "@/lib/api/users.client";
+import { getMe, logout } from "@/lib/api/authApi";
 import { User } from "@/types/user";
 
 type AuthStore = {
@@ -18,7 +18,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     set({ loading: true });
 
     try {
-      const currentUser = await getCurrentUser();
+      const currentUser = await getMe();
       set({ user: currentUser ?? null });
     } catch {
       set({ user: null });
@@ -31,7 +31,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     set({ loading: true });
 
     try {
-      await logoutUser();
+      await logout();
     } finally {
       set({
         user: null,
