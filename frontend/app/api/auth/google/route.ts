@@ -3,14 +3,11 @@ import { setAuthCookies } from "@/lib/auth/authCookies";
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const springRes = await fetch(
-    `${process.env.SPRING_API_URL}/api/auth/google`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    }
-  );
+  const springRes = await fetch(`${process.env.SPRING_API_URL}/auth/google`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
 
   if (!springRes.ok)
     return new Response("Login failed", { status: springRes.status });

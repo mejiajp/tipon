@@ -36,6 +36,8 @@ export default function UserDetails() {
 
   if (!user) return null;
 
+  console.log(user);
+
   return (
     <div className="space-y-base">
       <div className="flex flex-col items-center">

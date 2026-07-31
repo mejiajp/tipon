@@ -3,7 +3,7 @@ import { getDeviceCookie, clearAuthCookies } from "@/lib/auth/authCookies";
 export async function POST() {
   const deviceId = await getDeviceCookie();
 
-  await fetch(`${process.env.SPRING_API_URL}/api/auth/logout`, {
+  await fetch(`${process.env.SPRING_API_URL}/auth/logout`, {
     method: "POST",
     headers: deviceId ? { "X-Device-Id": deviceId } : {},
   });

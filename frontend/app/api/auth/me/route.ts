@@ -8,7 +8,7 @@ export async function GET() {
   const token = await getTokenCookie();
   const deviceId = await getDeviceCookie();
 
-  const springRes = await fetch(`${process.env.SPRING_API_URL}/api/auth/me`, {
+  const springRes = await fetch(`${process.env.SPRING_API_URL}/auth/me`, {
     headers: {
       ...(token && { Authorization: `Bearer ${token}` }),
       ...(deviceId && { "X-Device-Id": deviceId }),
