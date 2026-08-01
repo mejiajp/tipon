@@ -8,7 +8,7 @@ async function handler(
   const { path: pathSegments } = await params;
   const path = pathSegments.join("/");
 
-  const springRes = await fetch(`${process.env.SPRING_API_URL}/api/${path}`, {
+  const springRes = await fetch(`${process.env.SPRING_API_URL}/${path}`, {
     method: req.method,
     headers: {
       ...(token && { Authorization: `Bearer ${token}` }),
@@ -17,7 +17,10 @@ async function handler(
     body: ["GET", "HEAD"].includes(req.method) ? undefined : await req.text(),
   });
 
+  const apiUrl = `${process.env.SPRING_API_URL}/${path}`;
+
   const data = await springRes.text();
+  console.log("SPRING API URL:", apiUrl);
 
   return new Response(data, {
     status: springRes.status,
