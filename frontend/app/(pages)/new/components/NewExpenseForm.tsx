@@ -52,31 +52,35 @@ export default function NewExpenseForm({
     formData.title.trim() !== "" &&
     formData.category !== null;
 
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!formData.category) {
-      console.error("Category is not selected");
-      return;
+    if (!formData.category || isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+
+      await createExpense({
+        title: formData.title,
+        category: formData.category,
+        amount: parseFloat(formData.amount),
+      });
+
+      setFormData({
+        title: "",
+        amount: "",
+        category: null,
+      });
+
+      addToast("Expense added successfully!", "success");
+    } catch (err) {
+      console.log("Form catch error: ", err);
+      addToast("Failed to add expense.", "error");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    const toBeSubmitted = {
-      title: formData.title,
-      category: formData.category,
-      amount: parseFloat(formData.amount),
-    };
-
-    console.log("Submitting form with data:", toBeSubmitted);
-
-    await createExpense(toBeSubmitted);
-
-    setFormData({
-      title: "",
-      amount: "",
-      category: null,
-    });
-
-    addToast("Expense added successfully!", "success");
   };
 
   return (
