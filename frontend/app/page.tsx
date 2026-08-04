@@ -9,14 +9,14 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.replace("/login");
-    }, 1500);
+    }, 100500);
 
     return () => clearTimeout(timer);
   }, [router]);
 
   return (
     <main className="flex min-h-screen items-center justify-center">
-      <h1 className="text-3xl font-bold">tipon</h1>
+      <h1 className="text-5xl text-primary font-title ">tipon</h1>
     </main>
   );
 }
