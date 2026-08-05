@@ -7,12 +7,8 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      router.replace("/login");
-    }, 100500);
-
-    return () => clearTimeout(timer);
-  }, [router]);
+    router.replace("/login");
+  });
 
   return (
     <main className="flex min-h-screen items-center justify-center">

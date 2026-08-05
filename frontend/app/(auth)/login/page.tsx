@@ -22,16 +22,12 @@ export default function LoginPage() {
     }
   }, [user, loading, router]);
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <p>Loading...</p>
-  //     </div>
-  //   );
-  // }
-
-  if (user) {
-    return null;
+  if (user || loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-bg">
+        <p className="text-text text-lg font-medium">Loading...</p>
+      </div>
+    );
   }
 
   async function handleGuestLogin(e: React.FormEvent<HTMLFormElement>) {
@@ -40,7 +36,6 @@ export default function LoginPage() {
     try {
       await guestLogin(name);
       await refreshAuth();
-      router.replace("/home");
 
       addToast(
         `Logged in as Guest, welcome ${useAuthStore.getState().user?.name}!`,
