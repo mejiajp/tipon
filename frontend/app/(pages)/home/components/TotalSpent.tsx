@@ -25,31 +25,58 @@ export default function TotalSpent({
   const hasCurrentData = expenses.length > 0;
   const hasPreviousData = previousExpenses.length > 0;
 
-  let percent: number | null = null;
-  let comparisonLabel: string;
+  const comparison = (() => {
+    if (!hasCurrentData && !hasPreviousData) {
+      return {
+        percent: 0,
+        trend: "none" as const,
+        label: `No spending ${
+          range === "daily"
+            ? "today"
+            : range === "weekly"
+            ? "this week"
+            : "this month"
+        }`,
+      };
+    }
 
-  if (!hasCurrentData) {
-    comparisonLabel = `No record ${
-      range === "daily"
-        ? "today"
-        : range === "weekly"
-        ? "this week"
-        : "this month"
-    }`;
-  } else if (!hasPreviousData) {
-    comparisonLabel = `₱${formatAmount(total)} new since ${label}`;
-  } else if (previousTotal === 0 && total === 0) {
-    percent = 0;
-    comparisonLabel = `0% same as ${label}`;
-  } else if (previousTotal === 0) {
-    comparisonLabel = `₱${formatAmount(total)} new spending since ${label}`;
-  } else {
-    percent = ((total - previousTotal) / previousTotal) * 100;
+    if (!hasCurrentData) {
+      return {
+        percent: null,
+        trend: "none" as const,
+        label: `No spending ${
+          range === "daily"
+            ? "today"
+            : range === "weekly"
+            ? "this week"
+            : "this month"
+        }`,
+      };
+    }
 
-    comparisonLabel = `${Math.abs(percent).toFixed(0)}% ${
-      percent > 0 ? "above" : percent < 0 ? "below" : "same as"
-    } ${label}`;
-  }
+    if (!hasPreviousData) {
+      return {
+        percent: null,
+        trend: "none" as const,
+        label: `₱${formatAmount(total)} new spending since ${label}`,
+      };
+    }
+
+    const percent = ((total - previousTotal) / previousTotal) * 100;
+
+    return {
+      percent,
+      trend:
+        percent > 0
+          ? ("up" as const)
+          : percent < 0
+          ? ("down" as const)
+          : ("none" as const),
+      label: `${Math.abs(percent).toFixed(0)}% ${
+        percent > 0 ? "above" : percent < 0 ? "below" : "same as"
+      } ${label}`,
+    };
+  })();
 
   return (
     <section className="px-base py-16 flex flex-col items-center">
@@ -60,10 +87,10 @@ export default function TotalSpent({
       </p>
 
       <div className="flex items-center gap-1">
-        {percent !== null && percent > 0 && <TrendUp className="w-4 h-4" />}
-        {percent !== null && percent < 0 && <TrendDown className="w-4 h-4" />}
+        {comparison.trend === "up" && <TrendUp className="w-4 h-4" />}
+        {comparison.trend === "down" && <TrendDown className="w-4 h-4" />}
 
-        <label>{comparisonLabel}</label>
+        <label>{comparison.label}</label>
       </div>
     </section>
   );
