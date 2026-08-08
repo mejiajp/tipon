@@ -13,8 +13,8 @@ export async function POST(req: Request) {
     body: JSON.stringify(body),
   });
 
-  console.log("SPRING RESPONSE STATUS:", springRes.status); // ← add this
-  console.log("SPRING API URL:", process.env.SPRING_API_URL); // ← and this
+  console.log("SPRING RESPONSE STATUS:", springRes.status);
+  console.log("SPRING API URL:", process.env.SPRING_API_URL);
 
   if (!springRes.ok)
     return new Response("Login failed", { status: springRes.status });
