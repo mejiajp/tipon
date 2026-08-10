@@ -1,6 +1,6 @@
 "use client";
 
-import { googleLink } from "@/lib/api/users.client";
+import { googleLink } from "@/lib/api/authApi";
 import GoogleIcon from "@/public/images/google-icon.png";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useToastStore } from "@/stores/useToastStore";

@@ -86,7 +86,7 @@ public class AuthController {
         return toResponse(user, token, finalDeviceId);
     }
 
-    @PostMapping("/google/link")
+    @PostMapping("/link")
     public AuthResponse linkGoogle(
             @RequestBody GoogleLoginRequest request,
             HttpServletResponse response
