@@ -22,10 +22,24 @@ export async function POST(req: Request) {
     }
   );
 
-  if (!springRes.ok)
-    return new Response("Google linking failed", {
+  if (!springRes.ok) {
+    const error = await springRes.text();
+
+    console.error("SPRING RESPONSE:", {
+      status: springRes.status,
+      statusText: springRes.statusText,
+      body: error,
+    });
+
+    console.log("LINK AUTH:", {
+      hasToken: !!token,
+      hasDeviceId: !!deviceId,
+    });
+
+    return new Response(error || "Google linking failed", {
       status: springRes.status,
     });
+  }
 
   const data = await springRes.json();
 

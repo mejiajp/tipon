@@ -22,13 +22,25 @@ export async function googleLogin(code: string) {
 }
 
 export async function googleLink(code: string) {
-  const res = await fetch("/api/auth/link-google", {
+  const res = await fetch("/api/auth/link", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ code }),
     credentials: "include",
   });
-  if (!res.ok) throw new Error("Google linking failed");
+
+  if (!res.ok) {
+    const error = await res.text();
+
+    console.error("Google link failed:", {
+      status: res.status,
+      statusText: res.statusText,
+      error,
+    });
+
+    throw new Error(`Google linking failed: ${res.status}`);
+  }
+
   return res.json();
 }
 
