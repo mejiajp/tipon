@@ -9,18 +9,15 @@ export async function POST(req: Request) {
   const deviceId = await getDeviceCookie();
   const body = await req.json();
 
-  const springRes = await fetch(
-    `${process.env.SPRING_API_URL}/auth/link-google`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: `Bearer ${token}` }),
-        ...(deviceId && { "X-Device-Id": deviceId }),
-      },
-      body: JSON.stringify(body),
-    }
-  );
+  const springRes = await fetch(`${process.env.SPRING_API_URL}/auth/link`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
+      ...(deviceId && { "X-Device-Id": deviceId }),
+    },
+    body: JSON.stringify(body),
+  });
 
   if (!springRes.ok) {
     const error = await springRes.text();
