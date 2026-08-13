@@ -1,7 +1,7 @@
 import PageTitle from "@/components/PageTitle";
 import ThemeToggle from "./components/ThemeToggle";
 import UserDetails from "./components/UserDetails";
-import LogoutButton from "./components/LogoutButton";
+import LogoutButton from "./components/Logout";
 import Suggestions from "./components/Suggestions";
 
 export default async function page() {

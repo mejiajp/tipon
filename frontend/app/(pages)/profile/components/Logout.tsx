@@ -53,7 +53,7 @@ export default function LogoutButton() {
               {logoutDialog}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="flex flex-end">
+          <AlertDialogFooter className="flex justify-end">
             <AlertDialogAction
               className=" bg-red-500 h-full px-base py-2 cursor-pointer"
               disabled={submitting}
