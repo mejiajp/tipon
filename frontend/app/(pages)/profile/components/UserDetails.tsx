@@ -76,7 +76,7 @@ export default function UserDetails() {
 
               <button
                 onClick={() => linkGoogle()}
-                className="mt-2 border border-text-muted text-text px-4 py-2 rounded-base flex justify-center hover:bg-primary hover:border-primary transition-colors duration-300 ease-in-out cursor-pointer"
+                className="mt-2 border border-text-muted text-text px-4 py-2 rounded-base flex justify-center items-center hover:bg-primary hover:border-primary transition-colors duration-300 ease-in-out cursor-pointer"
               >
                 <Image
                   width="100"
@@ -85,7 +85,9 @@ export default function UserDetails() {
                   alt="Google Icon"
                   className="w-5 h-5 mr-2"
                 />
-                <p>Link to Google</p>
+                <p>
+                  Link <span className="hidden lg:inline"> to Google</span>{" "}
+                </p>
               </button>
             </>
           )}

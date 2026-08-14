@@ -108,7 +108,7 @@ export default function NewExpenseForm({
       <div className="flex flex-col gap-small p-base rounded-base bg-bg">
         <h3 className="section-title">Category</h3>
 
-        <ul className="grid grid-cols-4 grid-row-2 gap-4">
+        <ul className="grid grid-cols-4 grid-row-2 gap-2 lg:gap-4">
           {visibleCategories.map((category) => {
             const Icon =
               categoryIcons[category.slug as keyof typeof categoryIcons] ||
