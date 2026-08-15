@@ -24,8 +24,10 @@ export default function LoginPage() {
 
   if (user || loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-bg">
-        <p className="text-text text-lg font-medium">Loading...</p>
+      <div className="flex min-h-screen items-center justify-center ">
+        <h1 className="font-title font-medium text-primary text-xl">
+          logging in
+        </h1>
       </div>
     );
   }
