@@ -8,10 +8,7 @@ import com.tipon.backend.user.AuthProvider;
 import com.tipon.backend.user.User;
 import com.tipon.backend.user.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -152,7 +150,10 @@ public class CurrentUserService {
         Optional<User> existingGoogleUser = userRepository.findByGoogleId(googleId);
 
         if (existingGoogleUser.isPresent()) {
-            throw new RuntimeException("Google account already linked to another user");
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Google account already linked to another user"
+            );
         }
 
         currentUser.setGoogleId(googleId);
