@@ -54,41 +54,48 @@ export default function UserDetails() {
 
       <div className="flex justify-between gap-5">
         <div className="bg-bg rounded-base flex-1 p-base text-center flex flex-col justify-center">
-          <p>Joined since:</p>
-          <p>
-            {new Date(user.createdAt).toLocaleDateString("en-PH", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
+          <p className="">Joined since:</p>
+          <div className="flex-1 flex items-center justify-center">
+            <p>
+              {new Date(user.createdAt).toLocaleDateString("en-PH", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
+          </div>
         </div>
 
         <div className="bg-bg rounded-base flex-1 p-base text-center flex flex-col justify-center">
           {user.provider === "GOOGLE" ? (
             <>
               <p>Account Type:</p>
-              <p>{user.provider}</p>
+              <div className="flex-1 flex items-center justify-center">
+                <p>{user.provider}</p>
+              </div>
             </>
           ) : (
             <>
               <p>Logged as Guest</p>
 
-              <button
-                onClick={() => linkGoogle()}
-                className="mt-2 border border-text-muted text-text px-4 py-2 rounded-base flex justify-center items-center hover:bg-primary hover:border-primary transition-colors duration-300 ease-in-out cursor-pointer"
-              >
-                <Image
-                  width="100"
-                  height="100"
-                  src={GoogleIcon.src}
-                  alt="Google Icon"
-                  className="w-5 h-5 mr-2"
-                />
-                <p>
-                  Link <span className="hidden lg:inline"> to Google</span>{" "}
-                </p>
-              </button>
+              <div className="flex-1 flex items-center justify-center">
+                {" "}
+                <button
+                  onClick={() => linkGoogle()}
+                  className="my-1 border border-text-muted text-text px-4 py-2 rounded-base flex justify-center items-center hover:bg-primary hover:border-primary transition-colors duration-300 ease-in-out cursor-pointer"
+                >
+                  <Image
+                    width="100"
+                    height="100"
+                    src={GoogleIcon.src}
+                    alt="Google Icon"
+                    className="w-5 h-5 mr-2"
+                  />
+                  <p>
+                    Link <span className="hidden lg:inline"> to Google</span>{" "}
+                  </p>
+                </button>
+              </div>
             </>
           )}
         </div>
