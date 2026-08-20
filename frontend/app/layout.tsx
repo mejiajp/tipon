@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cn("font-sans", geist.variable)} dark`}
+      className={`${cn("font-sans", geist.variable)} dark hide-scrollbar`}
       suppressHydrationWarning
     >
       <head>

@@ -279,6 +279,15 @@ body {
   margin: 0;
 }
 
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @layer components {
   .nav-icon-container {
     @apply w-15 aspect-square bg-bg-dark flex justify-center items-center rounded-[10px];
