@@ -21,7 +21,9 @@ public class User {
     private Long id;
 
     private String name;
-    
+
+    private String profilePicture; // null if GUEST
+
     @Column(unique = true)
     private String email; // null if GUEST
 

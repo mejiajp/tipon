@@ -8,8 +8,9 @@ import java.time.LocalDate;
 public record AuthResponse(
     Long id,
     String name,
-    AuthProvider provider,
+    String profilePicture,
     String email,
+    AuthProvider provider,
     LocalDate createdAt,
     String token,
     String deviceId
