@@ -50,6 +50,7 @@ public class CurrentUserService {
 
         User guest = new User();
         guest.setName(name);
+        guest.setProfilePicture(null);
         guest.setEmail(null);
         guest.setProvider(AuthProvider.GUEST);
         guest.setGoogleId(null);
@@ -107,10 +108,12 @@ public class CurrentUserService {
         String googleId = googleJwt.getSubject();
         String email = googleJwt.getClaimAsString("email");
         String name = googleJwt.getClaimAsString("name");
+        String profilePicture = googleJwt.getClaimAsString("picture");
 
         User user = userRepository.findByGoogleId(googleId)
                 .orElseGet(() -> {
                     User newUser = new User();
+                    newUser.setProfilePicture(profilePicture);
                     newUser.setGoogleId(googleId);
                     newUser.setEmail(email);
                     newUser.setName(name);
@@ -124,8 +127,9 @@ public class CurrentUserService {
         return new AuthResponse(
                 user.getId(),
                 user.getName(),
-                user.getProvider(),
+                user.getProfilePicture(),
                 user.getEmail(),
+                user.getProvider(),
                 user.getCreatedAt(),
                 token,
                 null   // no deviceId relevant for google login
@@ -146,6 +150,7 @@ public class CurrentUserService {
         String googleId = googleJwt.getSubject();
         String email = googleJwt.getClaimAsString("email");
         String name = googleJwt.getClaimAsString("name");
+        String profilePicture = googleJwt.getClaimAsString("picture");
 
         Optional<User> existingGoogleUser = userRepository.findByGoogleId(googleId);
 
@@ -167,8 +172,9 @@ public class CurrentUserService {
         return new AuthResponse(
                 savedUser.getId(),
                 savedUser.getName(),
-                savedUser.getProvider(),
+                savedUser.getProfilePicture(),
                 savedUser.getEmail(),
+                savedUser.getProvider(),
                 savedUser.getCreatedAt(),
                 token,
                 null

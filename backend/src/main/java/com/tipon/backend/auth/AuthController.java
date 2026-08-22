@@ -61,8 +61,9 @@ public class AuthController {
         return new AuthResponse(
                 user.getId(),
                 user.getName(),
-                user.getProvider(),
+                user.getProfilePicture(),
                 user.getEmail(),
+                user.getProvider(),
                 user.getCreatedAt(),
                 token,
                 deviceId
