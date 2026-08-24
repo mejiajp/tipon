@@ -6,6 +6,7 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useToastStore } from "@/stores/useToastStore";
 import { useGoogleLogin } from "@react-oauth/google";
 import Image from "next/image";
+import { use } from "react";
 
 export default function UserDetails() {
   const { user, refreshAuth } = useAuthStore();
@@ -38,11 +39,18 @@ export default function UserDetails() {
 
   console.log(user);
 
+  const profilePicture = user.profilePicture?.replace("=s96-c", "=s512-c");
+
   return (
     <div className="space-y-base">
       <div className="flex flex-col items-center">
-        <div className="w-24 aspect-square rounded-full text-[48px] text-white bg-primary flex justify-center items-center mb-base">
-          {user.name?.split("")[0]?.toUpperCase()}
+        <div className="w-24 aspect-square rounded-full text-[48px] text-white bg-primary flex justify-center items-center mb-base overflow-hidden">
+          <Image
+            src={profilePicture ?? user.name.split(" ")[0].toUpperCase()}
+            alt={user.name.split(" ")[0].toUpperCase()}
+            width={100}
+            height={100}
+          />
         </div>
 
         <h3 className="text-xl font-semibold">{user.name}</h3>
