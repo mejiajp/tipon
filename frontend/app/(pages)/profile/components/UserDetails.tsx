@@ -45,12 +45,16 @@ export default function UserDetails() {
     <div className="space-y-base">
       <div className="flex flex-col items-center">
         <div className="w-24 aspect-square rounded-full text-[48px] text-white bg-primary flex justify-center items-center mb-base overflow-hidden">
-          <Image
-            src={profilePicture ?? user.name.split(" ")[0].toUpperCase()}
-            alt={user.name.split(" ")[0].toUpperCase()}
-            width={100}
-            height={100}
-          />
+          {profilePicture ? (
+            <Image
+              src={profilePicture}
+              alt={user.name.split(" ")[0].toUpperCase()}
+              width={100}
+              height={100}
+            />
+          ) : (
+            <div>{user.name.split("")[0].toUpperCase()}</div>
+          )}
         </div>
 
         <h3 className="text-xl font-semibold">{user.name}</h3>
