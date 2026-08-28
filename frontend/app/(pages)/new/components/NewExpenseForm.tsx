@@ -57,7 +57,12 @@ export default function NewExpenseForm({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!formData.category || isSubmitting) return;
+    if (!isFormValid) {
+      addToast("Please fill in all fields correctly.", "error");
+      return;
+    }
+
+    if (!formData.category || isSubmitting) return; // check if category is selected and not already submitting
 
     try {
       setIsSubmitting(true);
@@ -152,10 +157,9 @@ export default function NewExpenseForm({
       </div>
       <button
         type="submit"
-        disabled={!isFormValid || isSubmitting}
         className={`full-button bg-primary text-white tracking-wide transition-all ${
-          isFormValid && !isSubmitting ? "cursor-pointer" : "cursor-not-allowed"
-        } ${isSubmitting ? "opacity-70" : ""}`}
+          isSubmitting ? "opacity-70" : ""
+        }`}
       >
         {isSubmitting ? (
           <span className="flex items-center justify-center gap-2">

@@ -11,7 +11,7 @@ export default async function page() {
 
   const accumulatedExpense = await getExpenseCalendar(year, month);
 
-  console.log(categories);
+  console.log("categories: ", categories);
 
   return (
     <>
