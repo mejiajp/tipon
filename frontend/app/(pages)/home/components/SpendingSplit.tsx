@@ -1,11 +1,8 @@
 "use client";
 
 import Down from "@/components/icons/Down";
-import {
-  default as DefaultIcon,
-  default as Ellipsis,
-} from "@/components/icons/Ellipsis";
-import { categoryIcons } from "@/lib/categoryIconsMap";
+import DefaultIcon from "@/components/icons/Ellipsis";
+import { ExpenseList } from "@/components/ExpenseList";
 import { Expense } from "@/types/expenses";
 import { useState } from "react";
 
@@ -17,7 +14,6 @@ export default function SpendingSplit({
   range: string;
 }) {
   const total = expenses.reduce((sum, e) => e.amount + sum, 0);
-
   const [showAll, setShowAll] = useState(false);
 
   const totalsByCategory = expenses.reduce((acc, e) => {
@@ -25,7 +21,10 @@ export default function SpendingSplit({
     const slug = e.category.slug;
 
     if (!acc[category]) {
-      acc[category] = { slug, amount: 0 };
+      acc[category] = {
+        slug,
+        amount: 0,
+      };
     }
 
     acc[category].amount += e.amount;
@@ -42,10 +41,24 @@ export default function SpendingSplit({
     }))
     .sort((a, b) => b.amount - a.amount);
 
-  const othersAmount =
-    total - categories.slice(0, 3).reduce((sum, c) => c.amount + sum, 0);
-
   const sortedCategories = showAll ? categories : categories.slice(0, 3);
+
+  const othersAmount =
+    total -
+    categories.slice(0, 3).reduce((sum, category) => sum + category.amount, 0);
+
+  // Convert categories into the shape ExpenseList expects
+  const categoryExpenses = sortedCategories.map((category) => ({
+    id: category.slug,
+    title: category.name,
+    amount: category.amount,
+    createdAt: new Date().toISOString(),
+    category: {
+      name: category.name,
+      slug: category.slug,
+    },
+  })) as Expense[];
+
   return (
     <section className="flex flex-col p-base rounded-base gap-base bg-bg">
       <div className="flex justify-between items-center">
@@ -65,55 +78,18 @@ export default function SpendingSplit({
           />
         </div>
       </div>
-      <ul>
-        {sortedCategories.map((category) => {
-          const Icon =
-            categoryIcons[
-              (category.slug as keyof typeof categoryIcons) || DefaultIcon
-            ];
-          return (
-            <li
-              key={category.name}
-              className="flex justify-between items-center h-15"
-            >
-              <div className="flex items-center">
-                <div className="p-base">
-                  <Icon className="w-8 h-8 text-text-muted" />
-                </div>
-                <p>{category.name}</p>
-              </div>
-              <p className="font-bold">{Math.floor(category.percentage)}%</p>
-            </li>
-          );
-        })}
-        {othersAmount > 0 && !showAll && (
-          <li className="flex justify-between items-center h-15">
-            <div className="flex items-center">
-              <div className="p-base">
-                <DefaultIcon className="w-8 h-8 text-text-muted" />
-              </div>
-              <p>Others</p>
-            </div>
-            <p className="font-bold">
-              {Math.floor((othersAmount / total) * 100)}%
-            </p>
-          </li>
-        )}
 
-        {sortedCategories.length === 0 && (
-          <div className="h-37.5 flex justify-center items-center">
-            <h3>
-              No recorded expense this{" "}
-              {range === "daily"
-                ? "day"
-                : range === "weekly"
-                ? "week"
-                : "month"}
-              ...
-            </h3>
-          </div>
-        )}
-      </ul>
+      {sortedCategories.length > 0 ? (
+        <ExpenseList expenses={categoryExpenses} />
+      ) : (
+        <div className="h-37.5 flex justify-center items-center">
+          <h3>
+            No recorded expense this{" "}
+            {range === "daily" ? "day" : range === "weekly" ? "week" : "month"}
+            ...
+          </h3>
+        </div>
+      )}
     </section>
   );
 }
