@@ -131,7 +131,7 @@ export default function NewExpenseForm({
                 <Icon className="w-6.5 h-6.5 shrink-0" />
                 <div className="h-4 flex items-center justify-center w-[80%]">
                   <p
-                    className={`text-tiny font-bold text-center  tracking-wide ${
+                    className={`text-tiny font-bold text-center  tracking-wide select-none ${
                       formData.category === category
                         ? "text-white "
                         : "text-text-muted "
