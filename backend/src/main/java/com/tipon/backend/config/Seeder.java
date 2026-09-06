@@ -21,6 +21,8 @@ import java.util.Random;
 @Profile("dev")
 public class Seeder implements CommandLineRunner {
 
+    private static final String GUEST_USER_NAME = "Guest User";
+
     private final ExpenseRepository expenseRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
@@ -43,9 +45,14 @@ public class Seeder implements CommandLineRunner {
             return;
         }
 
-        List<User> allUsers = userRepository.findAll();
+        User guestUser = userRepository
+                .findByName(GUEST_USER_NAME)
+                .orElse(null);
 
-        if (allUsers.isEmpty()) {
+        if (guestUser == null) {
+            System.out.println(
+                    "⚠️ Guest user '" + GUEST_USER_NAME + "' not found. Skipping expense seed."
+            );
             return;
         }
 
@@ -72,58 +79,56 @@ public class Seeder implements CommandLineRunner {
                 "Online subscription"
         };
 
-        List<Expense> allExpenses = new ArrayList<>();
+        List<Expense> expenses = new ArrayList<>();
 
-        for (User user : allUsers) {
+        for (int day = 0; day < 90; day++) {
 
-            for (int day = 0; day < 90; day++) {
+            int expensesForDay = random.nextInt(4);
 
-                int expensesForDay = random.nextInt(4);
+            for (int i = 0; i < expensesForDay; i++) {
 
-                for (int i = 0; i < expensesForDay; i++) {
+                Expense expense = new Expense();
 
-                    Expense expense = new Expense();
+                expense.setUser(guestUser);
 
-                    expense.setUser(user);
+                expense.setCategory(
+                        categories.get(
+                                random.nextInt(categories.size())
+                        )
+                );
 
-                    expense.setCategory(
-                            categories.get(
-                                    random.nextInt(categories.size())
-                            )
-                    );
+                expense.setTitle(
+                        sampleDescriptions[
+                                random.nextInt(sampleDescriptions.length)
+                                ]
+                );
 
-                    expense.setTitle(
-                            sampleDescriptions[
-                                    random.nextInt(sampleDescriptions.length)
-                                    ]
-                    );
+                expense.setAmount(
+                        BigDecimal.valueOf(
+                                random.nextInt(5000) + 100
+                        )
+                );
 
-                    expense.setAmount(
-                            BigDecimal.valueOf(
-                                    random.nextInt(5000) + 100
-                            )
-                    );
+                expense.setCreatedAt(
+                        LocalDateTime.now()
+                                .minusDays(day)
+                                .withHour(random.nextInt(24))
+                                .withMinute(random.nextInt(60))
+                );
 
-                    LocalDateTime createdAt = LocalDateTime.now()
-                            .minusDays(day)
-                            .withHour(random.nextInt(24))
-                            .withMinute(random.nextInt(60));
+                expense.setDate(
+                        LocalDate.now().minusDays(day)
+                );
 
-                    expense.setCreatedAt(createdAt);
-
-                    expense.setDate(
-                            LocalDate.now().minusDays(day)
-                    );
-
-                    allExpenses.add(expense);
-                }
+                expenses.add(expense);
             }
         }
 
-        expenseRepository.saveAll(allExpenses);
+        expenseRepository.saveAll(expenses);
 
         System.out.println(
-                "✅ Dev expense seed data inserted successfully."
+                "✅ Dev expense seed data inserted successfully for "
+                        + GUEST_USER_NAME
         );
     }
 }
