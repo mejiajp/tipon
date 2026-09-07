@@ -21,7 +21,7 @@ import java.util.Random;
 @Profile("dev")
 public class Seeder implements CommandLineRunner {
 
-    private static final String GUEST_USER_NAME = "Guest User";
+    private static final String GUEST_USER_NAME = "Juan";
 
     private final ExpenseRepository expenseRepository;
     private final UserRepository userRepository;
@@ -42,6 +42,7 @@ public class Seeder implements CommandLineRunner {
 
         // Prevent reseeding expenses every restart
         if (expenseRepository.count() > 0) {
+            System.out.println("Expense record exists.");
             return;
         }
 
@@ -49,10 +50,14 @@ public class Seeder implements CommandLineRunner {
                 .findByName(GUEST_USER_NAME)
                 .orElse(null);
 
+        List<User> allGuestUser = userRepository.findAll();
+
+
         if (guestUser == null) {
             System.out.println(
                     "⚠️ Guest user '" + GUEST_USER_NAME + "' not found. Skipping expense seed."
             );
+            System.out.println("This is all the users " + allGuestUser);
             return;
         }
 
