@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Component
@@ -50,40 +51,123 @@ public class Seeder implements CommandLineRunner {
                 .findByName(GUEST_USER_NAME)
                 .orElse(null);
 
-        List<User> allGuestUser = userRepository.findAll();
-
-
         if (guestUser == null) {
             System.out.println(
                     "⚠️ Guest user '" + GUEST_USER_NAME + "' not found. Skipping expense seed."
             );
-            System.out.println("This is all the users " + allGuestUser);
             return;
         }
 
         List<Category> categories = categoryRepository.findAll();
 
         if (categories.isEmpty()) {
+            System.out.println("⚠️ No categories found. Skipping expense seed.");
             return;
         }
 
+        Map<String, Category> categoryMap = categories.stream()
+                .collect(
+                        java.util.stream.Collectors.toMap(
+                                Category::getName,
+                                category -> category
+                        )
+                );
+
+        Map<String, String[]> expensesByCategory = Map.ofEntries(
+                Map.entry("Housing", new String[]{
+                        "Rent",
+                        "Apartment maintenance",
+                        "Home supplies"
+                }),
+                Map.entry("Utilities", new String[]{
+                        "Electricity bill",
+                        "Water bill",
+                        "Internet bill",
+                        "Phone bill"
+                }),
+                Map.entry("Food & Dining", new String[]{
+                        "Coffee",
+                        "Groceries",
+                        "Lunch",
+                        "Dinner",
+                        "Fast food"
+                }),
+                Map.entry("Transportation", new String[]{
+                        "Bus fare",
+                        "Taxi",
+                        "Gas",
+                        "Train fare",
+                        "Parking"
+                }),
+                Map.entry("Healthcare", new String[]{
+                        "Medicine",
+                        "Doctor visit",
+                        "Pharmacy"
+                }),
+                Map.entry("Shopping", new String[]{
+                        "Clothes",
+                        "Shoes",
+                        "Electronics",
+                        "Home supplies"
+                }),
+                Map.entry("Entertainment", new String[]{
+                        "Movie ticket",
+                        "Concert",
+                        "Games",
+                        "Hobby"
+                }),
+                Map.entry("Education", new String[]{
+                        "Book purchase",
+                        "Online course",
+                        "School supplies"
+                }),
+                Map.entry("Travel", new String[]{
+                        "Flight ticket",
+                        "Hotel",
+                        "Travel expenses"
+                }),
+                Map.entry("Financial", new String[]{
+                        "Bank fee",
+                        "Loan payment",
+                        "Credit card payment"
+                }),
+                Map.entry("Family", new String[]{
+                        "Family dinner",
+                        "Allowance",
+                        "Family expenses"
+                }),
+                Map.entry("Gifts & Donations", new String[]{
+                        "Gift",
+                        "Donation",
+                        "Birthday gift"
+                }),
+                Map.entry("Subscriptions", new String[]{
+                        "Netflix",
+                        "Spotify",
+                        "Cloud storage"
+                }),
+                Map.entry("Personal Care", new String[]{
+                        "Haircut",
+                        "Skincare",
+                        "Personal care"
+                }),
+                Map.entry("Pets", new String[]{
+                        "Pet food",
+                        "Vet visit",
+                        "Pet supplies"
+                }),
+                Map.entry("Savings & Investments", new String[]{
+                        "Savings",
+                        "Investment",
+                        "Emergency fund"
+                }),
+                Map.entry("Miscellaneous", new String[]{
+                        "Miscellaneous expense",
+                        "Other expense"
+                })
+        );
+
         Random random = new Random();
-
-        String[] sampleDescriptions = {
-                "Coffee",
-                "Groceries",
-                "Movie ticket",
-                "Bus fare",
-                "Electricity bill",
-                "Lunch",
-                "Book purchase",
-                "Gym membership",
-                "Insurance premium",
-                "Flight ticket",
-                "Gift",
-                "Online subscription"
-        };
-
         List<Expense> expenses = new ArrayList<>();
 
         for (int day = 0; day < 90; day++) {
@@ -92,19 +176,32 @@ public class Seeder implements CommandLineRunner {
 
             for (int i = 0; i < expensesForDay; i++) {
 
+                // Pick a category that actually exists
+                List<String> availableCategories = expensesByCategory.keySet()
+                        .stream()
+                        .filter(categoryMap::containsKey)
+                        .toList();
+
+                if (availableCategories.isEmpty()) {
+                    continue;
+                }
+
+                String categoryName = availableCategories.get(
+                        random.nextInt(availableCategories.size())
+                );
+
+                Category category = categoryMap.get(categoryName);
+
+                String[] descriptions = expensesByCategory.get(categoryName);
+
                 Expense expense = new Expense();
 
                 expense.setUser(guestUser);
-
-                expense.setCategory(
-                        categories.get(
-                                random.nextInt(categories.size())
-                        )
-                );
+                expense.setCategory(category);
 
                 expense.setTitle(
-                        sampleDescriptions[
-                                random.nextInt(sampleDescriptions.length)
+                        descriptions[
+                                random.nextInt(descriptions.length)
                                 ]
                 );
 
