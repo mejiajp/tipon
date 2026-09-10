@@ -70,7 +70,7 @@ export default async function Page({
           range={range}
         />
         <SpendingSplit expenses={expenses} range={range} />
-        <RecentTransactions />
+        <RecentTransactions expenses={expenses} />
       </div>
     </>
   );
