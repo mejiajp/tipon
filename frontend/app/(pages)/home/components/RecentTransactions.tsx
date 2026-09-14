@@ -19,7 +19,13 @@ export default function RecentTransactions({
         </Link>
       </div>
 
-      <ExpenseList expenses={expenses} />
+      {expenses.length > 0 ? (
+        <div className="h-37.5 flex justify-center items-center">
+          <h3>No recorded expense...</h3>
+        </div>
+      ) : (
+        <ExpenseList expenses={expenses} />
+      )}
     </section>
   );
 }
