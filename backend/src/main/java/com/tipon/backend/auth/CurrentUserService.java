@@ -181,6 +181,16 @@ public class CurrentUserService {
         );
     }
 
+    public void logoutUser(String deviceId) {
+        if (deviceId != null) {
+            deviceRepository.findByDeviceId(deviceId)
+                    .ifPresent(device -> {
+                        userRepository.delete(device.getUser());
+                        deviceRepository.delete(device);
+                    });
+        }
+    }
+
     private GoogleTokenResponse exchangeCodeForTokens(String code) {
         RestTemplate rest = new RestTemplate();
 

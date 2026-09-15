@@ -102,13 +102,7 @@ public class AuthController {
     public void logout(
            @RequestHeader(value = "X-Device-Id", required = false) String deviceId
     ) {
-        if (deviceId != null) {
-            deviceRepository.findByDeviceId(deviceId)
-                    .ifPresent(device -> {
-                        userRepository.delete(device.getUser());
-                        deviceRepository.delete(device);
-                    });
-        }
+        currentUserService.logoutUser(deviceId);
     }
 
 }
