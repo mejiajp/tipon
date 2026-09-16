@@ -16,9 +16,16 @@ export async function POST(req: Request) {
   console.log("SPRING RESPONSE STATUS:", springRes.status);
   console.log("SPRING API URL:", process.env.SPRING_API_URL);
 
-  if (!springRes.ok)
-    return new Response("Login failed", { status: springRes.status });
+  if (!springRes.ok) {
+    const error = await springRes.text();
 
+    console.error("SPRING STATUS:", springRes.status);
+    console.error("SPRING ERROR:", error);
+
+    return new Response(error, {
+      status: springRes.status,
+    });
+  }
   const data = await springRes.json();
   const { token, deviceId: newDeviceId, ...userData } = data;
 

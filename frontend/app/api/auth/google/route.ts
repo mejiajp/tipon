@@ -9,8 +9,16 @@ export async function POST(req: Request) {
     body: JSON.stringify(body),
   });
 
-  if (!springRes.ok)
-    return new Response("Login failed", { status: springRes.status });
+  if (!springRes.ok) {
+    const error = await springRes.text();
+
+    console.error("SPRING STATUS:", springRes.status);
+    console.error("SPRING ERROR:", error);
+
+    return new Response(error, {
+      status: springRes.status,
+    });
+  }
 
   const data = await springRes.json();
   const { token, deviceId, ...userData } = data;
