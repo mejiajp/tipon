@@ -19,10 +19,13 @@ export async function POST(req: Request) {
   if (!springRes.ok) {
     const error = await springRes.text();
 
-    console.error("SPRING STATUS:", springRes.status);
-    console.error("SPRING ERROR:", error);
+    console.error("GUEST AUTH ERROR:", {
+      status: springRes.status,
+      statusText: springRes.statusText,
+      body: error,
+    });
 
-    return new Response(error, {
+    return new Response(error || "Guest login failed", {
       status: springRes.status,
     });
   }

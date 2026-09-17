@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   if (!springRes.ok) {
     const error = await springRes.text();
 
-    console.error("SPRING RESPONSE:", {
+    console.error("GOOGLE LINKING RESPONSE:", {
       status: springRes.status,
       statusText: springRes.statusText,
       body: error,

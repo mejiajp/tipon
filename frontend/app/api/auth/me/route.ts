@@ -15,7 +15,19 @@ export async function GET() {
     },
   });
 
-  if (!springRes.ok) return new Response("Unauthorized", { status: 401 });
+  if (!springRes.ok) {
+    const error = await springRes.text();
+
+    console.error("GOOGLE AUTH ERROR:", {
+      status: springRes.status,
+      statusText: springRes.statusText,
+      body: error,
+    });
+
+    return new Response(error || "Google login failed", {
+      status: 401,
+    });
+  }
 
   const data = await springRes.json();
   const { token: newToken, deviceId: newDeviceId, ...userData } = data;

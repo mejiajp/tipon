@@ -12,14 +12,16 @@ export async function POST(req: Request) {
   if (!springRes.ok) {
     const error = await springRes.text();
 
-    console.error("SPRING STATUS:", springRes.status);
-    console.error("SPRING ERROR:", error);
+    console.error("GOOGLE AUTH ERROR:", {
+      status: springRes.status,
+      statusText: springRes.statusText,
+      body: error,
+    });
 
-    return new Response(error, {
+    return new Response(error || "Google login failed", {
       status: springRes.status,
     });
   }
-
   const data = await springRes.json();
   const { token, deviceId, ...userData } = data;
 
