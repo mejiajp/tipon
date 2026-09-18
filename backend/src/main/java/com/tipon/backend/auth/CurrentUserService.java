@@ -35,6 +35,9 @@ public class CurrentUserService {
     @Value("${google.client-secret}")
     private String clientSecret;
 
+    @Value("${google.redirect-uri}")
+    private String redirectUri;
+
     public CurrentUserService(UserRepository userRepository, JwtService jwtService, DeviceRepository deviceRepository) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
@@ -198,7 +201,7 @@ public class CurrentUserService {
         form.add("code", code);
         form.add("client_id", clientId);
         form.add("client_secret", clientSecret);
-        form.add("redirect_uri", "http://localhost:3000");
+        form.add("redirect_uri", redirectUri);
         form.add("grant_type", "authorization_code");
 
         HttpHeaders headers = new HttpHeaders();
