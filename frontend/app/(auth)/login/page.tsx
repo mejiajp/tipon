@@ -8,6 +8,7 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import GoogleButton from "./GoogleButton";
 import Image from "next/image";
 import BackgroundImage from "@/public/images/login-background.jpg";
+import SplashScreen from "@/components/SplashScreen";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -23,11 +24,7 @@ export default function LoginPage() {
   }, [user, loading, router]);
 
   if (user && loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center ">
-        <h1 className=" font-medium text-xl">logging in</h1>
-      </div>
-    );
+    return <SplashScreen />;
   }
 
   async function handleGuestLogin(e: React.FormEvent<HTMLFormElement>) {
