@@ -11,5 +11,5 @@ export default function Home() {
     router.replace("/login");
   });
 
-  return <SplashScreen />;
+  return <SplashScreen check="initial" />;
 }

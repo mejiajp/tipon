@@ -23,8 +23,8 @@ export default function LoginPage() {
     }
   }, [user, loading, router]);
 
-  if (user && loading) {
-    return <SplashScreen />;
+  if (user || loading) {
+    return <SplashScreen check="login" />;
   }
 
   async function handleGuestLogin(e: React.FormEvent<HTMLFormElement>) {
