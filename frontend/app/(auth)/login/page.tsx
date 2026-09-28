@@ -16,6 +16,7 @@ export default function LoginPage() {
 
   const { user, loading, refreshAuth } = useAuthStore();
   const [name, setName] = useState("");
+  const [loggingIn, setLoggingIn] = useState(false);
 
   useEffect(() => {
     if (!loading && user) {
@@ -30,6 +31,8 @@ export default function LoginPage() {
   async function handleGuestLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    setLoggingIn(true);
+
     try {
       await guestLogin(name);
       await refreshAuth();
@@ -41,6 +44,8 @@ export default function LoginPage() {
     } catch (err) {
       addToast("Guest login failed", "error");
       console.error(err);
+    } finally {
+      setLoggingIn(false);
     }
   }
 
@@ -72,8 +77,12 @@ export default function LoginPage() {
             required
             className="outline rounded-base p-base"
           />
-          <button type="submit" className="full-button bg-primary text-white">
-            Continue as Guest
+          <button
+            type="submit"
+            disabled={loggingIn}
+            className="full-button bg-primary text-white"
+          >
+            {loggingIn ? "Logging in..." : "Continue as Guest"}
           </button>
         </form>
 
