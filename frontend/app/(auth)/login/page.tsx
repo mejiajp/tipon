@@ -82,13 +82,13 @@ export default function LoginPage() {
             disabled={loggingIn}
             className="full-button bg-primary text-white"
           >
-            {loggingIn ? "Logging in..." : "Continue as Guest"}
+            Continue as Guest
           </button>
         </form>
 
         <div className="my-6 text-center text-text-muted text-sm">or</div>
 
-        <GoogleButton />
+        <GoogleButton setLoggingIn={setLoggingIn} />
       </div>
     </div>
   );

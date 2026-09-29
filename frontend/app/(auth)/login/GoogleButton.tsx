@@ -8,7 +8,11 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useToastStore } from "@/stores/useToastStore";
 
-export default function GoogleButton() {
+type GoogleButtonProps = {
+  setLoggingIn: (logginIn: boolean) => void;
+};
+
+export default function GoogleButton({ setLoggingIn }: GoogleButtonProps) {
   const router = useRouter();
 
   const refreshAuth = useAuthStore((state) => state.refreshAuth);
@@ -18,6 +22,7 @@ export default function GoogleButton() {
     flow: "auth-code",
 
     onSuccess: async (res) => {
+      setLoggingIn(true);
       try {
         await googleLogin(res.code);
 
@@ -29,7 +34,9 @@ export default function GoogleButton() {
         router.replace("/home");
       } catch (err) {
         console.log(err);
+        setLoggingIn(false);
         addToast("Google login failed", "error");
+      } finally {
       }
     },
 
