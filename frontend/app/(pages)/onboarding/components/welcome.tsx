@@ -1,13 +1,15 @@
 "use client";
 
+import OnboardingLayout from "./OnboardingLayout";
+
 interface WelcomeStepProps {
   onNext: () => void;
 }
 
 export default function Welcome({ onNext }: WelcomeStepProps) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-6">
-      <div className="flex w-full max-w-md flex-col items-center text-center">
+    <OnboardingLayout step={1} totalSteps={3}>
+      <div className="text-center">
         <h1 className="font-title text-6xl text-primary">tipon</h1>
 
         <h2 className="mt-8 text-2xl font-semibold">Welcome to Tipon</h2>
@@ -24,6 +26,6 @@ export default function Welcome({ onNext }: WelcomeStepProps) {
           Get Started
         </button>
       </div>
-    </main>
+    </OnboardingLayout>
   );
 }

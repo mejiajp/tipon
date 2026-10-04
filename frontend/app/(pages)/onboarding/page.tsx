@@ -7,7 +7,7 @@ import WelcomeStep from "./components/Welcome";
 import FeaturesStep from "./components/Features";
 import GetStartedStep from "./components/GetStarted";
 
-export default function Page() {
+export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const router = useRouter();
 
@@ -15,17 +15,21 @@ export default function Page() {
     router.replace("/home");
   };
 
-  return (
-    <>
-      {step === 1 && <WelcomeStep onNext={() => setStep(2)} />}
+  switch (step) {
+    case 1:
+      return <WelcomeStep onNext={() => setStep(2)} />;
 
-      {step === 2 && (
+    case 2:
+      return (
         <FeaturesStep onBack={() => setStep(1)} onNext={() => setStep(3)} />
-      )}
+      );
 
-      {step === 3 && (
+    case 3:
+      return (
         <GetStartedStep onBack={() => setStep(2)} onFinish={handleFinish} />
-      )}
-    </>
-  );
+      );
+
+    default:
+      return null;
+  }
 }
