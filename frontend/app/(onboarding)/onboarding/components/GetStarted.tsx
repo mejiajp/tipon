@@ -10,21 +10,23 @@ interface GetStartedStepProps {
 export default function GetStarted({ onFinish, onBack }: GetStartedStepProps) {
   return (
     <OnboardingLayout step={3} totalSteps={3} onBack={onBack}>
-      <div className="text-center">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
-          <span className="text-3xl">✓</span>
+      <div className="text-center flex flex-col justify-center items-center">
+        <div>
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
+            <span className="text-3xl">✓</span>
+          </div>
+
+          <h2 className="mt-8 text-3xl font-semibold">You are all set</h2>
+
+          <p className="mt-3 text-muted-foreground">
+            Start by adding your first expense and let Tipon keep track of the
+            rest.
+          </p>
         </div>
-
-        <h2 className="mt-8 text-3xl font-semibold">You are all set</h2>
-
-        <p className="mt-3 text-muted-foreground">
-          Start by adding your first expense and let Tipon keep track of the
-          rest.
-        </p>
 
         <button
           onClick={onFinish}
-          className="mt-10 w-full rounded-xl bg-primary px-6 py-3 font-medium text-white"
+          className="absolute bottom-0 full-button bg-primary font-medium"
         >
           Start using Tipon
         </button>
