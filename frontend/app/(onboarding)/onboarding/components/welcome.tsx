@@ -23,7 +23,7 @@ export default function Welcome({ onNext }: WelcomeStepProps) {
 
         <button
           onClick={onNext}
-          className="absolute bottom-0 full-button bg-primary font-medium "
+          className="absolute bottom-0 full-button bg-primary font-medium"
         >
           Get Started
         </button>
