@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import WelcomeStep from "./components/Welcome";
-import FeaturesStep from "./components/Features";
+import WelcomeStep from "./components/welcome";
+import FeaturesStep from "./components/features";
 import GetStartedStep from "./components/GetStarted";
 
 export default function OnboardingPage() {

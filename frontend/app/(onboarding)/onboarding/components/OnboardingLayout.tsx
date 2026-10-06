@@ -16,7 +16,7 @@ export default function OnboardingLayout({
   children,
 }: OnboardingLayoutProps) {
   return (
-    <main className="flex min-h-screen flex-col px-6 py-6">
+    <main className="flex min-h-screen flex-col px-6 py-6 ">
       {/* Top navigation */}
       <div className="flex items-center justify-between">
         <div className="w-16">
@@ -46,8 +46,8 @@ export default function OnboardingLayout({
       </div>
 
       {/* Step content */}
-      <div className="flex flex-1 items-center justify-center">
-        <div className="w-full max-w-md">{children}</div>
+      <div className="flex flex-1 justify-center items-center  relative">
+        <div className="w-full max-w-md ">{children}</div>
       </div>
     </main>
   );
