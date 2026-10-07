@@ -21,11 +21,8 @@ export default function OnboardingLayout({
       <div className="flex items-center justify-between">
         <div className="w-16">
           {onBack && (
-            <button
-              onClick={onBack}
-              className="text-sm font-medium text-muted-foreground"
-            >
-              ← Back
+            <button onClick={onBack} className="text-sm font-medium">
+              ←
             </button>
           )}
         </div>
