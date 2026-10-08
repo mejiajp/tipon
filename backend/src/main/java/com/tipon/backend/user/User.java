@@ -36,6 +36,8 @@ public class User {
     @Column(nullable = false)
     private LocalDate createdAt;
 
+    private Boolean onboarding;
+
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,

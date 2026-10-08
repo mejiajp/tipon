@@ -12,6 +12,7 @@ public record AuthResponse(
     String email,
     AuthProvider provider,
     LocalDate createdAt,
+    Boolean onboarding,
     String token,
     String deviceId
 ){}

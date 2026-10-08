@@ -134,6 +134,7 @@ public class CurrentUserService {
                 user.getEmail(),
                 user.getProvider(),
                 user.getCreatedAt(),
+                user.getOnboarding(),
                 token,
                 null   // no deviceId relevant for google login
         );
@@ -179,6 +180,7 @@ public class CurrentUserService {
                 savedUser.getEmail(),
                 savedUser.getProvider(),
                 savedUser.getCreatedAt(),
+                savedUser.getOnboarding(),
                 token,
                 null
         );

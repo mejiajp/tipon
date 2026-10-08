@@ -20,8 +20,8 @@ public class AuthController {
 
     private final CurrentUserService currentUserService;
 //    private final AuthCookieService authCookieService;
-    private final UserRepository userRepository;
-    private final DeviceRepository deviceRepository;
+//    private final UserRepository userRepository;
+//    private final DeviceRepository deviceRepository;
 
     public AuthController(CurrentUserService currentUserService,
 //                          AuthCookieService authCookieService,
@@ -29,8 +29,8 @@ public class AuthController {
                           DeviceRepository deviceRepository) {
         this.currentUserService = currentUserService;
 //        this.authCookieService = authCookieService;
-        this.userRepository = userRepository;
-        this.deviceRepository = deviceRepository;
+//        this.userRepository = userRepository;
+//        this.deviceRepository = deviceRepository;
 
     }
 
@@ -65,6 +65,7 @@ public class AuthController {
                 user.getEmail(),
                 user.getProvider(),
                 user.getCreatedAt(),
+                user.getOnboarding(),
                 token,
                 deviceId
 
