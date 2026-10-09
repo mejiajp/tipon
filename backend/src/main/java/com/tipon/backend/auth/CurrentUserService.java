@@ -58,6 +58,7 @@ public class CurrentUserService {
         guest.setProvider(AuthProvider.GUEST);
         guest.setGoogleId(null);
         guest.setCreatedAt(LocalDate.now());
+        guest.setOnboarding(true);
 
         User savedUser = userRepository.save(guest);
 
@@ -122,6 +123,7 @@ public class CurrentUserService {
                     newUser.setName(name);
                     newUser.setCreatedAt(LocalDate.now());
                     newUser.setProvider(AuthProvider.GOOGLE);
+                    newUser.setOnboarding(true);
                     return userRepository.save(newUser);
                 });
 
