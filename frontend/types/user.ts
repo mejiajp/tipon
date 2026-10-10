@@ -5,4 +5,5 @@ export type User = {
   email?: string;
   createdAt: string;
   provider: "GUEST" | "GOOGLE";
+  onboarding: boolean;
 };
