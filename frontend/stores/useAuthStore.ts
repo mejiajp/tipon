@@ -5,6 +5,7 @@ import { User } from "@/types/user";
 type AuthStore = {
   user: User | null;
   loading: boolean;
+  setOnboarding: (onboarding: boolean) => void;
   logout: () => Promise<void>;
   refreshAuth: () => Promise<void>;
   clearAuth: () => void;
@@ -26,6 +27,11 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ loading: false });
     }
   },
+
+  setOnboarding: (onboarding) =>
+    set((state) => ({
+      user: state.user ? { ...state.user, onboarding } : null,
+    })),
 
   logout: async () => {
     set({ loading: true });
