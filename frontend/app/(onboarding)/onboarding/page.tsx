@@ -6,13 +6,16 @@ import { useRouter } from "next/navigation";
 import WelcomeStep from "./components/welcome";
 import FeaturesStep from "./components/features";
 import GetStartedStep from "./components/GetStarted";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
+  const { setOnboarding } = useAuthStore();
   const router = useRouter();
 
   const handleFinish = () => {
     router.replace("/home");
+    setOnboarding(false);
   };
 
   switch (step) {
