@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import WelcomeStep from "./components/welcome";
@@ -10,13 +10,27 @@ import { useAuthStore } from "@/stores/useAuthStore";
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
-  const { setOnboarding } = useAuthStore();
+
+  const { user, setOnboarding } = useAuthStore();
   const router = useRouter();
 
+  const hasCompletedOnboarding = user?.onboarding === false;
+
+  useEffect(() => {
+    if (hasCompletedOnboarding) {
+      router.replace("/home");
+    }
+  }, [hasCompletedOnboarding, router]);
+
   const handleFinish = () => {
-    router.replace("/home");
     setOnboarding(false);
+    router.replace("/home");
   };
+
+  // Prevent completed users from seeing the onboarding steps.
+  if (hasCompletedOnboarding) {
+    return null;
+  }
 
   switch (step) {
     case 1:
