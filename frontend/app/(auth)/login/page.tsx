@@ -21,9 +21,12 @@ export default function LoginPage() {
   useEffect(() => {
     if (!loading && user) {
       if (user.onboarding) {
+        console.log("user onboarding status: ", user.onboarding);
         router.replace("/onboarding");
+      } else {
+        router.replace("/home");
+        console.log("this is direct user onboarding status: ", user.onboarding);
       }
-      router.replace("/home");
     }
   }, [user, loading, router]);
 
