@@ -11,26 +11,25 @@ import { useAuthStore } from "@/stores/useAuthStore";
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
 
-  const { user, setOnboarding } = useAuthStore();
+  const { user, loading, setOnboarding } = useAuthStore();
   const router = useRouter();
 
-  const hasCompletedOnboarding = user?.onboarding === false;
+  const hasCompletedOnboarding = user?.onboarding === true;
 
   useEffect(() => {
-    if (hasCompletedOnboarding) {
+    if (!loading && hasCompletedOnboarding) {
       router.replace("/home");
     }
-  }, [hasCompletedOnboarding, router]);
+  }, [loading, hasCompletedOnboarding, router]);
+
+  if (loading || hasCompletedOnboarding) {
+    return null;
+  }
 
   const handleFinish = () => {
     setOnboarding(false);
     router.replace("/home");
   };
-
-  // Prevent completed users from seeing the onboarding steps.
-  if (hasCompletedOnboarding) {
-    return null;
-  }
 
   switch (step) {
     case 1:
