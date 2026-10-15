@@ -14,7 +14,7 @@ export default function OnboardingPage() {
   const { user, loading, setOnboarding } = useAuthStore();
   const router = useRouter();
 
-  const hasCompletedOnboarding = user?.onboarding === true;
+  const hasCompletedOnboarding = user?.onboarding === false;
 
   useEffect(() => {
     if (!loading && hasCompletedOnboarding) {
