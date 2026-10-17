@@ -17,12 +17,12 @@ export default function OnboardingPage() {
   const hasCompletedOnboarding = user?.onboarding === false;
 
   useEffect(() => {
-    if (!loading && hasCompletedOnboarding) {
+    if (!loading && !hasCompletedOnboarding) {
       router.replace("/home");
     }
   }, [loading, hasCompletedOnboarding, router]);
 
-  if (loading || hasCompletedOnboarding) {
+  if (loading || !hasCompletedOnboarding) {
     return null;
   }
 
