@@ -14,15 +14,15 @@ export default function OnboardingPage() {
   const { user, loading, setOnboarding } = useAuthStore();
   const router = useRouter();
 
-  const hasCompletedOnboarding = user?.onboarding === false;
+  const needOnboarding = user?.onboarding;
 
   useEffect(() => {
-    if (!loading && !hasCompletedOnboarding) {
+    if (!loading && needOnboarding === false) {
       router.replace("/home");
     }
-  }, [loading, hasCompletedOnboarding, router]);
+  }, [loading, needOnboarding, router]);
 
-  if (loading || !hasCompletedOnboarding) {
+  if (loading || needOnboarding === false) {
     return null;
   }
 

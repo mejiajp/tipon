@@ -20,7 +20,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      if (user.onboarding) {
+      if (user.onboarding == true) {
         console.log("user onboarding status: ", user.onboarding);
         router.replace("/onboarding");
       } else {
