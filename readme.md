@@ -114,9 +114,19 @@ Configure your database connection and authentication settings using your local 
 Example PostgreSQL configuration:
 
 ```properties
+#DATABASE CONNECTION
 spring.datasource.url=${DATABASE_URL}
 spring.datasource.username=${DATABASE_USERNAME}
 spring.datasource.password=${DATABASE_PASSWORD}
+
+#JWT
+jwt.secret=${JWT_SECRET}
+jwt.expiration-ms=${JWT_EXPIRATION_MS}
+
+#GOOGLE
+google.client-id=${GOOGLE_CLIENT_ID}
+google.client-secret=${GOOGLE_CLIENT_SECRET}
+google.redirect-uri=${GOOGLE_REDIRECT_URI}
 ```
 
 Set the required values in your local environment. Check the backend configuration for any additional required variables.
