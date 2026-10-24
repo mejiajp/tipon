@@ -44,7 +44,7 @@ Built with **Next.js, Spring Boot, and PostgreSQL**, Tipon combines a modern web
 ### Deployment
 
 - [Vercel](https://vercel.com/) — Frontend hosting
-- [Render](https://render.com/) / [Railway](https://railway.app/) — Backend hosting
+- [Render](https://render.com/) — Backend hosting
 
 ## 🏗️ Architecture
 
